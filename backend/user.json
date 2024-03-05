@@ -1,0 +1,26 @@
+[
+  {
+    "_id": "0",
+    "email": "sujood@gmail.com",
+    "password": "123456",
+    "phoneNumber": "972547850348",
+    "name": "Sujood",
+    "location": "Arad"
+  },
+  {
+    "_id": "1",
+    "email": "asad@hotmail.com",
+    "password": "123456",
+    "phoneNumber": "972546397517",
+    "name": "Asad",
+    "location": "Jerusalem"
+  },
+  {
+    "_id": "2",
+    "email": "marah@walla.com",
+    "password": "123456",
+    "phoneNumber": "972526457991",
+    "name": "Marah",
+    "location": "Rahat"
+  }
+]
