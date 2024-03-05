@@ -11,15 +11,5 @@ router.get("/DBgenerator", async function (req, res) {
     res.status(400).send((err) => err);
   }
 });
-router.post("/", async function (req, res) {
-  try {
-    console.log("dkfjslkjl");
-    console.log(req.body);
-    await DBManager.saveSomething(req.body);
-    res.status(200).end();
-  } catch (error) {
-    res.status(400).send(error);
-  }
-});
 
 module.exports = router;
