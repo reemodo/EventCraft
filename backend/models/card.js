@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const CardItemSchema = new mongoose.Schema({
-  // _id: String,
+  _id: String,
   type: { type: String, enum: ["text", "image"] },
   src: String,
   text: String,
