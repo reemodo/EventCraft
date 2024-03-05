@@ -34,10 +34,5 @@ class DBManager {
     await Event.deleteMany({});
     await DBManager.generateData();
   }
-  static async saveSomething(user) {
-    const newUser = new User(user);
-    await newUser.save();
-    return newUser;
-  }
 }
 module.exports = DBManager;
