@@ -1,7 +1,10 @@
-import React from "react";
+import React from 'react'
+import { Events } from '../events/components/Events/Events'
 
-const Home = () => {
-  return <div>Home</div>;
-};
-
-export default Home;
+export function Home(props) {
+  return (
+    <>
+    <Events/>
+    </>
+  )
+}
