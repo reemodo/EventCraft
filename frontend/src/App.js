@@ -6,20 +6,19 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Navbar from "./modules/NavBar/Navbar";
 import Home from "./modules/home/Home";
 
-import { AuthModal } from "./modules/auth/components/AuthModal/AuthModal";
-
 function App() {
-  
-    
   const theme = createTheme({
     palette: {
       primary: {
-        main: '#FFF'
+        main: "#FFF",
+        contrastText: "#000",
       },
-      secondary:{
-        main: '#4caf50'
-      }
-    }
+      secondary: {
+        main: "#4caf50",
+        contrastText: "#fff",
+      },
+      text: { main: "#000" },
+    },
   });
 
   return (
@@ -27,13 +26,11 @@ function App() {
       <ThemeProvider theme={theme}>
         <Router>
           <div className="App">
-            <Navbar/>
+            <Navbar />
           </div>
           <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path="/log" element={<AuthModal/>} />
+            <Route path="/" element={<Home />} />
           </Routes>
-
         </Router>
       </ThemeProvider>
     </LocalizationProvider>
