@@ -3,11 +3,15 @@ import ReactDOM from "react-dom/client";
 
 import { Provider } from "react-redux";
 
-import "./index.css";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
+import { store } from "./rdx/store";
 
 import reportWebVitals from "./reportWebVitals";
 import App from "./App";
-import { store } from "./rdx/store";
+
+import "./index.css";
 
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -17,13 +21,13 @@ import "@fontsource/roboto/700.css";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <DndProvider backend={HTML5Backend}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </DndProvider>
   </React.StrictMode>
 );
-
-
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
