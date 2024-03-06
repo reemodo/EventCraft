@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const EventSchema = new Schema({
-  _id: Number,
-  userId: Number,
+  _id: String,
+  userId: String,
   title: String,
   description: String,
   location: String,
   date: Date,
   duration: Number,
-  cardID: Number,
-  attendance: [Number],
+  cardID: String,
+  attendance: [String],
   category: String,
   createdAt: Date,
 });
