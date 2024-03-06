@@ -33,7 +33,7 @@ export const AuthModal = ({ isOpen, onClose }) => {
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList onChange={handleChange}>
               <Tab label="Login" value="login" />
-              <Tab label="Register" value="register" />
+              <Tab color="red" label="Register" value="register" />
             </TabList>
           </Box>
 
