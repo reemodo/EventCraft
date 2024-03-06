@@ -5,7 +5,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import Navbar from "./modules/NavBar/Navbar";
-import Home from "./modules/home/Home";
+import {Home} from "./modules/home/Home";
 
 import { AuthModal } from "./modules/auth/components/AuthModal/AuthModal";
 
