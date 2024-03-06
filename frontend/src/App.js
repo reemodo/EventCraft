@@ -6,8 +6,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Navbar from "./modules/NavBar/Navbar";
 import Home from "./modules/home/Home";
 
-import { AuthModal } from "./modules/auth/components/AuthModal/AuthModal";
-
 function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -17,7 +15,6 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/log" element={<AuthModal />} />
         </Routes>
       </Router>
     </LocalizationProvider>
