@@ -3,15 +3,29 @@ import React from "react";
 import { Box, Dialog, DialogContent, Stack, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
+import { useLoginMutation, useRegisterMutation } from "../../api/auth.api";
+
 import { LoginForm } from "../LoginForm/LoginForm";
 import { RegisterForm } from "../RegisterForm/RegisterForm";
 
 export const AuthModal = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = React.useState("login");
 
+  const { login, isLoading: pendingLogin } = useLoginMutation();
+  const { register, isLoading: pendingRegister } = useRegisterMutation();
+
   const handleChange = (event, newValue) => {
     setActiveTab(newValue);
   };
+
+  const onLogin = (data) => {
+    const userData = login(data);
+  };
+
+  const onRegister = (data) => {
+    const userData = register(data);
+  };
+
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <DialogContent>
@@ -25,7 +39,12 @@ export const AuthModal = ({ isOpen, onClose }) => {
 
           {/* Login */}
           <TabPanel value="login" sx={{ height: "100%" }}>
-            <LoginForm isModal onClose={onClose} />
+            <LoginForm
+              isModal
+              onClose={onClose}
+              onLogin={onLogin}
+              loading={pendingLogin}
+            />
           </TabPanel>
 
           {/* Register */}
@@ -35,7 +54,12 @@ export const AuthModal = ({ isOpen, onClose }) => {
               alignItems={"center"}
               width={"100%"}
             >
-              <RegisterForm isModal onClose={onClose} />
+              <RegisterForm
+                isModal
+                onClose={onClose}
+                onRegister={onRegister}
+                loading={pendingRegister}
+              />
             </Stack>
           </TabPanel>
         </TabContext>
