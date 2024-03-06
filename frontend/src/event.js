@@ -1,4 +1,4 @@
-[
+const dummyData = [
   {
     "_id": "0",
     "userId": "1",
@@ -39,3 +39,4 @@
     "createdAt": "2023-12-15T00:00:00.000Z"
   }
 ]
+export default dummyData; 
