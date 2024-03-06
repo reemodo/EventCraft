@@ -1,7 +1,12 @@
 import React from "react";
+import { CardEdit } from "../events/card/components/CardEdit/CardEdit";
 
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <div>
+      <CardEdit />
+    </div>
+  );
 };
 
 export default Home;
