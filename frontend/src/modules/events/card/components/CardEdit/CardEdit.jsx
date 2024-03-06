@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { useDrop } from "react-dnd";
 import { CardItem } from "../CardItem/CardItem";
 import { Box, Stack } from "@mui/material";
+import { CardItemWrapper } from "../CardItemWrapper/CardItemWrapper";
 
 export const ItemTypes = {
   BOX: "box",
@@ -10,6 +11,8 @@ export const ItemTypes = {
 
 export const CardEdit = () => {
   const [items, setItems] = useState([]);
+
+  const [selectedCardItem, setSelectedCardItem] = useState();
 
   const boundingBox = useRef(null);
 
@@ -29,6 +32,32 @@ export const CardEdit = () => {
     } else {
       setItems([...items, { ...itemData, position: "absolute" }]);
     }
+  };
+
+  const handleDeleteItem = (itemData) => {
+    setItems((prev) => prev.filter((item) => item.id !== itemData.id));
+  };
+
+  const handleResize = (id, size) => {
+    const updatedItems = items.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            width: size.width,
+            height: size.height,
+          }
+        : item
+    );
+    setItems(updatedItems);
+  };
+
+  const handleClick = (e, item) => {
+    e.stopPropagation();
+    setSelectedCardItem(item);
+  };
+
+  const handleFocusOut = () => {
+    setSelectedCardItem(undefined);
   };
 
   //   const boundingBox = useRef(null);
@@ -64,49 +93,63 @@ export const CardEdit = () => {
   }
 
   return (
-    <Stack sx={{ flexDirection: { xs: "column", sm: "row" } }}>
+    <Stack
+      sx={{ flexDirection: { xs: "column", sm: "row" } }}
+      onClick={handleFocusOut}
+    >
       <Stack sx={{ flexDirection: { xs: "row", sm: "column" }, gap: 2 }}>
         <CardItem
           id={"1"}
           left={0}
           top={0}
           position={""}
-          width={10}
-          height={50}
+          width={50}
+          height={150}
         />
         <CardItem
           id={"2"}
           left={0}
           top={0}
           position={""}
-          width={50}
-          height={10}
+          width={150}
+          height={50}
         />
       </Stack>
-
-      <Box
-        ref={combinedRef}
-        sx={{
-          position: "relative",
-          width: "500px",
-          height: "300px",
-          border: "2px solid #000",
-        }}
-      >
-        {items.map(({ id, left, top, position, height, width }) => (
-          <CardItem
-            key={id}
-            id={id}
-            left={left}
-            top={top}
-            height={height}
-            width={width}
-            position={position}
-            onDrop={handleDrop}
-          />
-        ))}
-        {/* Add more draggable items as needed */}
-      </Box>
+      <Stack width={"100%"} justifyContent={"center"} alignItems={"center"}>
+        <Box
+          ref={combinedRef}
+          sx={{
+            position: "relative",
+            width: "500px",
+            height: "300px",
+            border: "2px solid #000",
+          }}
+          overflow={"hidden"}
+        >
+          {items.map(({ id, left, top, position, height, width }) => (
+            <>
+              <CardItemWrapper
+                key={id}
+                item={{ id, left, top, position, height, width }}
+                onChange={handleResize}
+                selectedItem={selectedCardItem}
+                onClick={handleClick}
+                onDelete={handleDeleteItem}
+              >
+                <CardItem
+                  id={id}
+                  left={left}
+                  top={top}
+                  height={height}
+                  width={width}
+                  position={position}
+                  onDrop={handleDrop}
+                />
+              </CardItemWrapper>
+            </>
+          ))}
+        </Box>
+      </Stack>
     </Stack>
   );
 };
