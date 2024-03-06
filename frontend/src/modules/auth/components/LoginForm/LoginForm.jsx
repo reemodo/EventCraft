@@ -61,12 +61,17 @@ export const LoginForm = ({ onClose, isModal, onLogin, loading }) => {
                 type="submit"
                 variant="contained"
                 loading={loading}
+                color={"secondary"}
               >
                 login
               </LoadingButton>
 
               {isModal && (
-                <LoadingButton variant="outlined" onClick={onClose}>
+                <LoadingButton
+                  color={"secondary"}
+                  variant="outlined"
+                  onClick={onClose}
+                >
                   cancel
                 </LoadingButton>
               )}
