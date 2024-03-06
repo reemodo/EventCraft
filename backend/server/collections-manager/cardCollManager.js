@@ -32,4 +32,8 @@ class cardCollManager {
   }
 }
 
+<<<<<<< HEAD
 module.exports = cardCollManager;
+=======
+module.exports = cardCollManager;
+>>>>>>> 761fd439b6a5ac0f6a5efc2bfce75f7caad34adf
