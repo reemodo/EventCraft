@@ -1,24 +1,24 @@
 [
   {
-    "_id": 0,
-    "userId": 1,
-    "eventId": 0,
+    "_id": "0",
+    "userId": "1",
+    "eventId": "0",
     "img": "https://readdork.com/wp-content/uploads/2022/10/Ed-Sheeran-Tour-Poster-2023.jpeg",
     "cardItems": [],
     "createdAt": "2024-02-08T00:00:00.000Z"
   },
   {
-    "_id": 1,
-    "userId": 1,
-    "eventId": 1,
+    "_id": "1",
+    "userId": "1",
+    "eventId": "1",
     "img": "https://img.freepik.com/free-vector/hand-drawn-wedding-invitation_23-2149091987.jpg?size=626&ext=jpg",
     "cardItems": [],
     "createdAt": "2024-03-05T00:00:00.000Z"
   },
   {
-    "_id": 2,
-    "userId": 0,
-    "eventId": 2,
+    "_id": "2",
+    "userId": "0",
+    "eventId": "2",
     "img": "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/real-madrid-vs-manchester-city-design-template-557ba13813e0ffbab47537dd3a35955c_screen.jpg?ts=1683561627",
     "cardItems": [],
     "createdAt": "2023-12-15T00:00:00.000Z"
