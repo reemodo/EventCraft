@@ -1,15 +1,26 @@
 import "./App.css";
-import { EventFormModal } from "./modules/events/components/EventFormModal/EventFormModal";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
+import Navbar from "./modules/NavBar/Navbar";
+import Home from "./modules/home/Home";
+
+import { AuthModal } from "./modules/auth/components/AuthModal/AuthModal";
+
 function App() {
   return (
-    <div className="App">
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <EventFormModal isOpen={true} />
-      </LocalizationProvider>
-    </div>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Router>
+        <div className="App">
+          <Navbar />
+        </div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/log" element={<AuthModal />} />
+        </Routes>
+      </Router>
+    </LocalizationProvider>
   );
 }
 
