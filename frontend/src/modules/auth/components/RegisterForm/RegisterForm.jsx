@@ -29,13 +29,15 @@ const validationSchema = Yup.object({
   confirmPassword: Yup.string().required("confirmPassword is required"),
 });
 
-export const RegisterForm = ({ onClose, isModal }) => {
+export const RegisterForm = ({ onClose, isModal, onRegister, loading }) => {
   return (
     <Formik
       initialValues={initFormValues}
       validationSchema={validationSchema}
       onSubmit={(values) => {
         console.log(values);
+
+        onRegister(values);
       }}
     >
       {(props) => (
@@ -113,7 +115,11 @@ export const RegisterForm = ({ onClose, isModal }) => {
 
             {/* submit btn */}
             <Stack justifyContent={"center"} direction={"row"} spacing={2}>
-              <LoadingButton type="submit" variant="contained">
+              <LoadingButton
+                type="submit"
+                variant="contained"
+                loading={loading}
+              >
                 Register
               </LoadingButton>
 
