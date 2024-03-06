@@ -1,12 +1,7 @@
 import "./App.css";
-import { Events } from "./modules/events/components/Events/Events";
 
 function App() {
-  return (
-    <div className="App">
-      <Events />
-    </div>
-  );
+  return <div className="App"></div>;
 }
 
 export default App;
