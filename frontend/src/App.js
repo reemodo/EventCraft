@@ -7,20 +7,34 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Navbar from "./modules/NavBar/Navbar";
 import {Home} from "./modules/home/Home";
 
-import { AuthModal } from "./modules/auth/components/AuthModal/AuthModal";
-
 function App() {
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#FFF",
+        contrastText: "#000",
+      },
+      secondary: {
+        main: "#4caf50",
+        contrastText: "#fff",
+      },
+      text: { main: "#000" },
+    },
+  });
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Router>
-        <div className="App">
-          <Navbar />
-        </div>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/log" element={<AuthModal />} />
-        </Routes>
-      </Router>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <div className="App">
+            <Navbar />
+          </div>
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
     </LocalizationProvider>
   );
 
