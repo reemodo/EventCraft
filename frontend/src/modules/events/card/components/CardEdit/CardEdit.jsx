@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import { useDrop } from "react-dnd";
 import { CardItem } from "../CardItem/CardItem";
@@ -20,7 +21,7 @@ export const CardEdit = () => {
   const handleDrop = (itemData) => {
     if (itemData.position) {
       const updatedItems = items.map((item) =>
-        item.id === itemData.id
+        item.uuid === itemData.uuid
           ? {
               ...item,
               left: itemData.left,
@@ -35,21 +36,9 @@ export const CardEdit = () => {
     }
   };
 
-  const handleDeleteItem = (itemData) => {
-    setItems((prev) => prev.filter((item) => item.id !== itemData.id));
-  };
-
   const handleResize = (id, size) => {
-    const updatedItems = items.map((item) =>
-      item.id === id
-        ? {
-            ...item,
-            width: size.width,
-            height: size.height,
-          }
-        : item
-    );
-    setItems(updatedItems);
+    selectedCardItemRef.current.width = size.width;
+    selectedCardItemRef.current.height = size.height;
   };
 
   const handleTextChange = (id, text) => {
@@ -57,21 +46,12 @@ export const CardEdit = () => {
     selectedCardItemRef.current.text = text;
   };
 
-  const handleClick = (e, item) => {
-    e.stopPropagation();
-    if (e.detail === 2) {
-      selectedCardItemRef.current = item;
-      setSelectedCardItem(item);
-    }
-  };
-
   const handleFocusOut = () => {
     if (selectedCardItemRef.current) {
       const updatedItems = items.map((item) =>
-        item.id === selectedCardItemRef.current.id
+        item.uuid === selectedCardItemRef.current.uuid
           ? {
-              ...item,
-              text: selectedCardItemRef.current.text,
+              ...selectedCardItemRef.current,
             }
           : item
       );
@@ -81,7 +61,24 @@ export const CardEdit = () => {
     setSelectedCardItem(undefined);
   };
 
-  //   const boundingBox = useRef(null);
+  const handleClick = (e, item) => {
+    e.stopPropagation();
+    if (e.detail === 2) {
+      selectedCardItemRef.current = item;
+      setSelectedCardItem(item);
+    } else {
+      if (selectedCardItemRef.current) {
+        if (item.uuid !== selectedCardItemRef.current.uuid) {
+          handleFocusOut();
+        }
+      }
+    }
+  };
+
+  const handleDeleteItem = (itemData) => {
+    handleFocusOut();
+    setItems((prev) => prev.filter((item) => item.uuid !== itemData.uuid));
+  };
 
   const [, drop] = useDrop({
     accept: ItemTypes.BOX,
@@ -101,7 +98,12 @@ export const CardEdit = () => {
         left = Math.round(deltaX);
         top = Math.round(deltaY);
       }
-      handleDrop({ ...item, left, top });
+      handleDrop({
+        ...item,
+        left,
+        top,
+        uuid: item.uuid ? item.uuid : uuidv4(),
+      });
       return undefined;
     },
   });
@@ -119,7 +121,7 @@ export const CardEdit = () => {
       onClick={handleFocusOut}
     >
       <Stack sx={{ flexDirection: { xs: "row", sm: "column" }, gap: 2 }}>
-        {/* <CardItem
+        <CardItem
           item={{
             id: "1",
             type: "text",
@@ -128,7 +130,7 @@ export const CardEdit = () => {
             position: "",
             text: "text",
           }}
-        /> */}
+        />
         <CardItem
           item={{
             id: "2",
@@ -138,7 +140,7 @@ export const CardEdit = () => {
             src: "https://images.pexels.com/photos/19400187/pexels-photo-19400187/free-photo-of-a-car-in-a-desert.jpeg",
             position: "",
             width: 150,
-            height: 50,
+            height: 150,
           }}
         />
       </Stack>
@@ -153,7 +155,7 @@ export const CardEdit = () => {
           }}
           overflow={"hidden"}
         >
-          {items.map((item) => (
+          {items.map((item, idx) => (
             <CardItem
               key={item.id}
               item={item}
@@ -162,12 +164,21 @@ export const CardEdit = () => {
                   ? selectedCardItemRef.current.text
                   : ""
               }
+              size={{
+                width: selectedCardItemRef.current
+                  ? selectedCardItemRef.current.width
+                  : item.width,
+                height: selectedCardItemRef.current
+                  ? selectedCardItemRef.current.height
+                  : item.height,
+              }}
               onDrop={handleDrop}
               handleResize={handleResize}
               handleTextChange={handleTextChange}
               selectedCardItem={selectedCardItem}
               handleClick={handleClick}
               handleDeleteItem={handleDeleteItem}
+              zIndex={idx}
             />
           ))}
         </Box>
