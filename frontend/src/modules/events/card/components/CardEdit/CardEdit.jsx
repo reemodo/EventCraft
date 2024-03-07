@@ -119,7 +119,7 @@ export const CardEdit = () => {
       onClick={handleFocusOut}
     >
       <Stack sx={{ flexDirection: { xs: "row", sm: "column" }, gap: 2 }}>
-        <CardItem
+        {/* <CardItem
           item={{
             id: "1",
             type: "text",
@@ -128,14 +128,14 @@ export const CardEdit = () => {
             position: "",
             text: "text",
           }}
-        />
+        /> */}
         <CardItem
           item={{
             id: "2",
             type: "image",
             left: 0,
             top: 0,
-            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2",
+            src: "https://images.pexels.com/photos/19400187/pexels-photo-19400187/free-photo-of-a-car-in-a-desert.jpeg",
             position: "",
             width: 150,
             height: 50,
