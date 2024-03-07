@@ -34,11 +34,9 @@ export const EventCard = ({event}) => {
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions className="cardActions">
+        <CardActions className="cardActions" >
           <Button disableSpacing size="small" color="secondary" >
-            
               join
-            
           </Button>
         </CardActions>
       </Card>
