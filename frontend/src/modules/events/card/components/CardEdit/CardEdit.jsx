@@ -3,7 +3,6 @@ import React, { useRef, useState } from "react";
 import { useDrop } from "react-dnd";
 import { CardItem } from "../CardItem/CardItem";
 import { Box, Stack } from "@mui/material";
-import { CardItemWrapper } from "../CardItemWrapper/CardItemWrapper";
 
 export const ItemTypes = {
   BOX: "box",

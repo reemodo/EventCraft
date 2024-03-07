@@ -1,4 +1,4 @@
-import { Box, IconButton, TextField } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { useDrag } from "react-dnd";
 
 import ContentEditable from "react-contenteditable";
@@ -59,6 +59,7 @@ export const CardItem = ({
             display: "inline-block",
             overflow: "hidden",
             cursor: "move",
+            backgroundColor: "red",
           }}
           src={item.img}
           alt="card image"

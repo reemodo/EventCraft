@@ -34,23 +34,6 @@ export const CardItemWrapper = ({
       }}
       onClick={(e) => onClick(e, item)}
     >
-      {showLayout && (
-        <IconButton
-          sx={{
-            borderRadius: "50%",
-            position: "absolute",
-            top: -8,
-            left: -8,
-            width: 15,
-            height: 15,
-          }}
-          color="error"
-          onClick={() => onDelete(item)}
-          size="small"
-        >
-          <HighlightOffIcon />
-        </IconButton>
-      )}
       <ResizableBox
         width={"fit-content"}
         height={"fit-content"}
