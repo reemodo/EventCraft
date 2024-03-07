@@ -1,12 +1,18 @@
 import React from "react";
 import { Card, CardActionArea, CardMedia, CardActions, CardContent, Typography, Button } from '@mui/material';
 import {useTheme} from "@mui/material";
+import { rdxSitesActions } from '../../rdx/events.rdx';
 export const EventCard = ({event}) => {
   const theme  = useTheme();
+  // TODO change the window location to the view page
+  const handelEventClick = function (id){
+    rdxSitesActions.setSelectedEvent(id);
+    window.location.href =("/workSpace");
+  }
   return (
   <>
-   <Card sx={{ maxWidth: 345 , m : theme.spacing(2) }}>
-        <CardActionArea>
+   <Card sx={{ width: 350 }} onClick={() => handelEventClick(event._id)}  >
+        <CardActionArea >
           <CardMedia
             component="img"
             height="140"
@@ -14,8 +20,8 @@ export const EventCard = ({event}) => {
             alt="green iguana"
           />
           <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {event.title}
+            <Typography gutterBottom variant="h6" component="div" >
+              {event.title.charAt(0).toUpperCase() + event.title.substring(1)}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {event.description}
@@ -28,9 +34,11 @@ export const EventCard = ({event}) => {
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary">
-            Share
+        <CardActions className="cardActions">
+          <Button disableSpacing size="small" color="secondary" >
+            
+              join
+            
           </Button>
         </CardActions>
       </Card>
