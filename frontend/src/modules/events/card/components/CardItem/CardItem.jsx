@@ -1,8 +1,6 @@
 import { Box, IconButton } from "@mui/material";
 import { useDrag } from "react-dnd";
 
-import { v4 as uuidv4 } from "uuid";
-
 import ContentEditable from "react-contenteditable";
 
 import { ItemTypes } from "../CardEdit/CardEdit";
