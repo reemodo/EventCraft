@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardActionArea, CardMedia, CardActions, CardContent, Typography, Button } from '@mui/material';
 import {useTheme} from "@mui/material";
 import { rdxSitesActions } from '../../rdx/events.rdx';
-export const EventCard = ({event}) => {
+export const EventCard = ({event , inHomePage}) => {
   const theme  = useTheme();
   // TODO change the window location to the view page
   const handelEventClick = function (id){
@@ -36,7 +36,7 @@ export const EventCard = ({event}) => {
         </CardActionArea>
         <CardActions className="cardActions" >
           <Button disableSpacing size="small" color="secondary" >
-              join
+             {inHomePage? "join" : "delete"} 
           </Button>
         </CardActions>
       </Card>

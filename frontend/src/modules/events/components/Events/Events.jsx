@@ -26,17 +26,19 @@ export function Events({inHomePage}) {
               <Grid container spacing={2}>
                 {items.map((event, index) => (
                   <Grid item key={event._id} xs={12} sm={6} md={5} >
-                    <EventCard event={event} />
+                    <EventCard event={event} inHomePage={true}/>
                   </Grid>
                 ))}
               </Grid>
             </div>
           )):
-          dummyData.map((event, index) => (
+          <Grid container spacing={2}>
+         { dummyData.map((event, index) => (
             <Grid item key={index} xs={12} sm={6} md={5}>
-              <EventCard event={event} />
+              <EventCard event={event} inHomePage={false} />
             </Grid>
           ))}
+          </Grid>}
         </div>
         </>
     )
