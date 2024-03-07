@@ -13,9 +13,16 @@ router.get("/DBgenerator", async function (req, res) {
   }
 });
 
-router.get("/", async function (req, res) {
+router.get("/:category/:startDate/:location", async function (req, res) {
   try {
-    const event = await eventManager.getEvents();
+    const { category, startDate, location } = req.params;
+
+    console.log(startDate);
+    const event = await eventManager.filterByParams(
+      category,
+      startDate,
+      location
+    );
     res.send(event);
   } catch (err) {
     console.error(err);
