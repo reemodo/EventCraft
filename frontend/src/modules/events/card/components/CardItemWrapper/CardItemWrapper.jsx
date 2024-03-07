@@ -1,7 +1,6 @@
 import React from "react";
 
-import { Box, IconButton } from "@mui/material";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { Box } from "@mui/material";
 
 import { ResizableBox } from "react-resizable";
 
@@ -11,7 +10,6 @@ export const CardItemWrapper = ({
   item,
   selectedItem,
   onClick,
-  onDelete,
 }) => {
   const { position, left, top, width, height } = item;
 

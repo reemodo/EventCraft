@@ -43,29 +43,29 @@ export const CardItem = ({
         />
       );
     } else if (item.type === "image") {
-      <CardItemWrapper
-        item={item}
-        onChange={handleResize}
-        selectedItem={selectedCardItem}
-        onClick={handleClick}
-        onDelete={handleDeleteItem}
-      >
-        <Box
-          ref={drag}
-          component={"img"}
-          sx={{
-            width: `${item.width}px`,
-            height: `${item.height}px`,
-            display: "inline-block",
-            overflow: "hidden",
-            cursor: "move",
-            backgroundColor: "red",
-          }}
-          src={item.img}
-          alt="card image"
-        />
-        ;
-      </CardItemWrapper>;
+      return (
+        <CardItemWrapper
+          item={item}
+          onChange={handleResize}
+          selectedItem={selectedCardItem}
+          onClick={handleClick}
+          onDelete={handleDeleteItem}
+        >
+          <Box
+            ref={drag}
+            component={"img"}
+            sx={{
+              width: `${item.width}px`,
+              height: `${item.height}px`,
+
+              overflow: "hidden",
+              cursor: "move",
+            }}
+            src={item.img}
+            alt="card image"
+          />
+        </CardItemWrapper>
+      );
     }
   };
 
