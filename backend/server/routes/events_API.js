@@ -2,20 +2,18 @@ const express = require("express");
 const router = express.Router();
 const DBManager = require("../events-DB-Server");
 const eventManager = require("../collections-manager/eventCollManager");
-const { route } = require("./authRoutes");
 
 router.get("/DBgenerator", async function (req, res) {
   try {
-    
     await DBManager.reGenerate();
-    res.end()
-    } catch (err) {
+    res.end();
+  } catch (err) {
     console.error(err);
     res.status(400).send((err) => err);
   }
 });
 
-router.get("/:eventId", async function (req, res) {
+router.get("/", async function (req, res) {
   try {
     const event = await eventManager.getEvents();
     res.send(event);
@@ -25,46 +23,55 @@ router.get("/:eventId", async function (req, res) {
   }
 });
 
-router.delete("/:eventId", async function(req, res){
-  try{
+router.delete("/:eventId", async function (req, res) {
+  try {
     const eventId = req.params.eventId;
-    const deleteEvent = await eventManager.deleteEvent(eventId)
-    res.send(deleteEvent)
-  } catch(err){
-    console.error(err)
+    const deletedEvent = await eventManager.deleteEvent(eventId);
+    res.send(deletedEvent);
+  } catch (err) {
+    console.error(err);
   }
 });
 
 router.post("/", async (req, res) => {
   try {
-
-      const eventData = req.body;
-      const newEvent = await eventManager.saveEvent(eventData);
-      res.json(201).json({ message: "Event created successfully", event: newEvent });
+    const newEvent = await eventManager.saveEvent(req.body);
+    res.send(newEvent);
   } catch (error) {
-      console.error("Error creating event:", error);
-      res.status(500).json({ error: "Failed to create event" });
+    res.status(500).json({ error: "Failed to create event" });
   }
 });
 
-router.get("/:userId",async function(req,res){
+router.get("/myEvents/:userId", async function (req, res) {
   try {
     const userId = req.params.userId;
     const myEvent = await eventManager.myEvents(userId);
-    res.send();
+    res.send(myEvent);
   } catch (err) {
     console.error(err);
     res.status(400).send((err) => err);
-  } 
-})
-
-router.get("", async function(req,res){
-  try{
-    const lastEvent = await eventManage.findTheLastEvent()
-  } catch (err){
-    console.error(err)
+  }
+});
+router.get("/joinedEvents/:userId", async function (req, res) {
+  try {
+    const userId = req.params.userId;
+    const myJoinedEvent = await eventManager.findJoinedEvents(userId);
+    res.send(myJoinedEvent);
+  } catch (err) {
+    console.error(err);
+    res.status(400).send((err) => err);
+  }
+});
+router.post("/:userId/:eventId", async function (req, res) {
+  try {
+    const userId = req.params.userId;
+    const eventId = req.params.eventId;
+    const message = await eventManager.joinEvents(eventId, userId);
+    res.send(message);
+  } catch (err) {
+    console.error(err);
     res.status(400).send((err) => err);
   }
 });
 
-module.exports = router;
+module.exports = router;
