@@ -18,15 +18,19 @@ export const CardItem = ({
   handleClick,
   handleDeleteItem,
   handleTextChange,
+  handleDrawerClose,
   zIndex,
 }) => {
-  const [, drag] = useDrag({
+  const [collected, drag, dragPreview] = useDrag({
     type: ItemTypes.BOX,
     item: () => ({
       ...item,
       width: drag.current?.getBoundingClientRect().width || item.width || 0,
       height: drag.current?.getBoundingClientRect().height || item.height || 0,
     }),
+    start: () => {
+      handleDrawerClose();
+    },
   });
 
   const placeholderRef = useRef(null);
@@ -44,6 +48,10 @@ export const CardItem = ({
           minWidth={50}
           minHeight={20}
           onChange={(e) => handleTextChange(item.id, e.target.value)}
+          sx={{
+            fontSize: item.fontSize,
+            textDecoration: item.decoration ?? "",
+          }}
         />
       );
     } else if (item.type === "image") {
@@ -71,8 +79,11 @@ export const CardItem = ({
   };
 
   const showLayout = selectedCardItem && selectedCardItem.uuid === item.uuid;
-  return (
+  return collected.isDragging ? (
+    <div ref={dragPreview} />
+  ) : (
     <Box
+      {...collected}
       ref={!showLayout ? drag : placeholderRef}
       onClick={(e) => handleClick(e, item)}
       sx={{

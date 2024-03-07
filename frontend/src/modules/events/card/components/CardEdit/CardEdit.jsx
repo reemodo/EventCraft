@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 import { useDrop } from "react-dnd";
 import { CardItem } from "../CardItem/CardItem";
 import { Box, Stack } from "@mui/material";
+import { CardEditSidBar } from "../CardEditSidBar/CardEditSidBar";
+import { CardItemSittings } from "../CardItemSittings/CardItemSittings";
 
 export const ItemTypes = {
   BOX: "box",
@@ -116,48 +118,31 @@ export const CardEdit = () => {
   }
 
   return (
-    <Stack
-      sx={{ flexDirection: { xs: "column", sm: "row" } }}
-      onClick={handleFocusOut}
-    >
-      <Stack sx={{ flexDirection: { xs: "row", sm: "column" }, gap: 2 }}>
-        <CardItem
-          item={{
-            id: "1",
-            type: "text",
-            left: 0,
-            top: 0,
-            position: "",
-            text: "text",
-          }}
-        />
-        <CardItem
-          item={{
-            id: "2",
-            type: "image",
-            left: 0,
-            top: 0,
-            src: "https://images.pexels.com/photos/19400187/pexels-photo-19400187/free-photo-of-a-car-in-a-desert.jpeg",
-            position: "",
-            width: 150,
-            height: 150,
-          }}
-        />
+    <Stack sx={{ flexDirection: { sm: "column", md: "row" } }}>
+      <Stack sx={{ flexDirection: { sm: "column", md: "row" }, gap: 2 }}>
+        <CardEditSidBar />
+        <CardItemSittings cardItem={selectedCardItem} />
       </Stack>
-      <Stack width={"100%"} justifyContent={"center"} alignItems={"center"}>
+      <Stack
+        width={"100%"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        pt={10}
+        onClick={handleFocusOut}
+      >
         <Box
           ref={combinedRef}
           sx={{
             position: "relative",
             width: "500px",
             height: "300px",
-            border: "2px solid #000",
+            border: "1px solid #000",
           }}
           overflow={"hidden"}
         >
           {items.map((item, idx) => (
             <CardItem
-              key={item.id}
+              key={item.uuid}
               item={item}
               text={
                 selectedCardItemRef.current
