@@ -14,6 +14,8 @@ export const CardEdit = () => {
 
   const [selectedCardItem, setSelectedCardItem] = useState();
 
+  const selectedCardItemRef = useRef(null);
+
   const boundingBox = useRef(null);
 
   const handleDrop = (itemData) => {
@@ -51,12 +53,32 @@ export const CardEdit = () => {
     setItems(updatedItems);
   };
 
+  const handleTextChange = (id, text) => {
+    // setSelectedCardItem((prev) => ({ ...prev, text }));
+    selectedCardItemRef.current.text = text;
+  };
+
   const handleClick = (e, item) => {
     e.stopPropagation();
-    setSelectedCardItem(item);
+    if (e.detail === 2) {
+      selectedCardItemRef.current = item;
+      setSelectedCardItem(item);
+    }
   };
 
   const handleFocusOut = () => {
+    if (selectedCardItemRef.current) {
+      const updatedItems = items.map((item) =>
+        item.id === selectedCardItemRef.current.id
+          ? {
+              ...item,
+              text: selectedCardItemRef.current.text,
+            }
+          : item
+      );
+      setItems(updatedItems);
+    }
+    selectedCardItemRef.current = null;
     setSelectedCardItem(undefined);
   };
 
@@ -99,20 +121,26 @@ export const CardEdit = () => {
     >
       <Stack sx={{ flexDirection: { xs: "row", sm: "column" }, gap: 2 }}>
         <CardItem
-          id={"1"}
-          left={0}
-          top={0}
-          position={""}
-          width={50}
-          height={150}
+          item={{
+            id: "1",
+            type: "text",
+            left: 0,
+            top: 0,
+            position: "",
+            text: "text",
+          }}
         />
         <CardItem
-          id={"2"}
-          left={0}
-          top={0}
-          position={""}
-          width={150}
-          height={50}
+          item={{
+            id: "2",
+            type: "image",
+            left: 0,
+            top: 0,
+            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2",
+            position: "",
+            width: 150,
+            height: 50,
+          }}
         />
       </Stack>
       <Stack width={"100%"} justifyContent={"center"} alignItems={"center"}>
@@ -126,27 +154,22 @@ export const CardEdit = () => {
           }}
           overflow={"hidden"}
         >
-          {items.map(({ id, left, top, position, height, width }) => (
-            <>
-              <CardItemWrapper
-                key={id}
-                item={{ id, left, top, position, height, width }}
-                onChange={handleResize}
-                selectedItem={selectedCardItem}
-                onClick={handleClick}
-                onDelete={handleDeleteItem}
-              >
-                <CardItem
-                  id={id}
-                  left={left}
-                  top={top}
-                  height={height}
-                  width={width}
-                  position={position}
-                  onDrop={handleDrop}
-                />
-              </CardItemWrapper>
-            </>
+          {items.map((item) => (
+            <CardItem
+              key={item.id}
+              item={item}
+              text={
+                selectedCardItemRef.current
+                  ? selectedCardItemRef.current.text
+                  : ""
+              }
+              onDrop={handleDrop}
+              handleResize={handleResize}
+              handleTextChange={handleTextChange}
+              selectedCardItem={selectedCardItem}
+              handleClick={handleClick}
+              handleDeleteItem={handleDeleteItem}
+            />
           ))}
         </Box>
       </Stack>

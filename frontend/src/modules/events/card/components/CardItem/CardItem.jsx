@@ -1,24 +1,106 @@
-import { Box, TextField } from "@mui/material";
-import { ItemTypes } from "../CardEdit/CardEdit";
+import { Box, IconButton, TextField } from "@mui/material";
 import { useDrag } from "react-dnd";
 
-export const CardItem = ({ id, left, top, position, width, height }) => {
+import ContentEditable from "react-contenteditable";
+
+import { ItemTypes } from "../CardEdit/CardEdit";
+import { CardItemWrapper } from "../CardItemWrapper/CardItemWrapper";
+
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { useRef } from "react";
+
+export const CardItem = ({
+  item,
+  selectedCardItem,
+  handleResize,
+  handleClick,
+  handleDeleteItem,
+  handleTextChange,
+  text,
+}) => {
   const [, drag] = useDrag({
     type: ItemTypes.BOX,
-    item: () => ({ id, left, top, position, width, height }),
+    item: () => ({
+      ...item,
+      width: drag.current?.getBoundingClientRect().width ?? 0,
+      height: drag.current?.getBoundingClientRect().height ?? 0,
+    }),
   });
+
+  const Item = () => {
+    const contentEditableRef = useRef(null);
+
+    if (item.type === "text") {
+      return (
+        <Box
+          component={ContentEditable}
+          innerRef={contentEditableRef}
+          html={text ? text : item.text}
+          disabled={!selectedCardItem}
+          minWidth={50}
+          minHeight={20}
+          onChange={(e) => handleTextChange(item.id, e.target.value)}
+        />
+      );
+    } else if (item.type === "image") {
+      <CardItemWrapper
+        item={item}
+        onChange={handleResize}
+        selectedItem={selectedCardItem}
+        onClick={handleClick}
+        onDelete={handleDeleteItem}
+      >
+        <Box
+          ref={drag}
+          component={"img"}
+          sx={{
+            width: `${item.width}px`,
+            height: `${item.height}px`,
+            display: "inline-block",
+            overflow: "hidden",
+            cursor: "move",
+          }}
+          src={item.img}
+          alt="card image"
+        />
+        ;
+      </CardItemWrapper>;
+    }
+  };
+
+  const showLayout = selectedCardItem && selectedCardItem.id === item.id;
   return (
     <Box
       ref={drag}
+      onClick={(e) => handleClick(e, item)}
       sx={{
-        width: `${width}px`,
-        height: `${height}px`,
-        background: "lightblue",
-        overflow: "hidden",
+        width: "fit-content",
+        height: "fit-content",
+
         cursor: "move",
+        position: item.position,
+        top: item.top,
+        left: item.left,
       }}
     >
-      <TextField multiline sx={{ width, height, border: "none" }} />
+      {showLayout && (
+        <IconButton
+          sx={{
+            borderRadius: "50%",
+            position: "absolute",
+            top: -8,
+            left: -8,
+            width: 15,
+            height: 15,
+          }}
+          color="error"
+          onClick={() => handleDeleteItem(item)}
+          size="small"
+        >
+          <HighlightOffIcon />
+        </IconButton>
+      )}
+      <Item />
     </Box>
   );
 };

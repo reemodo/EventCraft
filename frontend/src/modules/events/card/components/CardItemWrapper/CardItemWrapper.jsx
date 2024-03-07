@@ -18,6 +18,8 @@ export const CardItemWrapper = ({
   const onResize = (event, { element, size, handle }) => {
     onChange(item.id, size);
   };
+
+  const showLayout = selectedItem && selectedItem.id === item.id;
   return (
     <Box
       sx={{
@@ -26,13 +28,13 @@ export const CardItemWrapper = ({
         top,
         width: `${width}px`,
         height: `${height}px`,
-        background: "lightblue",
+
         border: "1px solid #000",
         cursor: "move",
       }}
       onClick={(e) => onClick(e, item)}
     >
-      {selectedItem && selectedItem.id === item.id && (
+      {showLayout && (
         <IconButton
           sx={{
             borderRadius: "50%",
@@ -50,12 +52,13 @@ export const CardItemWrapper = ({
         </IconButton>
       )}
       <ResizableBox
-        width={item.width}
-        height={item.height}
+        width={"fit-content"}
+        height={"fit-content"}
         onResize={onResize}
         // draggableOpts={{ grid: [25, 25] }}
+
         handle={
-          selectedItem && selectedItem.id === item.id ? (
+          showLayout && item.type !== "text" ? (
             <span
               style={{
                 position: "absolute",
@@ -74,6 +77,7 @@ export const CardItemWrapper = ({
           )
         }
         axis="both"
+        style={{ border: showLayout ? "1px solid " : "none" }}
       >
         {children}
       </ResizableBox>
