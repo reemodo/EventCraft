@@ -5,6 +5,7 @@ export function Home(props) {
   return (
     <>
     <div className='homeContainer'>
+      <SearchBar/>
       <Events inHomePage={true}/>
     </div>
     </>
