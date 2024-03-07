@@ -11,12 +11,12 @@ import { useRef } from "react";
 
 export const CardItem = ({
   item,
+  text,
   selectedCardItem,
   handleResize,
   handleClick,
   handleDeleteItem,
   handleTextChange,
-  text,
 }) => {
   const [, drag] = useDrag({
     type: ItemTypes.BOX,
