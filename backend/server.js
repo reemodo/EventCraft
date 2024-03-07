@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const api = require("./server/routes/events_API");
+const userAPI = require("./server/routes/users_API")
 
 const path = require("path");
 const dbManager = require("./server/events-DB-Server");
@@ -19,6 +20,7 @@ app.use(function (req, res, next) {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/events", api);
+app.use("/user", userAPI)
 
 dbManager.connectToDB();
 
