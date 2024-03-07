@@ -14,6 +14,7 @@ const EventSchema = new Schema({
   attendance: [Number],
   category: String,
   createdAt: Date,
+  isPublic: Boolean,
 });
 
 const event = mongoose.model("event", EventSchema);
