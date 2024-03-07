@@ -27,10 +27,9 @@ router.delete("/:cardId", async function (req, res) {
 router.post("/", async (req, res) => {
   try {
     const cardData = req.body;
+    console.log(cardData);
     const newCard = await cardManager.saveCard(cardData);
-    res
-      .json(201)
-      .json({ message: "Event created successfully", card: newCard });
+    res.send({ message: "Event created successfully", card: newCard });
   } catch (error) {
     console.error("Error creating card:", error);
     res.status(500).json({ error: "Failed to create card" });
@@ -42,16 +41,6 @@ router.get("/:cardId", async function (req, res) {
     const cardId = req.params.cardId;
     const myCards = await cardManager.myCards(cardId);
     res.send(myCards);
-  } catch (err) {
-    console.error(err);
-    res.status(400).send((err) => err);
-  }
-});
-
-router.get("", async function (req, res) {
-  try {
-    const lastCard = await cardManager.findTheLastCard();
-    res.send(lastCard);
   } catch (err) {
     console.error(err);
     res.status(400).send((err) => err);
