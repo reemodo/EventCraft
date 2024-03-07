@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const CardItemSchema = new mongoose.Schema({
-  _id: Number,
+  _id: String,
   type: { type: String, enum: ["text", "image"] },
   src: String,
   text: String,
@@ -14,9 +14,9 @@ const CardItemSchema = new mongoose.Schema({
 });
 
 const CardSchema = new Schema({
-  _id: Number,
-  userId: Number,
-  eventId: Number,
+  _id: String,
+  userId: String,
+  eventId: String,
   img: String,
   cardItems: [CardItemSchema],
   createdAt: Date,
