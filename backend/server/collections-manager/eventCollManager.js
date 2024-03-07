@@ -40,7 +40,6 @@ class eventCollManager {
       undefined,
       undefined
     );
-    console.log(filteredFields);
     const events = await Event.find(filteredFields).sort({
       startDate: 1,
     });
