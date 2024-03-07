@@ -11,7 +11,7 @@ export const CardItemWrapper = ({
   selectedItem,
   onClick,
 }) => {
-  const { position, left, top, width, height } = item;
+  const { width, height } = item;
 
   const onResize = (event, { element, size, handle }) => {
     onChange(item.id, size);
