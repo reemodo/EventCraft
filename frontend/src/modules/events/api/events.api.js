@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { apiUrl } from "../../../env";
 
 export const eventApi = createApi({
   reducerPath: "eventApi",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_API_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: apiUrl }),
   endpoints: (builder) => ({
     getEvents: builder.query({
       query: () => `events/`,
