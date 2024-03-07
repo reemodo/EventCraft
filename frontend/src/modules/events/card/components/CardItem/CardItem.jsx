@@ -1,6 +1,8 @@
 import { Box, IconButton } from "@mui/material";
 import { useDrag } from "react-dnd";
 
+import { v4 as uuidv4 } from "uuid";
+
 import ContentEditable from "react-contenteditable";
 
 import { ItemTypes } from "../CardEdit/CardEdit";
@@ -12,20 +14,24 @@ import { useRef } from "react";
 export const CardItem = ({
   item,
   text,
+  size,
   selectedCardItem,
   handleResize,
   handleClick,
   handleDeleteItem,
   handleTextChange,
+  zIndex,
 }) => {
   const [, drag] = useDrag({
     type: ItemTypes.BOX,
     item: () => ({
       ...item,
-      width: drag.current?.getBoundingClientRect().width ?? 0,
-      height: drag.current?.getBoundingClientRect().height ?? 0,
+      width: drag.current?.getBoundingClientRect().width || item.width || 0,
+      height: drag.current?.getBoundingClientRect().height || item.height || 0,
     }),
   });
+
+  const placeholderRef = useRef(null);
 
   const Item = () => {
     const contentEditableRef = useRef(null);
@@ -35,7 +41,7 @@ export const CardItem = ({
         <Box
           component={ContentEditable}
           innerRef={contentEditableRef}
-          html={text ? text : item.text}
+          html={text && item.uuid === selectedCardItem.uuid ? text : item.text}
           disabled={!selectedCardItem}
           minWidth={50}
           minHeight={20}
@@ -45,23 +51,20 @@ export const CardItem = ({
     } else if (item.type === "image") {
       return (
         <CardItemWrapper
-          item={item}
+          item={{ ...item, ...size }}
           onChange={handleResize}
           selectedItem={selectedCardItem}
           onClick={handleClick}
           onDelete={handleDeleteItem}
         >
           <Box
-            ref={drag}
             component={"img"}
             sx={{
-              width: `${item.width}px`,
-              height: `${item.height}px`,
-
+              width: item.width,
+              height: item.height,
               overflow: "hidden",
-              cursor: "move",
             }}
-            src={item.img}
+            src={item.src}
             alt="card image"
           />
         </CardItemWrapper>
@@ -69,15 +72,15 @@ export const CardItem = ({
     }
   };
 
-  const showLayout = selectedCardItem && selectedCardItem.id === item.id;
+  const showLayout = selectedCardItem && selectedCardItem.uuid === item.uuid;
   return (
     <Box
-      ref={drag}
+      ref={!showLayout ? drag : placeholderRef}
       onClick={(e) => handleClick(e, item)}
       sx={{
         width: "fit-content",
         height: "fit-content",
-
+        zIndex,
         cursor: "move",
         position: item.position,
         top: item.top,

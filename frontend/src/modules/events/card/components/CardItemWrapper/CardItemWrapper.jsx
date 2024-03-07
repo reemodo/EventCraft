@@ -21,9 +21,6 @@ export const CardItemWrapper = ({
   return (
     <Box
       sx={{
-        position,
-        left,
-        top,
         width: `${width}px`,
         height: `${height}px`,
 
@@ -33,8 +30,8 @@ export const CardItemWrapper = ({
       onClick={(e) => onClick(e, item)}
     >
       <ResizableBox
-        width={"fit-content"}
-        height={"fit-content"}
+        width={width}
+        height={height}
         onResize={onResize}
         // draggableOpts={{ grid: [25, 25] }}
 
@@ -57,7 +54,6 @@ export const CardItemWrapper = ({
             <></>
           )
         }
-        axis="both"
         style={{ border: showLayout ? "1px solid " : "none" }}
       >
         {children}
