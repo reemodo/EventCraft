@@ -3,10 +3,11 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
+import { createTheme } from "@mui/material";
 import Navbar from "./modules/NavBar/Navbar";
-import {Home} from "./modules/home/Home";
-
+import { Home } from "./modules/events/pages/home/Home";
+import { WorkSpace } from "./modules/events/pages/workspace/WorkSpace";
+import { ThemeProvider } from "@mui/material";
 function App() {
 
   const theme = createTheme({
@@ -32,6 +33,7 @@ function App() {
           </div>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/workSpace" element={<WorkSpace />} />
           </Routes>
         </Router>
       </ThemeProvider>

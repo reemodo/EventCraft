@@ -1,18 +1,11 @@
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
-
-
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import AdbIcon from "@mui/icons-material/Adb";
 
 import { AuthModal } from "../auth/components/AuthModal/AuthModal";
@@ -50,12 +43,13 @@ const Navbar = () => {
                 letterSpacing: ".3rem",
                 color: "inherit",
                 textDecoration: "none",
+                flexGrow: 4
               }}
             >
               EVENTCRAFT
             </Typography>
 
-            <Typography variant="h6" component="div" sx={{ flexGrow: 40 }}>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               <Link
                 to="/"
                 style={{
@@ -64,6 +58,18 @@ const Navbar = () => {
                 }}
               >
                 Home
+              </Link>
+            </Typography>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 40 }}>
+              {}
+              <Link
+                to="/workSpace"
+                style={{
+                  color: theme.palette.secondary.main,
+                  textDecoration: "none",
+                }}
+              >
+                WorkSpace
               </Link>
             </Typography>
 
