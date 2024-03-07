@@ -20,7 +20,7 @@ function App() {
         main: "#4caf50",
         contrastText: "#fff",
       },
-      text: { main: "#000" },
+      text: { main: "#fff" },
     },
   });
 

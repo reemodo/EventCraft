@@ -9,3 +9,13 @@
 .categoryContainer{
     color:black;
 }
+.iconContainer{
+    display: flex;
+    align-items: flex-end;
+    justify-content: end;
+    position: fixed;
+    right: 3%; 
+    top: 20%;
+    transition: right 0.3s ease; 
+    transform: translateY(-50%);
+}
