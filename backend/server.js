@@ -5,6 +5,10 @@ const path = require("path");
 const dbManager = require("./server/events-DB-Server");
 const loginRouter = require("./server/routes/loginAPI");
 const { port } = require("./constants");
+const auth = require("./server/routes/authRoutes")
+const event = require("./server/routes/eventRoutes")
+const user = require("./server/routes/userRoutes")
+
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -20,6 +24,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use("/", loginRouter);
 app.use("/events", api);
+app.use("/auth",auth);
+app.use("/event", event);
+app.use("/user",user);
+
 
 dbManager.connectToDB();
 
