@@ -7,47 +7,86 @@ import * as Yup from "yup";
 
 import { Field, Form, Formik } from "formik";
 
+const CARD_MAX_WIDTH = 500;
+const CARD_MAX_HEIGHT = 300;
+
+const CARD_MIN_WIDTH = 50;
+const CARD_MIN_HEIGHT = 50;
+
 const drawerWidth = 240;
 
 const SettingsType = {
   input: "input",
   select: "select",
+  textarea: "textarea",
 };
 
 const imageSettings = [
-  { name: "width", type: SettingsType.input, required: true },
-  { name: "height", type: SettingsType.input, required: true },
-  { name: "radios", type: SettingsType.input, required: false },
-  { name: "top", type: SettingsType.input, required: true },
-  { name: "left", type: SettingsType.input, required: true },
+  { name: "width", type: SettingsType.input },
+  { name: "height", type: SettingsType.input },
+  { name: "radios", type: SettingsType.input },
+  { name: "top", type: SettingsType.input },
+  { name: "left", type: SettingsType.input },
+  {
+    name: "style",
+    type: SettingsType.textarea,
+  },
 ];
 const textSettings = [
-  { name: "fontSize", type: SettingsType.input, required: true },
+  { name: "fontSize", type: SettingsType.input },
 
   {
     name: "weight",
     options: [100, 200, 300, 400, 500, 600, 700, 800, 900, "bold"],
     type: SettingsType.select,
-    required: false,
   },
   {
     name: "fontFamily",
     options: ["", "Roboto"],
     type: SettingsType.select,
-    required: false,
   },
   {
     name: "decoration",
     options: ["", "underline"],
     type: SettingsType.select,
-    required: false,
+  },
+  {
+    name: "style",
+    type: SettingsType.textarea,
   },
 ];
 
 const imageSchema = () =>
   Yup.object({
-    width: Yup.string().required(`width is required`),
-    height: Yup.string().required(`height is required`),
+    width: Yup.string()
+      .test(
+        "height",
+        `height must be less than ${CARD_MIN_WIDTH}px and more than ${CARD_MAX_WIDTH}px`,
+        (val) => {
+          const number = +val;
+          if (isNaN(number)) {
+            return false;
+          } else {
+            return number >= CARD_MIN_WIDTH && number <= CARD_MAX_WIDTH;
+          }
+        }
+      )
+      .required(`width is required`),
+    height: Yup.string()
+      .test(
+        "height",
+        `height must be less than ${CARD_MAX_HEIGHT}px and more than ${CARD_MIN_HEIGHT}px`,
+        (val) => {
+          const number = +val;
+          if (isNaN(number)) {
+            return false;
+          } else {
+            return number >= CARD_MIN_HEIGHT && number <= CARD_MAX_HEIGHT;
+          }
+        }
+      )
+
+      .required(`height is required`),
     radios: Yup.string().nullable(),
     top: Yup.string().required(`top is required`),
     left: Yup.string().required(`left is required`),
@@ -59,46 +98,72 @@ const textSchema = () =>
     weight: Yup.string().nullable(),
     fontFamily: Yup.string().nullable(),
     decoration: Yup.string().nullable(),
+    style: Yup.string().nullable(),
   });
 
-const Input = ({ item, props }) => {
-  if (item.type === SettingsType.input) {
-    return (
-      <Field
-        name={item.name}
-        type={"text"}
-        label={item.name}
-        as={TextField}
-        error={!!props.errors[item.name]}
-        helperText={props.errors[item.name] ?? ""}
-        sx={{ minWidth: 100 }}
-      />
-    );
-  }
+const Input = ({ item, props, onChange, cardItem }) => {
+  return (
+    <>
+      {item.type === SettingsType.input && (
+        <Field
+          name={item.name}
+          type={"text"}
+          label={item.name}
+          as={TextField}
+          error={!!props.errors[item.name]}
+          helperText={props.errors[item.name] ?? ""}
+          sx={{ minWidth: 100 }}
+          onChange={(e) => {
+            props.setFieldValue(item.name, e.target.value);
+            onChange(cardItem, item.name, e.target.value);
+          }}
+        />
+      )}
 
-  if (item.type === SettingsType.select) {
-    return (
-      <Field
-        select
-        name={item.name}
-        type={"text"}
-        label={item.name}
-        as={TextField}
-        error={!!props.errors[item.name]}
-        helperText={props.errors[item.name] ?? ""}
-        sx={{ minWidth: 100 }}
-      >
-        {item.options.map((value) => (
-          <MenuItem key={value} value={String(value)}>
-            {value}
-          </MenuItem>
-        ))}
-      </Field>
-    );
-  }
+      {item.type === SettingsType.textarea && (
+        <Field
+          name={item.name}
+          label={item.name}
+          as={TextField}
+          multiline
+          minRows={2}
+          variant="outlined"
+          error={!!props.errors[item.name]}
+          helperText={props.errors[item.name] ?? ""}
+          onChange={(e) => {
+            props.setFieldValue(item.name, e.target.value);
+            onChange(cardItem, item.name, e.target.value);
+          }}
+        />
+      )}
+
+      {item.type === SettingsType.select && (
+        <Field
+          select
+          name={item.name}
+          type={"text"}
+          label={item.name}
+          as={TextField}
+          error={!!props.errors[item.name]}
+          helperText={props.errors[item.name] ?? ""}
+          sx={{ minWidth: 100 }}
+          onChange={(e) => {
+            props.setFieldValue(item.name, e.target.value);
+            onChange(cardItem, item.name, e.target.value);
+          }}
+        >
+          {item.options.map((value) => (
+            <MenuItem key={value} value={String(value)}>
+              {value}
+            </MenuItem>
+          ))}
+        </Field>
+      )}
+    </>
+  );
 };
 
-const TextSettingsForm = ({ cardItem }) => {
+const TextSettingsForm = ({ cardItem, onChange }) => {
   const textSettingsInitValue = (cardItem) => {
     const initValues = textSettings.reduce((initValues, current) => {
       initValues[current.name] = cardItem[current.name]
@@ -128,16 +193,14 @@ const TextSettingsForm = ({ cardItem }) => {
               pt={2}
             >
               {textSettings.map((item) => (
-                <Input key={item.name} item={item} props={props} />
+                <Input
+                  key={item.name}
+                  item={item}
+                  cardItem={cardItem}
+                  props={props}
+                  onChange={onChange}
+                />
               ))}
-
-              {/* <LoadingButton
-                type="submit"
-                variant="contained"
-                color="secondary"
-              >
-                submit
-              </LoadingButton> */}
             </Stack>
           </Form>
         );
@@ -146,7 +209,7 @@ const TextSettingsForm = ({ cardItem }) => {
   );
 };
 
-const ImageSettingsForm = ({ cardItem }) => {
+const ImageSettingsForm = ({ cardItem, onChange }) => {
   const ImageSettingsInitValue = () => {
     const initValues = imageSettings.reduce((initValues, current) => {
       initValues[current.name] = cardItem[current.name]
@@ -176,7 +239,13 @@ const ImageSettingsForm = ({ cardItem }) => {
             pt={2}
           >
             {imageSettings.map((item) => (
-              <Input key={item.name} item={item} props={props} />
+              <Input
+                key={item.name}
+                item={item}
+                cardItem={cardItem}
+                props={props}
+                onChange={onChange}
+              />
             ))}
           </Stack>
         </Form>
@@ -185,7 +254,7 @@ const ImageSettingsForm = ({ cardItem }) => {
   );
 };
 
-export const CardItemSittings = ({ cardItem }) => {
+export const CardItemSittings = ({ cardItem, onChange }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -198,11 +267,11 @@ export const CardItemSittings = ({ cardItem }) => {
       pt={5}
     >
       {!!cardItem && cardItem.type === "text" && (
-        <TextSettingsForm cardItem={cardItem} />
+        <TextSettingsForm cardItem={cardItem} onChange={onChange} />
       )}
 
       {!!cardItem && cardItem.type === "image" && (
-        <ImageSettingsForm cardItem={cardItem} />
+        <ImageSettingsForm cardItem={cardItem} onChange={onChange} />
       )}
     </Stack>
   );

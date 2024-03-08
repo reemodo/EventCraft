@@ -9,6 +9,9 @@ import { CardItemSittings } from "../CardItemSittings/CardItemSittings";
 
 export const ItemTypes = {
   BOX: "box",
+  SHAPE: "shape",
+  TEXT: "text",
+  IMAGE: "image",
 };
 
 export const CardEdit = () => {
@@ -82,6 +85,24 @@ export const CardEdit = () => {
     setItems((prev) => prev.filter((item) => item.uuid !== itemData.uuid));
   };
 
+  const handleItemSittingsChanged = (item, inputName, value) => {
+    const numValue = +value;
+    if (!isNaN(numValue)) {
+      value = numValue;
+    }
+    selectedCardItemRef.current[inputName] = value;
+
+    const updatedItems = items.map((itm) =>
+      itm.uuid === item.uuid
+        ? {
+            ...itm,
+            [inputName]: value,
+          }
+        : itm
+    );
+    setItems(updatedItems);
+  };
+
   const [, drop] = useDrop({
     accept: ItemTypes.BOX,
     drop: (item, monitor) => {
@@ -121,8 +142,12 @@ export const CardEdit = () => {
     <Stack sx={{ flexDirection: { sm: "column", md: "row" } }}>
       <Stack sx={{ flexDirection: { sm: "column", md: "row" }, gap: 2 }}>
         <CardEditSidBar />
-        <CardItemSittings cardItem={selectedCardItem} />
+        <CardItemSittings
+          cardItem={selectedCardItem}
+          onChange={handleItemSittingsChanged}
+        />
       </Stack>
+
       <Stack
         width={"100%"}
         justifyContent={"center"}
