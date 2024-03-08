@@ -13,6 +13,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { useTheme } from "@emotion/react";
 import { CardListItem } from "../CardListItem/CardListItem";
+import { ItemTypes } from "../CardEdit/CardEdit";
 
 const drawerWidth = 240;
 
@@ -48,13 +49,14 @@ export const CardEditSidBar = ({ children }) => {
                 <CardListItem
                   item={{
                     id: "1",
-                    type: "text",
+                    type: ItemTypes.TEXT,
                     left: 0,
                     top: 0,
                     position: "",
                     text: "text",
                     fontSize: 22,
                     decoration: "underline",
+                    style: "",
                   }}
                 />
               </MenuItem>
@@ -79,27 +81,14 @@ export const CardEditSidBar = ({ children }) => {
                 <CardListItem
                   item={{
                     id: "2",
-                    type: "image",
+                    type: ItemTypes.IMAGE,
                     left: 0,
                     top: 0,
-                    src: "https://images.pexels.com/photos/19400187/pexels-photo-19400187/free-photo-of-a-car-in-a-desert.jpeg",
+                    src: "",
                     position: "",
                     width: 150,
                     height: 150,
-                  }}
-                />
-              </MenuItem>
-              <MenuItem divider>
-                <CardListItem
-                  item={{
-                    id: "2",
-                    type: "image",
-                    left: 0,
-                    top: 0,
-                    src: "https://images.pexels.com/photos/19400187/pexels-photo-19400187/free-photo-of-a-car-in-a-desert.jpeg",
-                    position: "",
-                    width: 150,
-                    height: 150,
+                    style: "",
                   }}
                 />
               </MenuItem>
@@ -121,7 +110,21 @@ export const CardEditSidBar = ({ children }) => {
               width={{ md: "100%" }}
               overflow={"scroll"}
             >
-              <MenuItem divider></MenuItem>
+              <MenuItem divider>
+                <CardListItem
+                  item={{
+                    id: "3",
+                    type: ItemTypes.SHAPE,
+                    left: 0,
+                    top: 0,
+                    className: "star",
+                    position: "",
+                    width: 150,
+                    height: 150,
+                    style: "",
+                  }}
+                />
+              </MenuItem>
             </Stack>
           </AccordionDetails>
         </Accordion>

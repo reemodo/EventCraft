@@ -4,6 +4,8 @@ import { Box } from "@mui/material";
 
 import { ResizableBox } from "react-resizable";
 
+import { parseCssStyles } from "../../../../shared/utils";
+
 export const CardItemWrapper = ({
   onChange,
   children,
@@ -24,14 +26,14 @@ export const CardItemWrapper = ({
         width: `${width}px`,
         height: `${height}px`,
 
-        border: "1px solid #000",
+        // border: "1px solid #000",
         cursor: "move",
       }}
       onClick={(e) => onClick(e, item)}
     >
       <ResizableBox
-        width={width}
-        height={height}
+        width={+width}
+        height={+height}
         onResize={onResize}
         // draggableOpts={{ grid: [25, 25] }}
 
@@ -54,7 +56,11 @@ export const CardItemWrapper = ({
             <></>
           )
         }
-        style={{ border: showLayout ? "1px solid " : "none" }}
+        style={{
+          border: showLayout ? "1px solid " : "none",
+          ...parseCssStyles(item.style),
+          overflow: "hidden",
+        }}
       >
         {children}
       </ResizableBox>

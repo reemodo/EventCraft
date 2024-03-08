@@ -20,35 +20,56 @@ export const CardListItem = ({ item }) => {
   const Item = () => {
     const contentEditableRef = useRef(null);
 
-    if (item.type === "text") {
-      return (
-        <Box
-          component={ContentEditable}
-          innerRef={contentEditableRef}
-          html={item.text}
-          disabled={true}
-          minWidth={50}
-          minHeight={20}
-          sx={{
-            fontSize: item.fontSize,
-            textDecoration: item.decoration ?? "",
-          }}
-        />
-      );
-    } else if (item.type === "image") {
-      return (
-        <Box
-          component={"img"}
-          sx={{
-            width: item.width,
-            height: item.height,
-            overflow: "hidden",
-          }}
-          src={item.src}
-          alt="card image"
-        />
-      );
-    }
+    return (
+      <>
+        {item.type === ItemTypes.TEXT && (
+          <Box
+            component={ContentEditable}
+            innerRef={contentEditableRef}
+            html={item.text}
+            disabled={true}
+            minWidth={50}
+            minHeight={20}
+            sx={{
+              fontSize: item.fontSize,
+              textDecoration: item.decoration ?? "",
+            }}
+          />
+        )}
+
+        {item.type === ItemTypes.IMAGE && (
+          <Box
+            component={"img"}
+            sx={{
+              width: item.width,
+              height: item.height,
+              overflow: "hidden",
+            }}
+            src={item.src}
+            alt="card image"
+          />
+        )}
+
+        {item.type === ItemTypes.SHAPE && (
+          <Box
+            as={"svg"}
+            sx={{
+              width: item.width,
+              height: item.height,
+              overflow: "hidden",
+            }}
+            alt="card image"
+          >
+            <circle
+              cx={`${item.width}`}
+              cy={`${item.height}`}
+              r="50"
+              fill={item.color || "gray"}
+            />
+          </Box>
+        )}
+      </>
+    );
   };
 
   return collected.isDragging ? (
