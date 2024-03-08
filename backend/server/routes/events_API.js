@@ -48,6 +48,15 @@ router.post("/", async (req, res) => {
     res.status(500).json({ error: "Failed to create event" });
   }
 });
+//TODO:  when get events It should be filtered according not user event 
+router.get("/", async (req, res) => {
+  try {
+    const eventsList = await eventManager.getEvents();
+    res.send(eventsList);
+  } catch (error) {
+    res.status(400).json({ error: "Failed to get event" });
+  }
+});
 
 router.get("/myEvents/:userId", async function (req, res) {
   try {
