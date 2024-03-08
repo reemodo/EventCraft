@@ -1,18 +1,36 @@
 import React from "react";
-import { Card, CardActionArea, CardMedia, CardActions, CardContent, Typography, Button } from '@mui/material';
-import {useTheme} from "@mui/material";
-import { rdxSitesActions } from '../../rdx/events.rdx';
-export const EventCard = ({event , inHomePage}) => {
-  const theme  = useTheme();
-  // TODO change the window location to the view page
-  const handelEventClick = function (id){
-    rdxSitesActions.setSelectedEvent(id);
-    window.location.href =("/workSpace");
-  }
+import {
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardActions,
+  CardContent,
+  Typography,
+  Button,
+} from "@mui/material";
+import { useTheme } from "@mui/material";
+import { rdxSitesActions } from "../../rdx/events.rdx";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+export const EventCard = ({ event, inHomePage, editModel }) => {
+  const theme = useTheme();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handelEventClick = (event) => {
+    if (inHomePage) {
+      dispatch(rdxSitesActions.setSelectedEvent(event));
+      navigate(`/eventPage`);
+    } else {
+      editModel();
+    }
+  };
+
   return (
-  <>
-   <Card sx={{ width: 350 }} onClick={() => handelEventClick(event._id)}  >
-        <CardActionArea >
+    <>
+      <Card sx={{ width: 350 }} onClick={() => handelEventClick(event)}>
+        <CardActionArea>
           <CardMedia
             component="img"
             height="140"
@@ -20,7 +38,7 @@ export const EventCard = ({event , inHomePage}) => {
             alt="green iguana"
           />
           <CardContent>
-            <Typography gutterBottom variant="h6" component="div" >
+            <Typography gutterBottom variant="h6" component="div">
               {event.title.charAt(0).toUpperCase() + event.title.substring(1)}
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -34,11 +52,12 @@ export const EventCard = ({event , inHomePage}) => {
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions className="cardActions" >
-          <Button disableSpacing size="small" color="secondary" >
-             {inHomePage? "join" : "delete"} 
+        <CardActions className="cardActions">
+          <Button disableSpacing size="small" color="secondary">
+            {inHomePage ? "join" : "delete"}
           </Button>
         </CardActions>
       </Card>
-  </>);
+    </>
+  );
 };

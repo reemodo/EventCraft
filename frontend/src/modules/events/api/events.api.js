@@ -6,7 +6,16 @@ export const eventApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: apiUrl }),
   endpoints: (builder) => ({
     getEvents: builder.query({
-      query: () => `events/`,
+      query: () => ({
+        url: `events`,
+        method: "GET"
+      }),
+    }),
+    getMyEvents: builder.query({
+      query: (id) => ({
+        url: `events/myEvents/${id}`,
+        method: "GET"
+      }),
     }),
 
     addEvent: builder.mutation({
@@ -19,7 +28,7 @@ export const eventApi = createApi({
 
     deleteEvent: builder.mutation({
       query: ({ id }) => ({
-        url: `events/${id}`,
+        url: `events/myEvents/${id}`,
         method: "DELETE",
       }),
     }),
@@ -38,4 +47,7 @@ export const {
   useGetEventsQuery,
   useAddEventMutation,
   useDeleteEventMutation,
+  useLazyGetEventsQuery,
+  useGetMyEventsQuery,
+  useUpdateEventMutation
 } = eventApi;

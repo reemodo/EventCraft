@@ -10,6 +10,8 @@ import { Formik, Form, Field } from "formik";
 
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
+import { useAddEventMutation, useUpdateEventMutation } from "../../api/events.api";
+
 
 const validationSchema = Yup.object({
   category: Yup.string().required("category is required"),
@@ -20,9 +22,28 @@ const validationSchema = Yup.object({
   endDate: Yup.string().required("end date is required"),
 });
 
-export const EventForm = ({ onClose, isModal, isAddFlow }) => {
+export const EventForm = ({ onClose, isModal, isAddFlow,  onSuccess}) => {
   const eventRdx = useSelector((state) => state.events);
+  const [ addEvent , {error: errorOnAddingEvent}] = useAddEventMutation()
+  const [ updateEvent , {isLoading , error: errorOnUpdatingEvent}] = useUpdateEventMutation()
+  const handelEvent  = async(formValues) =>{
+    try{
+      if(!eventRdx.selectedEvent ||  eventRdx.selectedEvent == {}){
+        const eventData = await addEvent(formValues)
+        if(eventData)
+          onSuccess(eventData);
+      }
+      else{
+        const eventUpdatedData= await updateEvent(formValues)
+        if(eventUpdatedData)
+          onSuccess(eventUpdatedData);
+      }
+    }
+    catch(error){
+      
+    }
 
+  }
   const initFormValues = useMemo(
     () => ({
       category: eventRdx?.selectedEvent?.category || "",
@@ -51,7 +72,7 @@ export const EventForm = ({ onClose, isModal, isAddFlow }) => {
       initialValues={initFormValues}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        console.log(values);
+        handelEvent(values)
       }}
     >
       {(props) => (

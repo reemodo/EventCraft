@@ -2,10 +2,11 @@ import React from 'react'
 import dummyData from '../../../../event'
 import { EventCard } from './EventCard'
 import {Grid, Typography } from '@mui/material';
-
-export function Events({inHomePage}) {
-
-    const groupedEvents = dummyData.reduce((event, obj) => {
+import { useGetEventsQuery } from "../../api/events.api";
+import { useSelector } from "react-redux";
+export function Events({inHomePage ,events,  editModel}) {
+    
+    const groupedEvents = events.reduce((event, obj) => {
         const { category, ...rest } = obj;
         if (!event[category]) {
             event[category] = [rest]; // Create a new array for the category
@@ -14,7 +15,7 @@ export function Events({inHomePage}) {
         }
         return event;
       }, {});
-      
+  
     return (
         <>
         <div className='categoryContainer'>
@@ -33,9 +34,9 @@ export function Events({inHomePage}) {
             </div>
           )):
           <Grid container spacing={2}>
-         { dummyData.map((event, index) => (
+         { events.map((event, index) => (
             <Grid item key={index} xs={12} sm={6} md={5}>
-              <EventCard event={event} inHomePage={false} />
+              <EventCard event={event} inHomePage={false}  editModel={ editModel}/>
             </Grid>
           ))}
           </Grid>}
