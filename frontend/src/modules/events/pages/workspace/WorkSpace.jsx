@@ -5,8 +5,9 @@ import { useTheme } from "@mui/material";
 import { Icon } from '@mui/material';
 import { useState } from 'react';
 import { EventFormModal } from "../../components/EventFormModal/EventFormModal"
+import { useGetMyEventsQuery } from './../../api/events.api';
+import { useEffect } from 'react';
 export function WorkSpace(props) {
-  const theme  = useTheme();
   const [OpenCreateModel, setOpenCreateModel] = useState(false);
   const onOpenCreateModel = () => {
     setOpenCreateModel(true);
@@ -14,7 +15,29 @@ export function WorkSpace(props) {
   const onCloseCreateModel = () => {
     setOpenCreateModel(false);
   };
-//TODO : 
+  const onAddNewEvent =() =>{
+    setOpenCreateModel(false);
+    alert("we add a new event")
+  }
+  const [eventsList, setEventsList] = useState([])
+ //TODO: UserId should be in state
+  const userId = 1
+  const { data, error, isLoading } = useGetMyEventsQuery(userId);
+  useEffect(()=>{
+    if(data)
+      setEventsList(data)
+  },[data])
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (!data || data.length === 0) {
+    return <div>No events found.</div>;
+  }
   return (
     <>
     <div className='homeContainer'>
@@ -35,8 +58,8 @@ export function WorkSpace(props) {
           fontSize: "2.3rem"
         }}>+</Icon>
       </div>
-      <Events inHomePage={false}/>
-      <EventFormModal isOpen={OpenCreateModel} onClose={onCloseCreateModel} />
+        <Events inHomePage={false} events={eventsList} editModel={onOpenCreateModel}/>
+      <EventFormModal isOpen={OpenCreateModel} onClose={onCloseCreateModel} onSubmit={onAddNewEvent} />
     </div>
     </>
   )

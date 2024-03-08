@@ -36,7 +36,6 @@ export const RegisterForm = ({ onClose, isModal, onRegister, loading }) => {
       validationSchema={validationSchema}
       onSubmit={(values) => {
         console.log(values);
-
         onRegister(values);
       }}
     >

@@ -3,11 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 export const eventSlice = createSlice({
   name: "eventRex",
   initialState: {
-    selectedEvent: { },
+    selectedEvent: {},
   },
   reducers: {
     setSelectedEvent(state, action) {
-      state.selectedEvent = action.payload;
+      console.log(action.payload)
+      state.selectedEvent = {...action.payload};
+      console.log(state.selectedEvent)
     },
   },
 });

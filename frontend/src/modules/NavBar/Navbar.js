@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import AdbIcon from "@mui/icons-material/Adb";
-
 import { AuthModal } from "../auth/components/AuthModal/AuthModal";
 
 const Navbar = () => {

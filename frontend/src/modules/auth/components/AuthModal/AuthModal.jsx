@@ -7,7 +7,7 @@ import { useLoginMutation, useRegisterMutation } from "../../api/auth.api";
 
 import { LoginForm } from "../LoginForm/LoginForm";
 import { RegisterForm } from "../RegisterForm/RegisterForm";
-
+import { useAddEventMutation } from "../../../events/api/events.api";
 export const AuthModal = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = React.useState("login");
 
@@ -25,7 +25,6 @@ export const AuthModal = ({ isOpen, onClose }) => {
   const onRegister = (data) => {
     const userData = register(data);
   };
-
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <DialogContent>
