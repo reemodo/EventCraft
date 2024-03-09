@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { ItemTypes } from "../CardEdit/CardEdit";
 import { CardItemWrapper } from "../CardItemWrapper/CardItemWrapper";
 import { Image } from "../Image/Image";
@@ -21,12 +22,14 @@ export const Item = ({
   return (
     <>
       {item.type === ItemTypes.TEXT && (
-        <Text
-          item={item}
-          selectedCardItem={selectedCardItem}
-          text={text}
-          onTextChange={onTextChange}
-        />
+        <Box onClick={onClick}>
+          <Text
+            item={item}
+            selectedCardItem={selectedCardItem}
+            text={text}
+            onTextChange={onTextChange}
+          />
+        </Box>
       )}
 
       {item.type === ItemTypes.IMAGE && (

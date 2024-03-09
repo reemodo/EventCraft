@@ -17,9 +17,21 @@ import { ItemTypes } from "../CardEdit/CardEdit";
 
 const drawerWidth = 240;
 
+const AccordionNames = {
+  Text: "text",
+  Image: "image",
+  Shape: "shape",
+};
+
 export const CardEditSidBar = ({ children }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   const drawer = (
     <div>
@@ -30,7 +42,11 @@ export const CardEditSidBar = ({ children }) => {
         alignItems={"center"}
         pt={2}
       >
-        <Accordion sx={{ width: { sx: "30%", sm: "30%", md: "100%" } }}>
+        <Accordion
+          sx={{ width: { sx: "30%", sm: "30%", md: "100%" } }}
+          expanded={expanded === AccordionNames.Text}
+          onChange={handleChange(AccordionNames.Text)}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1-content"
@@ -64,7 +80,11 @@ export const CardEditSidBar = ({ children }) => {
             </Stack>
           </AccordionDetails>
         </Accordion>
-        <Accordion sx={{ width: { sx: "30%", sm: "30%", md: "100%" } }}>
+        <Accordion
+          sx={{ width: { sx: "30%", sm: "30%", md: "100%" } }}
+          expanded={expanded === AccordionNames.Image}
+          onChange={handleChange(AccordionNames.Image)}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2-content"
@@ -96,7 +116,11 @@ export const CardEditSidBar = ({ children }) => {
             </Stack>
           </AccordionDetails>
         </Accordion>
-        <Accordion sx={{ width: { sx: "30%", sm: "30%", md: "100%" } }}>
+        <Accordion
+          sx={{ width: { sx: "30%", sm: "30%", md: "100%" } }}
+          expanded={expanded === AccordionNames.Shape}
+          onChange={handleChange(AccordionNames.Shape)}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2-content"
