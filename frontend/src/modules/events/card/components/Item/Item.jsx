@@ -14,6 +14,10 @@ export const Item = ({
   size,
   onDeleteItem,
 }) => {
+  const selectedItemSize =
+    selectedCardItem && selectedCardItem.uuid === item.uuid
+      ? size
+      : { width: item.width, height: item.height };
   return (
     <>
       {item.type === ItemTypes.TEXT && (
@@ -27,7 +31,7 @@ export const Item = ({
 
       {item.type === ItemTypes.IMAGE && (
         <CardItemWrapper
-          item={{ ...item, ...size }}
+          item={{ ...item, ...selectedItemSize }}
           onChange={onResize}
           selectedItem={selectedCardItem}
           onClick={onClick}
@@ -39,7 +43,7 @@ export const Item = ({
 
       {item.type === ItemTypes.SHAPE && (
         <CardItemWrapper
-          item={{ ...item, ...size }}
+          item={{ ...item, ...selectedItemSize }}
           onChange={onResize}
           selectedItem={selectedCardItem}
           onClick={onClick}

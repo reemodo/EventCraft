@@ -6,6 +6,7 @@ import { useTheme } from "@emotion/react";
 import * as Yup from "yup";
 
 import { Field, Form, Formik } from "formik";
+import { ItemTypes } from "../CardEdit/CardEdit";
 
 const CARD_MAX_WIDTH = 500;
 const CARD_MAX_HEIGHT = 300;
@@ -27,14 +28,40 @@ const imageSettings = [
   { name: "radios", type: SettingsType.input },
   { name: "top", type: SettingsType.input },
   { name: "left", type: SettingsType.input },
+  { name: "zIndex", type: SettingsType.input },
+  {
+    name: "style",
+    type: SettingsType.textarea,
+  },
+];
+
+const cardSettings = [
+  { name: "backgroundColor", type: SettingsType.input },
+  {
+    name: "style",
+    type: SettingsType.textarea,
+  },
+];
+
+const shapeSettings = [
+  { name: "width", type: SettingsType.input },
+  { name: "height", type: SettingsType.input },
+
+  { name: "top", type: SettingsType.input },
+  { name: "left", type: SettingsType.input },
+  { name: "color", type: SettingsType.input },
+
+  { name: "zIndex", type: SettingsType.input },
   {
     name: "style",
     type: SettingsType.textarea,
   },
 ];
 const textSettings = [
+  { name: "top", type: SettingsType.input },
+  { name: "left", type: SettingsType.input },
   { name: "fontSize", type: SettingsType.input },
-
+  { name: "color", type: SettingsType.input },
   {
     name: "weight",
     options: [100, 200, 300, 400, 500, 600, 700, 800, 900, "bold"],
@@ -50,54 +77,81 @@ const textSettings = [
     options: ["", "underline"],
     type: SettingsType.select,
   },
+  { name: "zIndex", type: SettingsType.input },
   {
     name: "style",
     type: SettingsType.textarea,
   },
 ];
 
+const heightValidation = () =>
+  Yup.string()
+    .test(
+      "height",
+      `height must be less than ${CARD_MAX_HEIGHT}px and more than ${CARD_MIN_HEIGHT}px`,
+      (val) => {
+        const number = +val;
+        if (isNaN(number)) {
+          return false;
+        } else {
+          return number >= CARD_MIN_HEIGHT && number <= CARD_MAX_HEIGHT;
+        }
+      }
+    )
+
+    .required(`height is required`);
+
+const widthValidation = () =>
+  Yup.string()
+    .test(
+      "height",
+      `height must be less than ${CARD_MIN_WIDTH}px and more than ${CARD_MAX_WIDTH}px`,
+      (val) => {
+        const number = +val;
+        if (isNaN(number)) {
+          return false;
+        } else {
+          return number >= CARD_MIN_WIDTH && number <= CARD_MAX_WIDTH;
+        }
+      }
+    )
+    .required(`width is required`);
+
+const cardSchema = () =>
+  Yup.object({
+    backgroundColor: Yup.string().nullable(),
+  });
+
 const imageSchema = () =>
   Yup.object({
-    width: Yup.string()
-      .test(
-        "height",
-        `height must be less than ${CARD_MIN_WIDTH}px and more than ${CARD_MAX_WIDTH}px`,
-        (val) => {
-          const number = +val;
-          if (isNaN(number)) {
-            return false;
-          } else {
-            return number >= CARD_MIN_WIDTH && number <= CARD_MAX_WIDTH;
-          }
-        }
-      )
-      .required(`width is required`),
-    height: Yup.string()
-      .test(
-        "height",
-        `height must be less than ${CARD_MAX_HEIGHT}px and more than ${CARD_MIN_HEIGHT}px`,
-        (val) => {
-          const number = +val;
-          if (isNaN(number)) {
-            return false;
-          } else {
-            return number >= CARD_MIN_HEIGHT && number <= CARD_MAX_HEIGHT;
-          }
-        }
-      )
-
-      .required(`height is required`),
+    width: widthValidation(),
+    height: heightValidation(),
     radios: Yup.string().nullable(),
     top: Yup.string().required(`top is required`),
     left: Yup.string().required(`left is required`),
+    zIndex: Yup.string().nullable(),
+    style: Yup.string().nullable(),
   });
 
 const textSchema = () =>
   Yup.object({
+    width: widthValidation(),
+    height: heightValidation(),
     fontSize: Yup.string().required(`fontSize is required`),
     weight: Yup.string().nullable(),
     fontFamily: Yup.string().nullable(),
     decoration: Yup.string().nullable(),
+    zIndex: Yup.string().nullable(),
+    style: Yup.string().nullable(),
+  });
+
+const shapeSchema = () =>
+  Yup.object({
+    width: widthValidation(),
+    height: heightValidation(),
+    top: Yup.string().required(`top is required`),
+    left: Yup.string().required(`left is required`),
+    zIndex: Yup.string().nullable(),
     style: Yup.string().nullable(),
   });
 
@@ -163,6 +217,51 @@ const Input = ({ item, props, onChange, cardItem }) => {
   );
 };
 
+const CardSettingsForm = ({ card, onChange }) => {
+  const textSettingsInitValue = (card) => {
+    const initValues = cardSettings.reduce((initValues, current) => {
+      initValues[current.name] =
+        card && card[current.name] ? card[current.name] : "";
+      return initValues;
+    }, {});
+    return initValues;
+  };
+
+  return (
+    <Formik
+      validationSchema={cardSchema()}
+      onSubmit={(values) => {
+        console.log("🚀 ~ TextSettingsForm ~ values:", values);
+      }}
+      initialValues={textSettingsInitValue(card)}
+    >
+      {(props) => {
+        return (
+          <Form>
+            <Stack
+              gap={5}
+              direction={{ xs: "row", sm: "row", md: "column" }}
+              height={{ sm: "", md: "calc(100vh - 120px)" }}
+              width={{ xs: "100vw", sm: "100vm", md: "100%" }}
+              overflow={"scroll"}
+              pt={2}
+            >
+              {cardSettings.map((item) => (
+                <Input
+                  key={item.name}
+                  item={item}
+                  cardItem={card}
+                  props={props}
+                  onChange={onChange}
+                />
+              ))}
+            </Stack>
+          </Form>
+        );
+      }}
+    </Formik>
+  );
+};
 const TextSettingsForm = ({ cardItem, onChange }) => {
   const textSettingsInitValue = (cardItem) => {
     const initValues = textSettings.reduce((initValues, current) => {
@@ -253,8 +352,52 @@ const ImageSettingsForm = ({ cardItem, onChange }) => {
     </Formik>
   );
 };
+const ShapeSettingsForm = ({ cardItem, onChange }) => {
+  const shapeSettingsInitValue = () => {
+    const initValues = shapeSettings.reduce((initValues, current) => {
+      initValues[current.name] = cardItem[current.name]
+        ? cardItem[current.name]
+        : "";
+      return initValues;
+    }, {});
+    return initValues;
+  };
+  return (
+    <Formik
+      validationSchema={shapeSchema}
+      onSubmit={(values) => {
+        console.log("🚀 ~ TextSettingsForm ~ values:", values);
+      }}
+      initialValues={shapeSettingsInitValue()}
+    >
+      {(props) => (
+        <Form>
+          <Stack
+            gap={5}
+            direction={{ xs: "row", sm: "row", md: "column" }}
+            height={{ sm: "", md: "calc(100vh - 120px)" }}
+            width={{ xs: "100vw", sm: "100vm", md: "100%" }}
+            overflow={"scroll"}
+            sx={{}}
+            pt={2}
+          >
+            {shapeSettings.map((item) => (
+              <Input
+                key={item.name}
+                item={item}
+                cardItem={cardItem}
+                props={props}
+                onChange={onChange}
+              />
+            ))}
+          </Stack>
+        </Form>
+      )}
+    </Formik>
+  );
+};
 
-export const CardItemSittings = ({ cardItem, onChange }) => {
+export const CardItemSittings = ({ cardItem, onChange, card }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -266,13 +409,19 @@ export const CardItemSittings = ({ cardItem, onChange }) => {
       alignItems={"center"}
       pt={5}
     >
-      {!!cardItem && cardItem.type === "text" && (
+      {!!cardItem && cardItem.type === ItemTypes.TEXT && (
         <TextSettingsForm cardItem={cardItem} onChange={onChange} />
       )}
 
-      {!!cardItem && cardItem.type === "image" && (
+      {!!cardItem && cardItem.type === ItemTypes.IMAGE && (
         <ImageSettingsForm cardItem={cardItem} onChange={onChange} />
       )}
+
+      {!!cardItem && cardItem.type === ItemTypes.SHAPE && (
+        <ShapeSettingsForm cardItem={cardItem} onChange={onChange} />
+      )}
+
+      {!cardItem && <CardSettingsForm card={card} onChange={onChange} />}
     </Stack>
   );
 

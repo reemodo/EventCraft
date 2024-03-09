@@ -5,6 +5,10 @@ import { useDrop } from "react-dnd";
 import { CardItem } from "../CardItem/CardItem";
 import { Box, Stack } from "@mui/material";
 
+import { LoadingButton } from "@mui/lab/";
+
+import { parseCssStyles } from "../../../../shared/utils";
+
 import { CardLeftSection } from "../CardLeftSection/CardLeftSection";
 
 export const ItemTypes = {
@@ -12,14 +16,22 @@ export const ItemTypes = {
   SHAPE: "shape",
   TEXT: "text",
   IMAGE: "image",
+  CARD: "card",
 };
 
 export const CardEdit = () => {
   const [items, setItems] = useState([]);
 
+  const [card, setCard] = useState({
+    type: ItemTypes.CARD,
+    style: "",
+    backgroundColor: "",
+  });
+
   const [selectedCardItem, setSelectedCardItem] = useState();
 
   const selectedCardItemRef = useRef(null);
+  const cardRef = useRef(card);
 
   const boundingBox = useRef(null);
 
@@ -63,7 +75,7 @@ export const CardEdit = () => {
       setItems(updatedItems);
     }
     selectedCardItemRef.current = null;
-    setSelectedCardItem(undefined);
+    setSelectedCardItem(null);
   };
 
   const onClick = (e, item) => {
@@ -90,17 +102,22 @@ export const CardEdit = () => {
     if (!isNaN(numValue)) {
       value = numValue;
     }
-    selectedCardItemRef.current[inputName] = value;
+    if (!selectedCardItemRef.current) {
+      // cardRef.current[inputName] = value;
+      setCard((prev) => ({ ...prev, [inputName]: value }));
+    } else {
+      selectedCardItemRef.current[inputName] = value;
 
-    const updatedItems = items.map((itm) =>
-      itm.uuid === item.uuid
-        ? {
-            ...itm,
-            [inputName]: value,
-          }
-        : itm
-    );
-    setItems(updatedItems);
+      const updatedItems = items.map((itm) =>
+        itm.uuid === item.uuid
+          ? {
+              ...itm,
+              [inputName]: value,
+            }
+          : itm
+      );
+      setItems(updatedItems);
+    }
   };
 
   const [, drop] = useDrop({
@@ -138,14 +155,15 @@ export const CardEdit = () => {
     }
   }
 
+  const onSaveCard = () => {};
+
   return (
     <Stack sx={{ flexDirection: { sm: "column", md: "row" } }}>
-      <Stack sx={{ flexDirection: { sm: "column", md: "row" }, gap: 2 }}>
-        <CardLeftSection
-          selectedCardItem={selectedCardItem}
-          onItemSittingsChanged={onItemSittingsChanged}
-        />
-      </Stack>
+      <CardLeftSection
+        selectedCardItem={selectedCardItemRef.current}
+        onItemSittingsChanged={onItemSittingsChanged}
+        card={card}
+      />
 
       <Stack
         width={"100%"}
@@ -153,42 +171,63 @@ export const CardEdit = () => {
         alignItems={"center"}
         pt={10}
         onClick={onFocusOut}
+        sx={{ position: "relative" }}
       >
-        <Box
-          ref={combinedRef}
+        <LoadingButton
+          color="secondary"
           sx={{
-            position: "relative",
-            width: "500px",
-            height: "300px",
-            border: "1px solid #000",
+            position: "absolute",
+            top: 10,
+            left: 10,
+            zIndex: 1000,
           }}
-          overflow={"hidden"}
+          variant="contained"
+          onClick={onSaveCard}
         >
-          {items.map((item, idx) => (
-            <CardItem
-              key={item.uuid}
-              item={{ ...item, zIndex: item.zIndex ? item.zIndex : idx }}
-              text={
-                selectedCardItemRef.current
-                  ? selectedCardItemRef.current.text
-                  : ""
-              }
-              size={{
-                width: selectedCardItemRef.current
-                  ? selectedCardItemRef.current.width
-                  : item.width,
-                height: selectedCardItemRef.current
-                  ? selectedCardItemRef.current.height
-                  : item.height,
-              }}
-              onDrop={onDrop}
-              handleResize={onResize}
-              onTextChange={onTextChange}
-              selectedCardItem={selectedCardItem}
-              onClick={onClick}
-              onDeleteItem={onDeleteItem}
-            />
-          ))}
+          save
+        </LoadingButton>
+        <Box>
+          <Box
+            ref={combinedRef}
+            sx={{
+              position: "relative",
+              width: "500px",
+              height: "300px",
+              border: "1px solid #000",
+              background: card.backgroundColor,
+              ...parseCssStyles(card.style),
+            }}
+            overflow={"hidden"}
+          >
+            <>
+              {items.map((item, idx) => (
+                <CardItem
+                  key={item.uuid}
+                  item={{ ...item, zIndex: item.zIndex ? item.zIndex : idx }}
+                  card={card}
+                  text={
+                    selectedCardItemRef.current
+                      ? selectedCardItemRef.current.text
+                      : ""
+                  }
+                  size={{
+                    width: selectedCardItemRef.current
+                      ? selectedCardItemRef.current.width
+                      : item.width,
+                    height: selectedCardItemRef.current
+                      ? selectedCardItemRef.current.height
+                      : item.height,
+                  }}
+                  onDrop={onDrop}
+                  onResize={onResize}
+                  onTextChange={onTextChange}
+                  selectedCardItem={selectedCardItem}
+                  onClick={onClick}
+                  onDeleteItem={onDeleteItem}
+                />
+              ))}
+            </>
+          </Box>
         </Box>
       </Stack>
     </Stack>

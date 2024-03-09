@@ -57,6 +57,7 @@ export const CardEditSidBar = ({ children }) => {
                     fontSize: 22,
                     decoration: "underline",
                     style: "",
+                    color: "",
                   }}
                 />
               </MenuItem>
@@ -117,11 +118,28 @@ export const CardEditSidBar = ({ children }) => {
                     type: ItemTypes.SHAPE,
                     left: 0,
                     top: 0,
-                    className: "star",
+                    color: "gray",
                     position: "",
                     width: 150,
                     height: 150,
                     style: "",
+                    d: "m 50 0 l 0 0 l 50 100 l -100 0",
+                  }}
+                />
+              </MenuItem>
+              <MenuItem>
+                <CardListItem
+                  item={{
+                    id: "3",
+                    type: ItemTypes.SHAPE,
+                    left: 0,
+                    top: 0,
+                    color: "gray",
+                    position: "",
+                    width: 150,
+                    height: 150,
+                    style: "",
+                    d: "m 50 0 l 50 50 l -50 50 l -50 -50",
                   }}
                 />
               </MenuItem>

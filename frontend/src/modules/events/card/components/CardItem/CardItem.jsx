@@ -19,6 +19,7 @@ export const CardItem = ({
   onClick,
   onDeleteItem,
   onTextChange,
+  card,
 }) => {
   const [collected, drag, dragPreview] = useDrag({
     type: ItemTypes.BOX,
