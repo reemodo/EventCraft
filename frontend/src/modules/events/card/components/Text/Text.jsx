@@ -15,17 +15,17 @@ export const Text = ({
     <>
       {disabled && (
         <Box
-          component={ContentEditable}
-          innerRef={contentEditableRef}
-          html={item.text}
-          disabled={true}
-          minWidth={50}
-          minHeight={20}
           sx={{
             fontSize: item.fontSize,
             textDecoration: item.decoration ?? "",
+            fontWeight: item.weight,
+            fontFamily: item.fontFamily,
+            color: item.color,
+            ...parseCssStyles(item.style),
           }}
-        />
+        >
+          {item.text}
+        </Box>
       )}
       {!disabled && (
         <Box
@@ -33,15 +33,13 @@ export const Text = ({
           innerRef={contentEditableRef}
           html={text && item.uuid === selectedCardItem.uuid ? text : item.text}
           disabled={!selectedCardItem}
-          minWidth={50}
-          minHeight={20}
           onChange={(e) => onTextChange(item.id, e.target.value)}
+          style={{ ...parseCssStyles(item.style), color: item.color }}
           sx={{
             fontSize: item.fontSize,
             textDecoration: item.decoration ?? "",
             fontWeight: item.weight,
             fontFamily: item.fontFamily,
-            ...parseCssStyles(item.style),
           }}
         />
       )}

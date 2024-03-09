@@ -6,6 +6,7 @@ import { Stack } from "@mui/material";
 export const CardLeftSection = ({
   selectedCardItem,
   onItemSittingsChanged,
+  card,
 }) => {
   return (
     <Stack sx={{ flexDirection: { sm: "column", md: "row" }, gap: 2 }}>
@@ -13,6 +14,7 @@ export const CardLeftSection = ({
       <CardItemSittings
         cardItem={selectedCardItem}
         onChange={onItemSittingsChanged}
+        card={card}
       />
     </Stack>
   );

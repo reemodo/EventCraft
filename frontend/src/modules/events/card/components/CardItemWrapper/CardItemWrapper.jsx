@@ -19,7 +19,7 @@ export const CardItemWrapper = ({
     onChange(item.id, size);
   };
 
-  const showLayout = selectedItem && selectedItem.id === item.id;
+  const showLayout = selectedItem && selectedItem.uuid === item.uuid;
   return (
     <Box
       sx={{
@@ -36,7 +36,7 @@ export const CardItemWrapper = ({
         height={+height}
         onResize={onResize}
         // draggableOpts={{ grid: [25, 25] }}
-
+        axis="both"
         handle={
           showLayout && item.type !== "text" ? (
             <span
