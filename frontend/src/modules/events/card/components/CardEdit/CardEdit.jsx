@@ -31,7 +31,6 @@ export const CardEdit = () => {
   const [selectedCardItem, setSelectedCardItem] = useState();
 
   const selectedCardItemRef = useRef(null);
-  const cardRef = useRef(card);
 
   const boundingBox = useRef(null);
 
