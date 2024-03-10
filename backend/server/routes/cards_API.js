@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const DBManager = require("../events-DB-Server");
 const cardManager = require("../collections-manager/cardCollManager");
+const itemManager = require("../collections-manager/itemCollManager");
 const card = require("../../models/card");
 const Utilities = require("../../utility");
 
