@@ -49,4 +49,19 @@ const findUpdatedFields = function (backgroundColor, cssStyle, img) {
 
   return filter;
 };
-module.exports = { filterAllEventsField, authenticateToken, findUpdatedFields };
+
+const findUpdatedItemFields = function (newPosition) {
+  const updateFields = {};
+  for (const key in newPosition) {
+    if (newPosition[key] !== undefined) {
+      updateFields[`cardItems.$.${key}`] = newPosition[key];
+    }
+  }
+  return updateFields;
+};
+module.exports = {
+  filterAllEventsField,
+  authenticateToken,
+  findUpdatedFields,
+  findUpdatedItemFields,
+};
