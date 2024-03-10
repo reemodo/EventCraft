@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-import { Box, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 
 import { useDrag } from "react-dnd";
 
@@ -34,8 +34,6 @@ export const CardItem = ({
       opacity: monitor.isDragging() ? 0 : 1,
     }),
   });
-
-  const them = useTheme();
 
   const placeholderRef = useRef(null);
 

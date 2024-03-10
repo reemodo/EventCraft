@@ -1,13 +1,15 @@
 import React, { useRef, useState } from "react";
+
+import { Box, Stack } from "@mui/material";
+import { LoadingButton } from "@mui/lab/";
+
 import { v4 as uuidv4 } from "uuid";
 
 import { useDrop } from "react-dnd";
+
 import { CardItem } from "../CardItem/CardItem";
-import { Box, Stack } from "@mui/material";
 
-import { LoadingButton } from "@mui/lab/";
-
-import { parseCssStyles } from "../../../../shared/utils";
+import { exportAsImage, parseCssStyles } from "../../../../shared/utils";
 
 import { CardLeftSection } from "../CardLeftSection/CardLeftSection";
 
@@ -33,6 +35,8 @@ export const CardEdit = () => {
   const selectedCardItemRef = useRef(null);
 
   const boundingBox = useRef(null);
+
+  const exportRef = useRef(null);
 
   const onDrop = (itemData) => {
     if (itemData.position) {
@@ -154,7 +158,11 @@ export const CardEdit = () => {
     }
   }
 
-  const onSaveCard = () => {};
+  const onSaveCard = async () => {
+    if (exportRef.current) {
+      const temp = await exportAsImage(exportRef.current, "test");
+    }
+  };
 
   return (
     <Stack sx={{ flexDirection: { sm: "column", md: "row" } }}>
@@ -185,7 +193,7 @@ export const CardEdit = () => {
         >
           save
         </LoadingButton>
-        <Box>
+        <Box ref={exportRef}>
           <Box
             ref={combinedRef}
             sx={{
@@ -198,34 +206,32 @@ export const CardEdit = () => {
             }}
             overflow={"hidden"}
           >
-            <>
-              {items.map((item, idx) => (
-                <CardItem
-                  key={item.uuid}
-                  item={{ ...item, zIndex: item.zIndex ? item.zIndex : idx }}
-                  card={card}
-                  text={
-                    selectedCardItemRef.current
-                      ? selectedCardItemRef.current.text
-                      : ""
-                  }
-                  size={{
-                    width: selectedCardItemRef.current
-                      ? selectedCardItemRef.current.width
-                      : item.width,
-                    height: selectedCardItemRef.current
-                      ? selectedCardItemRef.current.height
-                      : item.height,
-                  }}
-                  onDrop={onDrop}
-                  onResize={onResize}
-                  onTextChange={onTextChange}
-                  selectedCardItem={selectedCardItem}
-                  onClick={onClick}
-                  onDeleteItem={onDeleteItem}
-                />
-              ))}
-            </>
+            {items.map((item, idx) => (
+              <CardItem
+                key={item.uuid}
+                item={{ ...item, zIndex: item.zIndex ? item.zIndex : idx }}
+                card={card}
+                text={
+                  selectedCardItemRef.current
+                    ? selectedCardItemRef.current.text
+                    : ""
+                }
+                size={{
+                  width: selectedCardItemRef.current
+                    ? selectedCardItemRef.current.width
+                    : item.width,
+                  height: selectedCardItemRef.current
+                    ? selectedCardItemRef.current.height
+                    : item.height,
+                }}
+                onDrop={onDrop}
+                onResize={onResize}
+                onTextChange={onTextChange}
+                selectedCardItem={selectedCardItem}
+                onClick={onClick}
+                onDeleteItem={onDeleteItem}
+              />
+            ))}
           </Box>
         </Box>
       </Stack>

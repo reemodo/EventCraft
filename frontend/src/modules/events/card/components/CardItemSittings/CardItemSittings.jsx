@@ -1,7 +1,6 @@
 import React from "react";
 
-import { Box, MenuItem, Stack, TextField, useMediaQuery } from "@mui/material";
-import { useTheme } from "@emotion/react";
+import { Box, MenuItem, Stack, TextField } from "@mui/material";
 
 import * as Yup from "yup";
 
@@ -244,6 +243,11 @@ const CardSettingsForm = ({ card, onChange }) => {
               height={{ sm: "", md: "calc(100vh - 120px)" }}
               width={{ xs: "100vw", sm: "100vm", md: "100%" }}
               overflow={"scroll"}
+              sx={{
+                "&::-webkit-scrollbar": { display: "none" },
+                "&-ms-overflow-style": "none",
+                "& scrollbar-width": "none",
+              }}
               pt={2}
             >
               {cardSettings.map((item) => (
@@ -289,6 +293,11 @@ const TextSettingsForm = ({ cardItem, onChange }) => {
               height={{ sm: "", md: "calc(100vh - 120px)" }}
               width={{ xs: "100vw", sm: "100vm", md: "100%" }}
               overflow={"scroll"}
+              sx={{
+                "&::-webkit-scrollbar": { display: "none" },
+                "&-ms-overflow-style": "none",
+                "& scrollbar-width": "none",
+              }}
               pt={2}
             >
               {textSettings.map((item) => (
@@ -334,7 +343,11 @@ const ImageSettingsForm = ({ cardItem, onChange }) => {
             height={{ sm: "", md: "calc(100vh - 120px)" }}
             width={{ xs: "100vw", sm: "100vm", md: "100%" }}
             overflow={"scroll"}
-            sx={{}}
+            sx={{
+              "&::-webkit-scrollbar": { display: "none" },
+              "&-ms-overflow-style": "none",
+              "& scrollbar-width": "none",
+            }}
             pt={2}
           >
             {imageSettings.map((item) => (
@@ -398,9 +411,6 @@ const ShapeSettingsForm = ({ cardItem, onChange }) => {
 };
 
 export const CardItemSittings = ({ cardItem, onChange, card }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
   const drawer = (
     <Stack
       direction={{ sm: "row", md: "column" }}
@@ -431,8 +441,7 @@ export const CardItemSittings = ({ cardItem, onChange, card }) => {
       sx={{
         height: { sm: "none", md: "calc(100vh - 65px)" },
         //   width: { sm: drawerWidth, md: "calc(100vh )" },
-        borderRight: !isMobile ? "1px solid" : "",
-        borderBottom: isMobile ? "1px solid" : "",
+
         width: { sm: "100vw ", md: drawerWidth },
         flexShrink: { sm: 1 },
         // overflow: "hidden",
