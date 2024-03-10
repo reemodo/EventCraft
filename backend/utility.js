@@ -34,4 +34,19 @@ const authenticateToken = function (req, res, next) {
     next();
   });
 };
-module.exports = { filterAllEventsField, authenticateToken };
+
+const findUpdatedFields = function (backgroundColor, cssStyle, img) {
+  const filter = {};
+  if (backgroundColor) {
+    filter.backgroundColor = backgroundColor;
+  }
+  if (cssStyle) {
+    filter.cssStyle = cssStyle;
+  }
+  if (img) {
+    filter.img = img;
+  }
+
+  return filter;
+};
+module.exports = { filterAllEventsField, authenticateToken, findUpdatedFields };
