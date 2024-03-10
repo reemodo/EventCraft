@@ -13,7 +13,7 @@ function hashPassword(user) {
 }
 
 async function authenticateUser(email, password) {
-  const user = await userCollManager.findUserByMail(email);
+  const user = await userManager.findUserByMail(email);
   if (!user) {
     return null;
   }
@@ -41,7 +41,7 @@ const secretKey = "my_secret_key";
 router.post("/register", async function (req, res) {
   try {
     const userData = req.body;
-    const user = await userCollManager.saveUser(userData);
+    const user = await userManager.saveUser(userData);
     const accessToken = generateAccessToken(user.toJSON());
     res.send({ accessToken, id: user.id });
   } catch (error) {
