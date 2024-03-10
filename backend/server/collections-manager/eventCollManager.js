@@ -17,7 +17,6 @@ class eventCollManager {
   }
   static async saveEvent(event) {
     const lastEventId = await eventCollManager.findTheLastEvent();
-    console.log(lastEventId);
     const newEvent = new Event({
       _id: lastEventId + 1,
       ...event,
@@ -33,13 +32,9 @@ class eventCollManager {
     const event = await Event.find({}).sort({ _id: -1 }).limit(1);
     return event[0]._id;
   }
-  static async filterByParams(category, startDate, location) {
-    console.log(category + startDate + location);
-    const filteredFields = filterAllEventsField(
-      startDate,
-      undefined,
-      undefined
-    );
+  static async filterByParams(id, category, startDate, location) {
+    const filteredFields = filterAllEventsField(startDate, location, category);
+    filteredFields.userId = { $ne: id };
     const events = await Event.find(filteredFields).sort({
       startDate: 1,
     });
