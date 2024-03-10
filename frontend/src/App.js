@@ -8,6 +8,7 @@ import Navbar from "./modules/NavBar/Navbar";
 import { Home } from "./modules/events/pages/home/Home";
 import { WorkSpace } from "./modules/events/pages/workspace/WorkSpace";
 import EventPage from "./modules/events/pages/EventPage";
+import { CardEdit } from "./modules/events/card/components/CardEdit/CardEdit";
 import { ThemeProvider } from "@mui/material";
 import { Box } from "@mui/material";
 
@@ -30,22 +31,27 @@ function App() {
       <ThemeProvider theme={theme}>
         <Box sx={{ display: "flex" }}>
           <Router>
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route
-                path="/eventPage"
-                element={
-                  <EventPage
-                    imageUrl="\Frame-1-3-min-1-3.png"
-                    lat="32.81781057069659"
-                    lng="35.00259862330999"
-                  />
-                }
-              />
+            <Box>
+              <Navbar />
+            </Box>
+            <Box>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route
+                  path="/eventPage"
+                  element={
+                    <EventPage
+                      imageUrl="\Frame-1-3-min-1-3.png"
+                      lat="32.81781057069659"
+                      lng="35.00259862330999"
+                    />
+                  }
+                />
 
-              <Route path="/workSpace" element={<WorkSpace />} />
-            </Routes>
+                <Route path="/workSpace" element={<WorkSpace />} />
+                <Route path="/cardEdit" element={<CardEdit />} />
+              </Routes>
+            </Box>
           </Router>
         </Box>
       </ThemeProvider>
