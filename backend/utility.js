@@ -1,7 +1,7 @@
-const filterAllEventsField = function (date, location, category) {
+const filterAllEventsField = function (startDate, location, category) {
   const filter = {};
-  if (date) {
-    filter.date = date;
+  if (startDate) {
+    filter.startDate = startDate;
   }
   if (location) {
     filter.location = location;

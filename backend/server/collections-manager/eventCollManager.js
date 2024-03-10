@@ -33,9 +33,16 @@ class eventCollManager {
     const event = await Event.find({}).sort({ _id: -1 }).limit(1);
     return event[0]._id;
   }
-  static async filterByParams(category, date, location) {
-    const filteredFields = filterAllEventsField(date, location, category);
-    const events = await Event.find(filteredFields).sort({ date: 1 });
+  static async filterByParams(category, startDate, location) {
+    console.log(category + startDate + location);
+    const filteredFields = filterAllEventsField(
+      startDate,
+      undefined,
+      undefined
+    );
+    const events = await Event.find(filteredFields).sort({
+      startDate: 1,
+    });
     return events;
   }
   static async findJoinedEvents(userId) {
