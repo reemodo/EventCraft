@@ -13,8 +13,8 @@ import {
 export const AuthModal = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = React.useState("login");
 
-  const { login, isLoading: pendingLogin } = useLoginMutation();
-  const { register, isLoading: pendingRegister } = useRegisterMutation();
+  const [login, { isLoading: pendingLogin }] = useLoginMutation();
+  const [register, { isLoading: pendingRegister }] = useRegisterMutation();
 
   const handleChange = (event, newValue) => {
     setActiveTab(newValue);
