@@ -3,11 +3,13 @@ import React from "react";
 import { Box, Dialog, DialogContent, Stack, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
-import { useLoginMutation, useRegisterMutation } from "../../api/auth.api";
-
 import { LoginForm } from "../LoginForm/LoginForm";
 import { RegisterForm } from "../RegisterForm/RegisterForm";
-import { useAddEventMutation } from "../../../events/api/events.api";
+import {
+  useRegisterMutation,
+  useLoginMutation,
+} from "../../../events/api/user.api";
+
 export const AuthModal = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = React.useState("login");
 
@@ -22,8 +24,8 @@ export const AuthModal = ({ isOpen, onClose }) => {
     const userData = login(data);
   };
 
-  const onRegister = (data) => {
-    const userData = register(data);
+  const onRegister = async (data) => {
+    const userData = await register(data);
   };
   return (
     <Dialog open={isOpen} onClose={onClose}>
