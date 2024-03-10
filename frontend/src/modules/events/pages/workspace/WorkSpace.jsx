@@ -7,6 +7,10 @@ import { useState } from 'react';
 import { EventFormModal } from "../../components/EventFormModal/EventFormModal"
 import { useGetMyEventsQuery } from './../../api/events.api';
 import { useEffect } from 'react';
+import { Box } from '@mui/material';
+import Navbar from '../../../NavBar/Navbar';
+import { Container} from '@mui/material';
+import Landing from '../../../landing/Landing';
 export function WorkSpace(props) {
   const [OpenCreateModel, setOpenCreateModel] = useState(false);
   const onOpenCreateModel = () => {
@@ -40,7 +44,9 @@ export function WorkSpace(props) {
   }
   return (
     <>
-    <div className='homeContainer'>
+        <Landing>
+
+           <div className='homeContainer'>
       <div className='iconContainer' onClick={onOpenCreateModel} >
         
         <Icon sx={{ 
@@ -60,7 +66,8 @@ export function WorkSpace(props) {
       </div>
         <Events inHomePage={false} events={eventsList} editModel={onOpenCreateModel}/>
       <EventFormModal isOpen={OpenCreateModel} onClose={onCloseCreateModel} onSubmit={onAddNewEvent} />
-    </div>
+     </div>
+        </Landing>
     </>
   )
 }

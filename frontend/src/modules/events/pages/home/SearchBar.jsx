@@ -53,14 +53,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchBar(props) {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-          <Search>
+    <Box sx={{ flexGrow: 10 , backgroundColor: '#d5eed6', paddingLeft: '150px'}}>
+          <Search sx={{maxWidth: '610px'}}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              width="30px"
             />
           </Search>
     </Box>

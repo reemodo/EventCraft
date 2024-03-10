@@ -1,11 +1,7 @@
 .cardActions{
     justify-content: flex-end;
 }
-.homeContainer{
-    margin: 20px;
-    padding: 10px;
-    color: "secondary"
-}
+
 .categoryContainer{
     color:black;
 }

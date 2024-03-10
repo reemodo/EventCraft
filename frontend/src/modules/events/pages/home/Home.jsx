@@ -5,6 +5,8 @@ import SearchBar from "./SearchBar";
 import useSWR from "swr";
 import { useGetEventsQuery } from "./../../api/events.api";
 import { useEffect } from "react";
+import Landing from "../../../landing/Landing"
+import { TopContainer } from "./TopContainer";
 export function Home(props) {
   const [eventsList, setEventsList] = useState([]);
 
@@ -26,10 +28,13 @@ export function Home(props) {
 
   return (
     <>
-      <div className="homeContainer">
-        <SearchBar />
+    <Landing>
+        <TopContainer/>
+          <div className="homeContainer">
+        
         <Events inHomePage={true} events={eventsList} />
       </div>
+    </Landing>
     </>
   );
 }

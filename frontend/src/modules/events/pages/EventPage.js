@@ -7,7 +7,7 @@ import { Popup } from 'react-leaflet/Popup'
 import { Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useSelector } from "react-redux";
-import { selectSelectedEvent } from '../rdx/events.rdx';
+import  Landing  from '../../landing/Landing';
 
 function EventPage({ imageUrl, lat, lng }) {
     const position = [lat, lng]
@@ -20,7 +20,8 @@ function EventPage({ imageUrl, lat, lng }) {
     const event = selectedEvent.selectedEvent;
     return (
         <>
-            <Card sx={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+        
+        <Landing>
                 <CardMedia
                     component="img"
                     sx={{ width: '100vh', objectFit: 'cover', height: '250px', margin: 'auto' }}
@@ -42,7 +43,7 @@ function EventPage({ imageUrl, lat, lng }) {
                         <strong>Location:</strong> {event.location}
                     </Typography>
                 </CardContent>
-            </Card>
+      
             <MapContainer center={position} zoom={17} style={{ width: 1000, height: 300, margin: 'auto' }} >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -52,6 +53,7 @@ function EventPage({ imageUrl, lat, lng }) {
                     <Popup>Hello I'm Here!</Popup>
                 </Marker>
             </MapContainer>
+        </Landing>
         </>
     );
 }
