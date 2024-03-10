@@ -3,8 +3,9 @@ const router = express.Router();
 const DBManager = require("../events-DB-Server");
 const cardManager = require("../collections-manager/cardCollManager");
 const card = require("../../models/card");
+const Utilities = require("../../utility");
 
-router.get("/", async function (req, res) {
+router.get("/", Utilities.authenticateToken, async function (req, res) {
   try {
     const cards = await cardManager.getCards();
     res.send(cards);
@@ -14,17 +15,21 @@ router.get("/", async function (req, res) {
   }
 });
 
-router.delete("/:cardId", async function (req, res) {
-  try {
-    const cardId = req.params.cardId;
-    const deleteCard = await cardManager.deleteCard(cardId);
-    res.send(deleteCard);
-  } catch (err) {
-    console.error(err);
+router.delete(
+  "/:cardId",
+  Utilities.authenticateToken,
+  async function (req, res) {
+    try {
+      const cardId = req.params.cardId;
+      const deleteCard = await cardManager.deleteCard(cardId);
+      res.send(deleteCard);
+    } catch (err) {
+      console.error(err);
+    }
   }
-});
+);
 
-router.post("/", async (req, res) => {
+router.post("/", Utilities.authenticateToken, async (req, res) => {
   try {
     const cardData = req.body;
     console.log(cardData);
@@ -36,7 +41,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/:cardId", async function (req, res) {
+router.get("/:cardId", Utilities.authenticateToken, async function (req, res) {
   try {
     const cardId = req.params.cardId;
     const myCards = await cardManager.myCards(cardId);
