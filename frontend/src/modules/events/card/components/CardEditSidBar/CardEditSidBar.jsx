@@ -6,12 +6,10 @@ import {
   Box,
   MenuItem,
   Stack,
-  useMediaQuery,
 } from "@mui/material";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import { useTheme } from "@emotion/react";
 import { CardListItem } from "../CardListItem/CardListItem";
 import { ItemTypes } from "../CardEdit/CardEdit";
 
@@ -24,9 +22,6 @@ const AccordionNames = {
 };
 
 export const CardEditSidBar = ({ children }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -60,6 +55,11 @@ export const CardEditSidBar = ({ children }) => {
               height={{ sm: "200px", md: "calc(50vh - 120px)" }}
               width={{ md: "100%" }}
               overflow={"scroll"}
+              sx={{
+                "&::-webkit-scrollbar": { display: "none" },
+                "&-ms-overflow-style": "none",
+                "& scrollbar-width": "none",
+              }}
             >
               <MenuItem divider>
                 <CardListItem
@@ -97,6 +97,11 @@ export const CardEditSidBar = ({ children }) => {
               height={{ sm: "200px", md: "calc(50vh - 120px)" }}
               width={{ md: "100%" }}
               overflow={"scroll"}
+              sx={{
+                "&::-webkit-scrollbar": { display: "none" },
+                "&-ms-overflow-style": "none",
+                "& scrollbar-width": "none",
+              }}
             >
               <MenuItem divider>
                 <CardListItem
@@ -105,7 +110,7 @@ export const CardEditSidBar = ({ children }) => {
                     type: ItemTypes.IMAGE,
                     left: 0,
                     top: 0,
-                    src: "",
+                    src: "https://images.pexels.com/photos/20392251/pexels-photo-20392251/free-photo-of-a-brown-butterfly-sitting-on-a-leaf-with-green-leaves.jpeg",
                     position: "",
                     width: 150,
                     height: 150,
@@ -134,6 +139,11 @@ export const CardEditSidBar = ({ children }) => {
               height={{ sm: "200px", md: "calc(50vh - 120px)" }}
               width={{ md: "100%" }}
               overflow={"scroll"}
+              sx={{
+                "&::-webkit-scrollbar": { display: "none" },
+                "&-ms-overflow-style": "none",
+                "& scrollbar-width": "none",
+              }}
             >
               <MenuItem divider>
                 <CardListItem
@@ -181,8 +191,7 @@ export const CardEditSidBar = ({ children }) => {
         sx={{
           height: { sm: "none", md: "calc(100vh - 65px)" },
           //   width: { sm: drawerWidth, md: "calc(100vh )" },
-          borderRight: !isMobile ? "1px solid" : "",
-          borderBottom: isMobile ? "1px solid" : "",
+
           width: { sm: "100vw ", md: drawerWidth },
           flexShrink: { sm: 1 },
         }}
