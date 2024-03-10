@@ -14,26 +14,21 @@ router.get("/DBgenerator", async function (req, res) {
   }
 });
 
-router.get(
-  "/:category/:startDate/:location",
-  Utilities.authenticateToken,
-  async function (req, res) {
-    try {
-      const { category, startDate, location } = req.params;
-
-      console.log(startDate);
-      const event = await eventManager.filterByParams(
-        category,
-        startDate,
-        location
-      );
-      res.send(event);
-    } catch (err) {
-      console.error(err);
-      res.status(400).send((err) => err);
-    }
+router.get("/", async function (req, res) {
+  try {
+    const { id, category, startDate, location } = req.query;
+    const event = await eventManager.filterByParams(
+      id,
+      category,
+      startDate,
+      location
+    );
+    res.send(event);
+  } catch (err) {
+    console.error(err);
+    res.status(400).send((err) => err);
   }
-);
+});
 
 router.delete(
   "/:eventId",
@@ -55,15 +50,6 @@ router.post("/", Utilities.authenticateToken, async (req, res) => {
     res.send(newEvent);
   } catch (error) {
     res.status(500).json({ error: "Failed to create event" });
-  }
-});
-//TODO:  when get events It should be filtered according not user event 
-router.get("/", async (req, res) => {
-  try {
-    const eventsList = await eventManager.getEvents();
-    res.send(eventsList);
-  } catch (error) {
-    res.status(400).json({ error: "Failed to get event" });
   }
 });
 
