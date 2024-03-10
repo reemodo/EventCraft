@@ -1,19 +1,16 @@
 import React from "react";
 import { Events } from "../../components/Events/Events";
 import "./workSpace.css";
-import { useTheme } from "@mui/material";
+
 import { Icon } from "@mui/material";
 import { useState } from "react";
 import { EventFormModal } from "../../components/EventFormModal/EventFormModal";
 import { useGetMyEventsQuery } from "./../../api/events.api";
 import { useEffect } from "react";
-import { Box } from "@mui/material";
-import Navbar from "../../../NavBar/Navbar";
-import { Container } from "@mui/material";
-import Landing from "../../../landing/Landing";
-import Auth from "../../../auth/hooks/useAuth/useAuth";
 
-export function WorkSpace(props) {
+import Landing from "../../../landing/Landing";
+
+export const WorkSpace = (props) => {
   const [OpenCreateModel, setOpenCreateModel] = useState(false);
   const onOpenCreateModel = () => {
     setOpenCreateModel(true);
@@ -81,4 +78,4 @@ export function WorkSpace(props) {
       </Landing>
     </>
   );
-}
+};

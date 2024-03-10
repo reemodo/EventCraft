@@ -1,16 +1,25 @@
-import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 
+import { ThemeProvider } from "@mui/material";
+import { Box } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Stack, createTheme } from "@mui/material";
+
+import withAuth from "./modules/auth/hooks/useAuth/withAuth";
+
 import Navbar from "./modules/NavBar/Navbar";
 import { Home } from "./modules/events/pages/home/Home";
 import { WorkSpace } from "./modules/events/pages/workspace/WorkSpace";
 import EventPage from "./modules/events/pages/EventPage";
 import { CardEdit } from "./modules/events/card/components/CardEdit/CardEdit";
-import { ThemeProvider } from "@mui/material";
-import { Box } from "@mui/material";
+
+import "./App.css";
 
 function App() {
   const theme = createTheme({
@@ -48,8 +57,10 @@ function App() {
                   }
                 />
 
-                <Route path="/workSpace" element={<WorkSpace />} />
-                <Route path="/cardEdit" element={<CardEdit />} />
+                <Route path="/workSpace" element={withAuth(WorkSpace)} />
+                <Route path="/cardEdit" element={withAuth(CardEdit)} />
+
+                <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Box>
           </Router>
