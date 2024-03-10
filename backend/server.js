@@ -1,14 +1,12 @@
 const express = require("express");
 const app = express();
 const api = require("./server/routes/events_API");
+const userAPI = require("./server/routes/users_API");
+const cardAPI = require("./server/routes/cards_API");
+
 const path = require("path");
 const dbManager = require("./server/events-DB-Server");
-const loginRouter = require("./server/routes/loginAPI");
 const { port } = require("./constants");
-const auth = require("./server/routes/authRoutes")
-const event = require("./server/routes/eventRoutes")
-const user = require("./server/routes/userRoutes")
-
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -22,12 +20,9 @@ app.use(function (req, res, next) {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use("/", loginRouter);
 app.use("/events", api);
-app.use("/auth",auth);
-app.use("/event", event);
-app.use("/user",user);
-
+app.use("/user", userAPI);
+app.use("/cards", cardAPI);
 
 dbManager.connectToDB();
 
