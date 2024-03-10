@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthHelpers } from "../useAuthHelpers/useAuthHelpers";
 
 import { redirect } from "react-router-dom";
@@ -7,14 +7,15 @@ const Auth = (WrappedComponent) => {
   const Component = (props) => {
     const { isUserLoggedIn } = useAuthHelpers();
 
+    const [loggedIn, setLoggedIn] = useState(false);
+
     useEffect(() => {
-      (() => {
-        const isLoggedIn = isUserLoggedIn();
-        if (!isLoggedIn) {
-          redirect("/");
-        }
-      })();
+      setLoggedIn(isUserLoggedIn());
     }, [isUserLoggedIn]);
+
+    if (!loggedIn) {
+      return redirect("/");
+    }
 
     return <WrappedComponent />;
   };

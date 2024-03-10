@@ -12,6 +12,7 @@ import { CardItem } from "../CardItem/CardItem";
 import { exportAsImage, parseCssStyles } from "../../../../shared/utils";
 
 import { CardLeftSection } from "../CardLeftSection/CardLeftSection";
+import Landing from "../../../../landing/Landing";
 
 export const ItemTypes = {
   BOX: "box",
@@ -165,76 +166,77 @@ export const CardEdit = () => {
   };
 
   return (
-    <Stack sx={{ flexDirection: { sm: "column", md: "row" } }}>
-      <CardLeftSection
-        selectedCardItem={selectedCardItemRef.current}
-        onItemSittingsChanged={onItemSittingsChanged}
-        card={card}
-      />
+    <Landing>
+      <Stack width={"100%"} sx={{ flexDirection: { sm: "column", md: "row" } }}>
+        <CardLeftSection
+          selectedCardItem={selectedCardItemRef.current}
+          onItemSittingsChanged={onItemSittingsChanged}
+          card={card}
+        />
 
-      <Stack
-        width={"100%"}
-        justifyContent={"center"}
-        alignItems={"center"}
-        pt={10}
-        onClick={onFocusOut}
-        sx={{ position: "relative" }}
-      >
-        <LoadingButton
-          color="secondary"
-          sx={{
-            position: "absolute",
-            top: 10,
-            left: 10,
-            zIndex: 1000,
-          }}
-          variant="contained"
-          onClick={onSaveCard}
+        <Stack
+          width={"100%"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          onClick={onFocusOut}
+          sx={{ position: "relative", flex: 1 }}
         >
-          save
-        </LoadingButton>
-        <Box ref={exportRef}>
-          <Box
-            ref={combinedRef}
+          <LoadingButton
+            color="secondary"
             sx={{
-              position: "relative",
-              width: "500px",
-              height: "300px",
-              border: "1px solid #000",
-              background: card.backgroundColor,
-              ...parseCssStyles(card.style),
+              position: "absolute",
+              top: 10,
+              left: 10,
+              zIndex: 1000,
             }}
-            overflow={"hidden"}
+            variant="contained"
+            onClick={onSaveCard}
           >
-            {items.map((item, idx) => (
-              <CardItem
-                key={item.uuid}
-                item={{ ...item, zIndex: item.zIndex ? item.zIndex : idx }}
-                card={card}
-                text={
-                  selectedCardItemRef.current
-                    ? selectedCardItemRef.current.text
-                    : ""
-                }
-                size={{
-                  width: selectedCardItemRef.current
-                    ? selectedCardItemRef.current.width
-                    : item.width,
-                  height: selectedCardItemRef.current
-                    ? selectedCardItemRef.current.height
-                    : item.height,
-                }}
-                onDrop={onDrop}
-                onResize={onResize}
-                onTextChange={onTextChange}
-                selectedCardItem={selectedCardItem}
-                onClick={onClick}
-                onDeleteItem={onDeleteItem}
-              />
-            ))}
+            save
+          </LoadingButton>
+          <Box ref={exportRef}>
+            <Box
+              ref={combinedRef}
+              sx={{
+                position: "relative",
+                width: "500px",
+                height: "300px",
+                border: "1px solid #000",
+                background: card.backgroundColor,
+                ...parseCssStyles(card.style),
+              }}
+              overflow={"hidden"}
+            >
+              {items.map((item, idx) => (
+                <CardItem
+                  key={item.uuid}
+                  item={{ ...item, zIndex: item.zIndex ? item.zIndex : idx }}
+                  card={card}
+                  text={
+                    selectedCardItemRef.current
+                      ? selectedCardItemRef.current.text
+                      : ""
+                  }
+                  size={{
+                    width: selectedCardItemRef.current
+                      ? selectedCardItemRef.current.width
+                      : item.width,
+                    height: selectedCardItemRef.current
+                      ? selectedCardItemRef.current.height
+                      : item.height,
+                  }}
+                  onDrop={onDrop}
+                  onResize={onResize}
+                  onTextChange={onTextChange}
+                  selectedCardItem={selectedCardItem}
+                  onClick={onClick}
+                  onDeleteItem={onDeleteItem}
+                />
+              ))}
+            </Box>
           </Box>
-        </Box>
+        </Stack>
       </Stack>
-    </Stack>
+    </Landing>
   );
 };

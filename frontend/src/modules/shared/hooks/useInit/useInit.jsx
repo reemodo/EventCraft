@@ -10,8 +10,9 @@ export const useInit = () => {
   useEffect(() => {
     (async () => {
       const user = localStorageSvc.get(LOCAL_STORAGE_KEYS.USER);
-      console.log("🚀 ~ user:", user);
-      dispatch(rdxUserActions.setCurrentUser(user));
+      if (user) {
+        dispatch(rdxUserActions.setCurrentUser(user));
+      }
     })();
   }, [dispatch]);
 
