@@ -417,7 +417,6 @@ export const CardItemSittings = ({ cardItem, onChange, card }) => {
       justifyContent={"center"}
       width="100%"
       alignItems={"center"}
-      pt={5}
     >
       {!!cardItem && cardItem.type === ItemTypes.TEXT && (
         <TextSettingsForm cardItem={cardItem} onChange={onChange} />
@@ -439,11 +438,11 @@ export const CardItemSittings = ({ cardItem, onChange, card }) => {
     <Box
       component="nav"
       sx={{
-        height: { sm: "none", md: "calc(100vh - 65px)" },
+        // height: { sm: "none", md: "calc(100vh - 65px)" },
         //   width: { sm: drawerWidth, md: "calc(100vh )" },
 
         width: { sm: "100vw ", md: drawerWidth },
-        flexShrink: { sm: 1 },
+        flexGrow: { sm: 1 },
         // overflow: "hidden",
       }}
       aria-label="mailbox folders"

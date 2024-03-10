@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { createTheme } from "@mui/material";
+import { Stack, createTheme } from "@mui/material";
 import Navbar from "./modules/NavBar/Navbar";
 import { Home } from "./modules/events/pages/home/Home";
 import { WorkSpace } from "./modules/events/pages/workspace/WorkSpace";
@@ -29,12 +29,12 @@ function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <ThemeProvider theme={theme}>
-        <Box sx={{ display: "flex" }}>
+        <Stack direction={"row"}>
           <Router>
             <Box>
               <Navbar />
             </Box>
-            <Box>
+            <Box sx={{ flex: 1 }}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route
@@ -53,7 +53,7 @@ function App() {
               </Routes>
             </Box>
           </Router>
-        </Box>
+        </Stack>
       </ThemeProvider>
     </LocalizationProvider>
   );
