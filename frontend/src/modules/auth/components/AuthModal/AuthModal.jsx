@@ -5,28 +5,28 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 import { LoginForm } from "../LoginForm/LoginForm";
 import { RegisterForm } from "../RegisterForm/RegisterForm";
-import {
-  useRegisterMutation,
-  useLoginMutation,
-} from "../../../events/api/user.api";
+
+import { useAuthHelpers } from "../../hooks/useAuthHelpers/useAuthHelpers";
 
 export const AuthModal = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = React.useState("login");
 
-  const [login, { isLoading: pendingLogin }] = useLoginMutation();
-  const [register, { isLoading: pendingRegister }] = useRegisterMutation();
+  const { login, register, pendingLogin, pendingRegister } = useAuthHelpers();
 
   const handleChange = (event, newValue) => {
     setActiveTab(newValue);
   };
 
-  const onLogin = (data) => {
-    const userData = login(data);
+  const onLogin = async (data) => {
+    await login(data);
+    onClose();
   };
 
   const onRegister = async (data) => {
-    const userData = await register(data);
+    await register(data);
+    onClose();
   };
+
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <DialogContent>
