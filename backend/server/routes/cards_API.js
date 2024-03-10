@@ -52,4 +52,21 @@ router.get("/:cardId", Utilities.authenticateToken, async function (req, res) {
   }
 });
 
+router.put("/:cardId", async function (req, res) {
+  try {
+    const cardId = req.params.cardId;
+    const { backgroundColor, cssStyle, img } = req.body;
+    const updatedCard = await cardManager.updateCardFields(
+      cardId,
+      backgroundColor,
+      cssStyle,
+      img
+    );
+    res.status(200).send(updatedCard);
+  } catch (err) {
+    console.error(err);
+    res.status(400).send((err) => err);
+  }
+});
+
 module.exports = router;
