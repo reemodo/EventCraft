@@ -25,6 +25,10 @@ export const useAuthHelpers = () => {
       try {
         const userData = await onLogin(data);
 
+        if (!userData.data?.id) {
+          return false;
+        }
+
         localStorageSvc.set(LOCAL_STORAGE_KEYS.USER, userData);
 
         dispatch(rdxUserActions.setCurrentUser(userData));
@@ -64,8 +68,8 @@ export const useAuthHelpers = () => {
   }, [dispatch]);
 
   const isUserLoggedIn = useCallback(() => {
-    return !!rdxCurrentUser?.isLoggedIn;
-  }, [rdxCurrentUser?.isLoggedIn]);
+    return !!localStorageSvc.get(LOCAL_STORAGE_KEYS.USER)?.data?.id;
+  }, []);
 
   return {
     logout,
