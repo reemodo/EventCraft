@@ -23,8 +23,8 @@ export const CardListItem = ({ item }) => {
       ref={drag}
       // onClick={(e) => handleClick(e, item)}
       sx={{
-        width: "fit-content",
-        height: "fit-content",
+        width: `${+item.width}px`,
+        height: `${+item.height}px`,
         cursor: "move",
         position: item.position,
         top: item.top,
