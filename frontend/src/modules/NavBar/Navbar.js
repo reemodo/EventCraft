@@ -11,13 +11,17 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
-import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import List from "@mui/material/List";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Divider from "@mui/material/Divider";
 import { mainListItems, secondaryListItems } from "../edatingPage/Dashbord";
+import { useSelector } from "react-redux";
+import { useInit } from "../shared/hooks/useInit/useInit";
+
+import { useAuthHelpers } from "../auth/hooks/useAuthHelpers/useAuthHelpers";
 
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
@@ -65,11 +69,22 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const Navbar = () => {
+  const rdxUser = useSelector((state) => state.user);
+
+  useInit();
+
+  const { logout } = useAuthHelpers();
+
   const [openAuthModal, setOpenAuthModal] = useState(false);
 
   const onLogin = () => {
     setOpenAuthModal(true);
   };
+
+  const onLogout = () => {
+    logout();
+  };
+
   const onCloseLogin = () => {
     setOpenAuthModal(false);
   };
@@ -136,15 +151,29 @@ const Navbar = () => {
             >
               About us
             </Button>
-            <Button
-              color="inherit"
-              style={{
-                color: theme.palette.secondary.main,
-              }}
-              onClick={onLogin}
-            >
-              Login
-            </Button>
+            {!rdxUser.loggedIn && (
+              <Button
+                color="inherit"
+                style={{
+                  color: theme.palette.secondary.main,
+                }}
+                onClick={onLogin}
+              >
+                Login
+              </Button>
+            )}
+
+            {rdxUser.loggedIn && (
+              <Button
+                color="inherit"
+                style={{
+                  color: theme.palette.secondary.main,
+                }}
+                onClick={onLogout}
+              >
+                logout
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>

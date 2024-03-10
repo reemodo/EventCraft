@@ -4,6 +4,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Divider,
   MenuItem,
   Stack,
 } from "@mui/material";
@@ -32,13 +33,13 @@ export const CardEditSidBar = ({ children }) => {
     <div>
       <Stack
         direction={{ sm: "row", md: "column" }}
-        justifyContent={"center"}
-        width="100%"
-        alignItems={"center"}
+        // justifyContent={"center"}
+        // alignItems={"center"}
         pt={2}
       >
         <Accordion
           sx={{ width: { sx: "30%", sm: "30%", md: "100%" } }}
+          height={{ xs: "200px", sm: "200px", md: "calc(50vh - 120px)" }}
           expanded={expanded === AccordionNames.Text}
           onChange={handleChange(AccordionNames.Text)}
         >
@@ -52,7 +53,6 @@ export const CardEditSidBar = ({ children }) => {
           <AccordionDetails>
             <Stack
               direction={"column"}
-              height={{ sm: "200px", md: "calc(50vh - 120px)" }}
               width={{ md: "100%" }}
               overflow={"scroll"}
               sx={{
@@ -60,8 +60,9 @@ export const CardEditSidBar = ({ children }) => {
                 "&-ms-overflow-style": "none",
                 "& scrollbar-width": "none",
               }}
+              height={{ xs: "200px", sm: "200px", md: "calc(50vh - 120px)" }}
             >
-              <MenuItem divider>
+              <Box sx={{ pt: 2 }}>
                 <CardListItem
                   item={{
                     id: "1",
@@ -76,12 +77,14 @@ export const CardEditSidBar = ({ children }) => {
                     color: "",
                   }}
                 />
-              </MenuItem>
+                <Divider sx={{ pt: 2 }} />
+              </Box>
             </Stack>
           </AccordionDetails>
         </Accordion>
         <Accordion
           sx={{ width: { sx: "30%", sm: "30%", md: "100%" } }}
+          height={{ xs: "200px", sm: "200px", md: "calc(50vh - 120px)" }}
           expanded={expanded === AccordionNames.Image}
           onChange={handleChange(AccordionNames.Image)}
         >
@@ -94,7 +97,6 @@ export const CardEditSidBar = ({ children }) => {
           </AccordionSummary>
           <AccordionDetails>
             <Stack
-              height={{ sm: "200px", md: "calc(50vh - 120px)" }}
               width={{ md: "100%" }}
               overflow={"scroll"}
               sx={{
@@ -102,8 +104,9 @@ export const CardEditSidBar = ({ children }) => {
                 "&-ms-overflow-style": "none",
                 "& scrollbar-width": "none",
               }}
+              height={{ xs: "200px", sm: "200px", md: "calc(50vh - 120px)" }}
             >
-              <MenuItem divider>
+              <Box sx={{ pt: 2 }}>
                 <CardListItem
                   item={{
                     id: "2",
@@ -117,12 +120,15 @@ export const CardEditSidBar = ({ children }) => {
                     style: "",
                   }}
                 />
-              </MenuItem>
+                <Divider sx={{ pt: 2 }} />
+              </Box>
             </Stack>
           </AccordionDetails>
         </Accordion>
         <Accordion
-          sx={{ width: { sx: "30%", sm: "30%", md: "100%" } }}
+          sx={{
+            width: { sx: "30%", sm: "30%", md: "100%" },
+          }}
           expanded={expanded === AccordionNames.Shape}
           onChange={handleChange(AccordionNames.Shape)}
         >
@@ -136,16 +142,16 @@ export const CardEditSidBar = ({ children }) => {
           <AccordionDetails>
             <Stack
               direction={"column"}
-              height={{ sm: "200px", md: "calc(50vh - 120px)" }}
               width={{ md: "100%" }}
               overflow={"scroll"}
+              height={{ xs: "200px", sm: "200px", md: "calc(50vh - 120px)" }}
               sx={{
                 "&::-webkit-scrollbar": { display: "none" },
                 "&-ms-overflow-style": "none",
                 "& scrollbar-width": "none",
               }}
             >
-              <MenuItem divider>
+              <Box sx={{ pt: 2 }}>
                 <CardListItem
                   item={{
                     id: "3",
@@ -160,8 +166,10 @@ export const CardEditSidBar = ({ children }) => {
                     d: "m 50 0 l 0 0 l 50 100 l -100 0",
                   }}
                 />
-              </MenuItem>
-              <MenuItem>
+                <Divider sx={{ pt: 2 }} />
+              </Box>
+
+              <Box sx={{ pt: 2 }}>
                 <CardListItem
                   item={{
                     id: "3",
@@ -176,7 +184,8 @@ export const CardEditSidBar = ({ children }) => {
                     d: "m 50 0 l 50 50 l -50 50 l -50 -50",
                   }}
                 />
-              </MenuItem>
+                <Divider sx={{ pt: 2 }} />
+              </Box>
             </Stack>
           </AccordionDetails>
         </Accordion>
@@ -186,19 +195,7 @@ export const CardEditSidBar = ({ children }) => {
 
   return (
     <Box>
-      <Box
-        component="nav"
-        sx={{
-          height: { sm: "none", md: "calc(100vh - 65px)" },
-          //   width: { sm: drawerWidth, md: "calc(100vh )" },
-
-          width: { sm: "100vw ", md: drawerWidth },
-          flexShrink: { sm: 1 },
-        }}
-        aria-label="mailbox folders"
-      >
-        {drawer}
-      </Box>
+      <Box component="nav">{drawer}</Box>
     </Box>
   );
 };
