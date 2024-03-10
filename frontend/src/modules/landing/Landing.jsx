@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Container, Toolbar, Typography } from "@mui/material";
-import SearchBar from "../events/pages/home/SearchBar";
+import { Box, Container, Toolbar } from "@mui/material";
+
 const Landing = ({ children }) => {
   return (
     <>
