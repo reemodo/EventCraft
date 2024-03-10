@@ -1,9 +1,8 @@
 import React from "react";
-import dummyData from "../../../../event";
+
 import { EventCard } from "./EventCard";
 import { Grid, Typography } from "@mui/material";
-import { useGetEventsQuery } from "../../api/events.api";
-import { useSelector } from "react-redux";
+
 export function Events({ inHomePage, events, editModel }) {
   const groupedEvents = events.reduce((event, obj) => {
     const { category, ...rest } = obj;
