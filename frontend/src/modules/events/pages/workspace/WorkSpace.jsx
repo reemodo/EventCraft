@@ -13,7 +13,7 @@ import { Container } from "@mui/material";
 import Landing from "../../../landing/Landing";
 import Auth from "../../../auth/hooks/useAuth/useAuth";
 
-export const WorkSpace = Auth(function WorkSpace(props) {
+export function WorkSpace(props) {
   const [OpenCreateModel, setOpenCreateModel] = useState(false);
   const onOpenCreateModel = () => {
     setOpenCreateModel(true);
@@ -81,4 +81,4 @@ export const WorkSpace = Auth(function WorkSpace(props) {
       </Landing>
     </>
   );
-});
+}
