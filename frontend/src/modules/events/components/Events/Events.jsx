@@ -24,9 +24,9 @@ export function Events({inHomePage ,events,  editModel}) {
               <Typography variant="h4" gutterBottom color="">
                 {category.charAt(0).toUpperCase() + category.substring(1)}
               </Typography>
-              <Grid container spacing={2}>
+              <Grid container spacing={3}>
                 {items.map((event, index) => (
-                  <Grid item key={event._id} xs={12} sm={6} md={5} >
+                  <Grid item key={event._id} xs={12} sm={6} md={5} spacing={3}>
                     <EventCard event={event} inHomePage={true}/>
                   </Grid>
                 ))}

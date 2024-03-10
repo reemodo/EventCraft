@@ -9,7 +9,7 @@ import { WorkSpace } from "./modules/events/pages/workspace/WorkSpace";
 import EventPage from "./modules/events/pages/EventPage";
 import { ThemeProvider } from "@mui/material";
 import { AuthModal } from "./modules/auth/components/AuthModal/AuthModal";
-
+import { Box } from '@mui/material';
 
 
 function App() {
@@ -30,10 +30,9 @@ function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <ThemeProvider theme={theme}>
+      <Box sx={{ display: 'flex' }}>
         <Router>
-          <div className="App">
             <Navbar />
-          </div>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/eventPage" element={<EventPage
@@ -45,6 +44,7 @@ function App() {
             <Route path="/workSpace" element={<WorkSpace />} />
           </Routes>
         </Router>
+        </Box>
       </ThemeProvider>
     </LocalizationProvider>
   );
