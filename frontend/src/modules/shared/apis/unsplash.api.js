@@ -12,10 +12,18 @@ export const unsplashApi = createApi({
         params: { search },
       }),
     }),
+    getShapes: builder.query({
+      query: ({ search }) => ({
+        url: `unSplash/api/shapes`,
+        method: "GET",
+        params: { search },
+      }),
+    }),
   }),
 });
 
 export const {
   useLazyGetPhotosQuery, //
   useGetPhotosQuery,
+  useLazyGetShapesQuery,
 } = unsplashApi;

@@ -1,17 +1,30 @@
-// https://api.freepik.com/v1/resources?locale=en-US&page=1&limit=10&order=latest&term=flower
+import { useCallback, useState } from "react";
+import { useLazyGetShapesQuery } from "../../apis/unsplash.api";
 
-import axios from "axios";
+export const useFreePik = () => {
+  const [pendingGetShapes, setPendingGetShapes] = useState(false);
 
-const baseUrl =
-  "https://api.freepik.com/v1/resources?locale=en-US&page=1&limit=10&order=latest&term=shapes&type=icon";
+  const [getShapesApi] = useLazyGetShapesQuery();
 
-export const getShapes = async () => {
-  const shapes = await axios.get(baseUrl, {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      "X-Freepik-API-Key": process.env.REACT_APP_FREE_PIK_API_KEY,
+  const getShapes = useCallback(
+    async (filter) => {
+      setPendingGetShapes(true);
+      try {
+        const shapes = await getShapesApi(filter);
+
+        return shapes.data.data.map((item) => ({
+          url: item.thumbnails[0].url,
+          id: item.id,
+        }));
+      } catch (err) {
+        console.error(err);
+        return [];
+      } finally {
+        setPendingGetShapes(false);
+      }
     },
-  });
-  return shapes;
+    [getShapesApi]
+  );
+
+  return { getShapes, pendingGetShapes };
 };

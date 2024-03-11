@@ -5,7 +5,6 @@ import {
   AccordionSummary,
   Box,
   Divider,
-  MenuItem,
   Stack,
 } from "@mui/material";
 
@@ -14,9 +13,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { CardListItem } from "../CardListItem/CardListItem";
 import { ItemTypes } from "../CardEdit/CardEdit";
 import { useUnsplashHelpers } from "../../../../shared/hooks/useUnsplash/useUnsplashHelpers";
-import { getShapes } from "../../../../shared/hooks/useFreePik/useFreePik";
-
-const drawerWidth = 240;
+import { useFreePik } from "../../../../shared/hooks/useFreePik/useFreePik";
 
 const AccordionNames = {
   Text: "text",
@@ -32,15 +29,18 @@ export const CardEditSidBar = ({ children }) => {
 
   const { getPhotos, pendingPhotos } = useUnsplashHelpers();
 
+  const { getShapes, pendingFreePik } = useFreePik();
+
+  //eff get images and icons
   useEffect(() => {
     (async () => {
       const photosData = await getPhotos({ search: "" });
       setPhotos(photosData);
 
-      const shapesData = await getShapes();
+      const shapesData = await getShapes({ search: "" });
       setShapes(shapesData);
     })();
-  }, [getPhotos]);
+  }, [getPhotos, getShapes]);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -123,11 +123,11 @@ export const CardEditSidBar = ({ children }) => {
               }}
               height={{ xs: "200px", sm: "200px", md: "calc(50vh - 120px)" }}
             >
-              {photos?.map((photo) => (
-                <Box sx={{ pt: 2 }}>
+              {photos?.map((photo, idx) => (
+                <Box sx={{ pt: 2 }} key={idx}>
                   <CardListItem
                     item={{
-                      id: "2",
+                      id: photo.id,
                       type: ItemTypes.IMAGE,
                       left: 0,
                       top: 0,
@@ -170,25 +170,28 @@ export const CardEditSidBar = ({ children }) => {
                 "& scrollbar-width": "none",
               }}
             >
-              <Box sx={{ pt: 2 }}>
-                <CardListItem
-                  item={{
-                    id: "3",
-                    type: ItemTypes.SHAPE,
-                    left: 0,
-                    top: 0,
-                    color: "gray",
-                    position: "",
-                    width: 150,
-                    height: 150,
-                    style: "",
-                    d: "m 50 0 l 0 0 l 50 100 l -100 0",
-                  }}
-                />
-                <Divider sx={{ pt: 2 }} />
-              </Box>
+              {shapes.map((item, idx) => (
+                <Box sx={{ pt: 2 }} key={item.id}>
+                  <CardListItem
+                    item={{
+                      id: item.id,
+                      type: ItemTypes.IMAGE,
+                      left: 0,
+                      top: 0,
+                      color: "gray",
+                      src: item.url,
+                      position: "",
+                      width: 150,
+                      height: 150,
+                      style: "",
+                      d: "m 50 0 l 0 0 l 50 100 l -100 0",
+                    }}
+                  />
+                  <Divider sx={{ pt: 2 }} />
+                </Box>
+              ))}
 
-              <Box sx={{ pt: 2 }}>
+              {/* <Box sx={{ pt: 2 }}>
                 <CardListItem
                   item={{
                     id: "3",
@@ -204,7 +207,7 @@ export const CardEditSidBar = ({ children }) => {
                   }}
                 />
                 <Divider sx={{ pt: 2 }} />
-              </Box>
+              </Box> */}
             </Stack>
           </AccordionDetails>
         </Accordion>
