@@ -1,18 +1,9 @@
 import React from "react";
 import { Box, Container, Toolbar } from "@mui/material";
 const path = '../../images/baseImg.jpg'
-const Landing = ({ children }) => {
+const Layout = ({ children }) => {
   return (
     <>
-      {/* <Box
-    component="mainContainer"
-    sx={{
-      flexDirection: 'row',
-      width: '-webkit-fill-available',
-      overflow: 'auto',
-      marginTop: '67px'
-    }}
-  > */}
       <Box
         component="main"
         sx={{
@@ -24,7 +15,6 @@ const Landing = ({ children }) => {
           backgroundPosition: 'center',
           width: '100%',
           height: '100vh',
-          // height: "100vh",
         }}
       >
         <Toolbar />
@@ -36,4 +26,4 @@ const Landing = ({ children }) => {
   );
 };
 
-export default Landing;
+export default Layout;

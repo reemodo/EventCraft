@@ -12,7 +12,7 @@ import { CardItem } from "../CardItem/CardItem";
 import { exportAsImage, parseCssStyles } from "../../../../shared/utils";
 
 import { CardLeftSection } from "../CardLeftSection/CardLeftSection";
-import Landing from "../../../../landing/Landing";
+import Layout from "../../../../landing/Layout";
 
 export const ItemTypes = {
   BOX: "box",

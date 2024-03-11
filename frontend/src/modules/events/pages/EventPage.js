@@ -7,7 +7,7 @@ import { Popup } from 'react-leaflet/Popup'
 import { Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useSelector } from "react-redux";
-import  Landing  from '../../landing/Landing';
+import  Layout  from '../../landing/Layout';
 
 function EventPage({ imageUrl, lat, lng }) {
     const position = [lat, lng]
@@ -21,7 +21,7 @@ function EventPage({ imageUrl, lat, lng }) {
     return (
         <>
         
-        <Landing>
+        <Layout>
                 <CardMedia
                     component="img"
                     sx={{ width: '100vh', objectFit: 'cover', height: '250px', margin: 'auto' }}
@@ -53,7 +53,7 @@ function EventPage({ imageUrl, lat, lng }) {
                     <Popup>Hello I'm Here!</Popup>
                 </Marker>
             </MapContainer>
-        </Landing>
+        </Layout>
         </>
     );
 }

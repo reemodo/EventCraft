@@ -7,8 +7,8 @@ import { useState } from "react";
 import { EventFormModal } from "../../components/EventFormModal/EventFormModal";
 import { useGetMyEventsQuery } from "./../../api/events.api";
 import { useEffect } from "react";
-
-import Landing from "../../../landing/Landing";
+import { useSelector } from "react-redux";
+import Layout from "../../../landing/Layout";
 
 export const WorkSpace = (props) => {
   const [OpenCreateModel, setOpenCreateModel] = useState(false);
@@ -24,7 +24,8 @@ export const WorkSpace = (props) => {
   };
   const [eventsList, setEventsList] = useState([]);
   //TODO: UserId should be in state
-  const userId = 1;
+  const user = useSelector((state) => state.user);
+  const userId = user.currentUser.id;
   const { data, error, isLoading } = useGetMyEventsQuery(userId);
   useEffect(() => {
     if (data) setEventsList(data);
@@ -37,12 +38,9 @@ export const WorkSpace = (props) => {
     return <div>Error: {error.message}</div>;
   }
 
-  if (!data || data.length === 0) {
-    return <div>No events found.</div>;
-  }
   return (
     <>
-      <Landing>
+      <Layout>
         <div className="homeContainer">
           <div className="iconContainer" onClick={onOpenCreateModel}>
             <Icon
@@ -75,7 +73,7 @@ export const WorkSpace = (props) => {
             onSubmit={onAddNewEvent}
           />
         </div>
-      </Landing>
+      </Layout>
     </>
   );
 };

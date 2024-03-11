@@ -28,7 +28,7 @@ export const mainListItems = (
         <ListItemIcon>
           <CalendarMonthIcon />
         </ListItemIcon>
-        <ListItemText primary="Events Joined" />
+        <ListItemText primary="Home" />
       </Link>
     </ListItemButton>
     <ListItemButton>
@@ -43,7 +43,7 @@ export const mainListItems = (
         <ListItemIcon>
           <EventNoteIcon />
         </ListItemIcon>
-        <ListItemText primary="Events Created" />
+        <ListItemText primary="WorkSpace" />
       </Link>
     </ListItemButton>
 
@@ -59,23 +59,7 @@ export const mainListItems = (
         <ListItemIcon>
           <InsertInvitationIcon />
         </ListItemIcon>
-        <ListItemText primary="Add Events" />
-      </Link>
-    </ListItemButton>
-
-    <ListItemButton>
-      <Link
-        to="/editEvent"
-        style={{
-          display: "inline-flex",
-          color: "black",
-          textDecoration: "none",
-        }}
-      >
-        <ListItemIcon>
-          <EditCalendarIcon />
-        </ListItemIcon>
-        <ListItemText primary="Edit Events" />
+        <ListItemText primary="Add Event" />
       </Link>
     </ListItemButton>
   </React.Fragment>
@@ -83,26 +67,6 @@ export const mainListItems = (
 
 export const secondaryListItems = (
   <React.Fragment>
-    <ListSubheader component="div" inset>
-      Saved reports
-    </ListSubheader>
-    <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
-    </ListItemButton>
+    
   </React.Fragment>
 );
