@@ -17,7 +17,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import List from "@mui/material/List";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Divider from "@mui/material/Divider";
-import { mainListItems, secondaryListItems } from "../edatingPage/Dashbord";
+import {
+  EventCardListItems,
+  MainListItemsMenu,
+  SecondaryListItems,
+} from "../edatingPage/Dashbord";
 import { useSelector } from "react-redux";
 import { useInit } from "../shared/hooks/useInit/useInit";
 
@@ -70,6 +74,7 @@ const Drawer = styled(MuiDrawer, {
 
 const Navbar = () => {
   const rdxUser = useSelector((state) => state.user);
+  const rdxEvents = useSelector((state) => state.events);
 
   useInit();
 
@@ -191,9 +196,16 @@ const Navbar = () => {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {mainListItems}
+            <MainListItemsMenu />
+
+            {rdxEvents.isEditingEventCard && (
+              <>
+                <Divider sx={{ my: 1 }} />
+                <EventCardListItems />
+              </>
+            )}
             <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            <SecondaryListItems />
           </List>
         </Drawer>
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Box, Stack } from "@mui/material";
 import { LoadingButton } from "@mui/lab/";
@@ -13,6 +13,8 @@ import { exportAsImage, parseCssStyles } from "../../../../shared/utils";
 
 import { CardLeftSection } from "../CardLeftSection/CardLeftSection";
 import Landing from "../../../../landing/Landing";
+import { useDispatch } from "react-redux";
+import { rdxEventsActions } from "../../../rdx/events.rdx";
 
 export const ItemTypes = {
   BOX: "box",
@@ -24,6 +26,13 @@ export const ItemTypes = {
 
 export const CardEdit = () => {
   const [items, setItems] = useState([]);
+
+  const dispatch = useDispatch();
+
+  //eff show event card side bar item
+  useEffect(() => {
+    dispatch(rdxEventsActions.setIsEditingEventCard(true));
+  }, [dispatch]);
 
   const [card, setCard] = useState({
     type: ItemTypes.CARD,

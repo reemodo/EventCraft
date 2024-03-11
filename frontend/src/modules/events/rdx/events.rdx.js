@@ -1,18 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const eventSlice = createSlice({
-  name: "eventRex",
+  name: "eventRdx",
   initialState: {
     selectedEvent: {},
+    isEditingEventCard: false,
+    editedCardItemType: "",
   },
   reducers: {
     setSelectedEvent(state, action) {
-      console.log(action.payload)
-      state.selectedEvent = {...action.payload};
-      console.log(state.selectedEvent)
+      state.selectedEvent = { ...action.payload };
+    },
+
+    setEditedCardItemType(state, action) {
+      state.editedCardItemType = action.payload;
+    },
+
+    setIsEditingEventCard(state, action) {
+      state.isEditingEventCard = action.payload;
+      state.editedCardItemType = undefined;
+    },
+
+    resetSelectedEvent(state, action) {
+      state.selectedEvent = {};
     },
   },
 });
 
-export const rdxSitesActions = eventSlice.actions;
-export const eventReducer = eventSlice.reducer;
+export const rdxEventsActions = eventSlice.actions;
+export const eventsReducer = eventSlice.reducer;
