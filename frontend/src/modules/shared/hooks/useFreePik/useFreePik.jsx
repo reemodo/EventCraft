@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { useLazyGetShapesQuery } from "../../apis/unsplash.api";
+import { useLazyGetShapesQuery } from "../../apis/external.api";
 
 export const useFreePik = () => {
   const [pendingGetShapes, setPendingGetShapes] = useState(false);

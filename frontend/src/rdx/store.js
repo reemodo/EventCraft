@@ -4,7 +4,7 @@ import { eventApi } from "../modules/events/api/events.api";
 import { eventReducer } from "../modules/events/rdx/events.rdx";
 import { userReducer } from "../modules/users/rdx/users.rdx";
 import { userApi } from "../modules/users/api/user.api";
-import { unsplashApi } from "../modules/shared/apis/unsplash.api";
+import { externalApi } from "../modules/shared/apis/external.api";
 
 const setupStore = () => {
   return configureStore({
@@ -16,14 +16,14 @@ const setupStore = () => {
 
       [eventApi.reducerPath]: eventApi.reducer,
       [userApi.reducerPath]: userApi.reducer,
-      [unsplashApi.reducerPath]: unsplashApi.reducer,
+      [externalApi.reducerPath]: externalApi.reducer,
     },
 
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat([
         eventApi.middleware,
         userApi.middleware,
-        unsplashApi.middleware,
+        externalApi.middleware,
       ]),
   });
 };

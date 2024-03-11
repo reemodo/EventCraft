@@ -1,20 +1,20 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { apiUrl } from "../../../env";
 
-export const unsplashApi = createApi({
-  reducerPath: "unsplashApi",
+export const externalApi = createApi({
+  reducerPath: "externalApi",
   baseQuery: fetchBaseQuery({ baseUrl: apiUrl }),
   endpoints: (builder) => ({
     getPhotos: builder.query({
       query: ({ search }) => ({
-        url: `unSplash/api/photos`,
+        url: `external/api/photos`,
         method: "GET",
         params: { search },
       }),
     }),
     getShapes: builder.query({
       query: ({ search }) => ({
-        url: `unSplash/api/shapes`,
+        url: `external/api/shapes`,
         method: "GET",
         params: { search },
       }),
@@ -26,4 +26,4 @@ export const {
   useLazyGetPhotosQuery, //
   useGetPhotosQuery,
   useLazyGetShapesQuery,
-} = unsplashApi;
+} = externalApi;
