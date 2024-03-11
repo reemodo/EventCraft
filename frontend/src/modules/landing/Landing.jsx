@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Container, Toolbar } from "@mui/material";
-
+const path = '../../images/baseImg.jpg'
 const Landing = ({ children }) => {
   return (
     <>
@@ -17,11 +17,13 @@ const Landing = ({ children }) => {
         component="main"
         sx={{
           width: "-webkit-fill-available",
-          backgroundColor: (theme) =>
-            theme.palette.mode === "light"
-              ? theme.palette.grey[100]
-              : theme.palette.grey[900],
           flexGrow: 1,
+          backgroundImage: `url(${path})`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          width: '100%',
+          height: '100vh',
           // height: "100vh",
         }}
       >
