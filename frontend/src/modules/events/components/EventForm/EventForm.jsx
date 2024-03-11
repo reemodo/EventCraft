@@ -24,26 +24,24 @@ const validationSchema = Yup.object({
 
 export const EventForm = ({ onClose, isModal, isAddFlow,  onSuccess}) => {
   const eventRdx = useSelector((state) => state.events);
-  const [ addEvent , {error: errorOnAddingEvent}] = useAddEventMutation()
+  const user = useSelector((state) => state.user);
+  const [ addEvent , error] = useAddEventMutation()
+  //TODO: Edit Update
   const [ updateEvent , {isLoading , error: errorOnUpdatingEvent}] = useUpdateEventMutation()
   const handelEvent  = async(formValues) =>{
     try{
-      if(!eventRdx.selectedEvent ||  eventRdx.selectedEvent == {}){
-        const eventData = await addEvent(formValues)
+        const eventData = await addEvent({...formValues,userId : user.currentUser.id})
         if(eventData)
           onSuccess(eventData);
-      }
-      else{
-        const eventUpdatedData= await updateEvent(formValues)
-        if(eventUpdatedData)
-          onSuccess(eventUpdatedData);
-      }
+      
+     
     }
     catch(error){
-      
+      return <div>Error: {error.message}</div>;
     }
 
   }
+
   const initFormValues = useMemo(
     () => ({
       category: eventRdx?.selectedEvent?.category || "",
@@ -66,7 +64,6 @@ export const EventForm = ({ onClose, isModal, isAddFlow,  onSuccess}) => {
       eventRdx.selectedEvent?.title,
     ]
   );
-
   return (
     <Formik
       initialValues={initFormValues}
@@ -172,7 +169,7 @@ export const EventForm = ({ onClose, isModal, isAddFlow,  onSuccess}) => {
               </LoadingButton>
 
               {isModal && (
-                <LoadingButton variant="outlined" onClick={onClose}>
+                <LoadingButton variant="contained" onClick={onClose}>
                   cancel
                 </LoadingButton>
               )}
