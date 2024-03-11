@@ -3,8 +3,10 @@ const app = express();
 const api = require("./server/routes/events_API");
 const userAPI = require("./server/routes/users_API");
 const cardAPI = require("./server/routes/cards_API");
+const unSplashAPI = require("./server/routes/unSplash_API");
 
 const path = require("path");
+
 const dbManager = require("./server/events-DB-Server");
 const { port } = require("./constants");
 
@@ -23,6 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/events", api);
 app.use("/user", userAPI);
 app.use("/cards", cardAPI);
+app.use("/unSplash", unSplashAPI);
 
 dbManager.connectToDB();
 
