@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { useLazyGetPhotosQuery } from "../../../shared/apis/unsplash.api";
+import { useLazyGetPhotosQuery } from "../../apis/external.api";
 
 export const useUnsplashHelpers = () => {
   const [getPhotosQuery, { isLoading: pendingPhotos }] =

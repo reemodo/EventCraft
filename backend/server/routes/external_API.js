@@ -40,11 +40,6 @@ router.get("/api/photos", async (req, res) => {
 router.get("/api/shapes", async (req, res) => {
   const { search } = req.query;
 
-  // const baseUrl =
-  //   "https://api.freepik.com/v1/resources?locale=en-US&page=1&limit=10&order=latest&term=shapes&type=icon";
-
-  const q = process.env.REACT_APP_FREE_PIK_API_KEY;
-
   const baseUrl2 = "https://api.freepik.com/v1/icons";
 
   try {
