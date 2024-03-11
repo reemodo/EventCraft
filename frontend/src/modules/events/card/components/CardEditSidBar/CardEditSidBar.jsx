@@ -5,6 +5,8 @@ import {
   AccordionSummary,
   Box,
   Divider,
+  ImageList,
+  ImageListItem,
   Stack,
 } from "@mui/material";
 
@@ -14,6 +16,7 @@ import { CardListItem } from "../CardListItem/CardListItem";
 import { ItemTypes } from "../CardEdit/CardEdit";
 import { useUnsplashHelpers } from "../../../../shared/hooks/useUnsplash/useUnsplashHelpers";
 import { useFreePik } from "../../../../shared/hooks/useFreePik/useFreePik";
+import { useSelector } from "react-redux";
 
 const AccordionNames = {
   Text: "text",
@@ -22,7 +25,7 @@ const AccordionNames = {
 };
 
 export const CardEditSidBar = ({ children }) => {
-  const [expanded, setExpanded] = React.useState(false);
+  const rdxEvents = useSelector((state) => state.events);
 
   const [photos, setPhotos] = useState([]);
   const [shapes, setShapes] = useState([]);
@@ -42,10 +45,6 @@ export const CardEditSidBar = ({ children }) => {
     })();
   }, [getPhotos, getShapes]);
 
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
-
   const drawer = (
     <div>
       <Stack
@@ -54,77 +53,50 @@ export const CardEditSidBar = ({ children }) => {
         // alignItems={"center"}
         pt={2}
       >
-        <Accordion
-          sx={{ width: { sx: "30%", sm: "30%", md: "100%" } }}
-          height={{ xs: "200px", sm: "200px", md: "calc(50vh - 120px)" }}
-          expanded={expanded === AccordionNames.Text}
-          onChange={handleChange(AccordionNames.Text)}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1-content"
-            id="panel1-header"
+        {rdxEvents.editedCardItemType === ItemTypes.TEXT && (
+          <Stack
+            direction={"column"}
+            width={{ md: "350px" }}
+            overflow={"scroll"}
+            sx={{
+              "&::-webkit-scrollbar": { display: "none" },
+              "&-ms-overflow-style": "none",
+              "& scrollbar-width": "none",
+            }}
+            height={{ xs: "200px", sm: "200px", md: "calc(100vh - 150px)" }}
           >
-            Texts
-          </AccordionSummary>
-          <AccordionDetails>
-            <Stack
-              direction={"column"}
-              width={{ md: "100%" }}
-              overflow={"scroll"}
-              sx={{
-                "&::-webkit-scrollbar": { display: "none" },
-                "&-ms-overflow-style": "none",
-                "& scrollbar-width": "none",
-              }}
-              height={{ xs: "200px", sm: "200px", md: "calc(50vh - 120px)" }}
-            >
-              <Box sx={{ pt: 2 }}>
-                <CardListItem
-                  item={{
-                    id: "1",
-                    type: ItemTypes.TEXT,
-                    left: 0,
-                    top: 0,
-                    position: "",
-                    text: "text",
-                    fontSize: 22,
-                    decoration: "underline",
-                    style: "",
-                    color: "",
-                  }}
-                />
-                <Divider sx={{ pt: 2 }} />
-              </Box>
-            </Stack>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          sx={{ width: { sx: "30%", sm: "30%", md: "100%" } }}
-          height={{ xs: "200px", sm: "200px", md: "calc(50vh - 120px)" }}
-          expanded={expanded === AccordionNames.Image}
-          onChange={handleChange(AccordionNames.Image)}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2-content"
-            id="panel2-header"
+            <Box sx={{ pt: 2 }}>
+              <CardListItem
+                item={{
+                  id: "1",
+                  type: ItemTypes.TEXT,
+                  left: 0,
+                  top: 0,
+                  position: "",
+                  text: "text",
+                  fontSize: 22,
+                  decoration: "underline",
+                  style: "",
+                  color: "",
+                }}
+              />
+              <Divider sx={{ pt: 2 }} />
+            </Box>
+          </Stack>
+        )}
+
+        {rdxEvents.editedCardItemType === ItemTypes.IMAGE && (
+          <ImageList
+            sx={{
+              width: 250,
+              height: { xs: "200px", sm: "200px", md: "calc(100vh - 150px)" },
+            }}
+            cols={2}
+            rowHeight={120}
           >
-            Images
-          </AccordionSummary>
-          <AccordionDetails>
-            <Stack
-              width={{ md: "100%" }}
-              overflow={"scroll"}
-              sx={{
-                "&::-webkit-scrollbar": { display: "none" },
-                "&-ms-overflow-style": "none",
-                "& scrollbar-width": "none",
-              }}
-              height={{ xs: "200px", sm: "200px", md: "calc(50vh - 120px)" }}
-            >
-              {photos?.map((photo, idx) => (
-                <Box sx={{ pt: 2 }} key={idx}>
+            {photos?.map((photo, idx) => (
+              <ImageListItem key={idx}>
+                <Box sx={{ pt: 2 }}>
                   <CardListItem
                     item={{
                       id: photo.id,
@@ -133,44 +105,28 @@ export const CardEditSidBar = ({ children }) => {
                       top: 0,
                       src: photo.url,
                       position: "",
-                      width: 150,
-                      height: 150,
+                      width: 100,
+                      height: 100,
                       style: "",
                     }}
                   />
-                  <Divider sx={{ pt: 2 }} />
                 </Box>
-              ))}
-            </Stack>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          sx={{
-            width: { sx: "30%", sm: "30%", md: "100%" },
-          }}
-          expanded={expanded === AccordionNames.Shape}
-          onChange={handleChange(AccordionNames.Shape)}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2-content"
-            id="panel2-header"
+              </ImageListItem>
+            ))}
+          </ImageList>
+        )}
+
+        {rdxEvents.editedCardItemType === ItemTypes.SHAPE && (
+          <ImageList
+            sx={{
+              width: 250,
+              height: { xs: "200px", sm: "200px", md: "calc(100vh - 150px)" },
+            }}
+            cols={2}
+            rowHeight={120}
           >
-            Shapes
-          </AccordionSummary>
-          <AccordionDetails>
-            <Stack
-              direction={"column"}
-              width={{ md: "100%" }}
-              overflow={"scroll"}
-              height={{ xs: "200px", sm: "200px", md: "calc(50vh - 120px)" }}
-              sx={{
-                "&::-webkit-scrollbar": { display: "none" },
-                "&-ms-overflow-style": "none",
-                "& scrollbar-width": "none",
-              }}
-            >
-              {shapes.map((item, idx) => (
+            {shapes.map((item, idx) => (
+              <ImageListItem key={idx}>
                 <Box sx={{ pt: 2 }} key={item.id}>
                   <CardListItem
                     item={{
@@ -181,36 +137,16 @@ export const CardEditSidBar = ({ children }) => {
                       color: "gray",
                       src: item.url,
                       position: "",
-                      width: 150,
-                      height: 150,
+                      width: 100,
+                      height: 100,
                       style: "",
-                      d: "m 50 0 l 0 0 l 50 100 l -100 0",
                     }}
                   />
-                  <Divider sx={{ pt: 2 }} />
                 </Box>
-              ))}
-
-              {/* <Box sx={{ pt: 2 }}>
-                <CardListItem
-                  item={{
-                    id: "3",
-                    type: ItemTypes.SHAPE,
-                    left: 0,
-                    top: 0,
-                    color: "gray",
-                    position: "",
-                    width: 150,
-                    height: 150,
-                    style: "",
-                    d: "m 50 0 l 50 50 l -50 50 l -50 -50",
-                  }}
-                />
-                <Divider sx={{ pt: 2 }} />
-              </Box> */}
-            </Stack>
-          </AccordionDetails>
-        </Accordion>
+              </ImageListItem>
+            ))}
+          </ImageList>
+        )}
       </Stack>
     </div>
   );
