@@ -15,4 +15,7 @@ export const unsplashApi = createApi({
   }),
 });
 
-export const { useLazyGetPhotosQuery, useGetPhotosQuery } = unsplashApi;
+export const {
+  useLazyGetPhotosQuery, //
+  useGetPhotosQuery,
+} = unsplashApi;

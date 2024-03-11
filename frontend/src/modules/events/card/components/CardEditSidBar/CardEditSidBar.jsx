@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -13,6 +13,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { CardListItem } from "../CardListItem/CardListItem";
 import { ItemTypes } from "../CardEdit/CardEdit";
+import { useUnsplashHelpers } from "../../../../shared/hooks/useUnsplash/useUnsplashHelpers";
+import { getShapes } from "../../../../shared/hooks/useFreePik/useFreePik";
 
 const drawerWidth = 240;
 
@@ -24,6 +26,21 @@ const AccordionNames = {
 
 export const CardEditSidBar = ({ children }) => {
   const [expanded, setExpanded] = React.useState(false);
+
+  const [photos, setPhotos] = useState([]);
+  const [shapes, setShapes] = useState([]);
+
+  const { getPhotos, pendingPhotos } = useUnsplashHelpers();
+
+  useEffect(() => {
+    (async () => {
+      const photosData = await getPhotos({ search: "" });
+      setPhotos(photosData);
+
+      const shapesData = await getShapes();
+      setShapes(shapesData);
+    })();
+  }, [getPhotos]);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -106,22 +123,24 @@ export const CardEditSidBar = ({ children }) => {
               }}
               height={{ xs: "200px", sm: "200px", md: "calc(50vh - 120px)" }}
             >
-              <Box sx={{ pt: 2 }}>
-                <CardListItem
-                  item={{
-                    id: "2",
-                    type: ItemTypes.IMAGE,
-                    left: 0,
-                    top: 0,
-                    src: "https://images.pexels.com/photos/20392251/pexels-photo-20392251/free-photo-of-a-brown-butterfly-sitting-on-a-leaf-with-green-leaves.jpeg",
-                    position: "",
-                    width: 150,
-                    height: 150,
-                    style: "",
-                  }}
-                />
-                <Divider sx={{ pt: 2 }} />
-              </Box>
+              {photos?.map((photo) => (
+                <Box sx={{ pt: 2 }}>
+                  <CardListItem
+                    item={{
+                      id: "2",
+                      type: ItemTypes.IMAGE,
+                      left: 0,
+                      top: 0,
+                      src: photo.url,
+                      position: "",
+                      width: 150,
+                      height: 150,
+                      style: "",
+                    }}
+                  />
+                  <Divider sx={{ pt: 2 }} />
+                </Box>
+              ))}
             </Stack>
           </AccordionDetails>
         </Accordion>
