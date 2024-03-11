@@ -1,8 +1,18 @@
-import { createApi } from "unsplash-js";
-import nodeFetch from "node-fetch";
-import { apiUnsplashAccessKey } from "../../../env";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { apiUrl } from "../../../env";
 
-const unsplash = createApi({
-  accessKey: apiUnsplashAccessKey,
-  fetch: nodeFetch,
+export const unsplashApi = createApi({
+  reducerPath: "unsplashApi",
+  baseQuery: fetchBaseQuery({ baseUrl: apiUrl }),
+  endpoints: (builder) => ({
+    getPhotos: builder.query({
+      query: ({ search }) => ({
+        url: `unSplash/api/photos`,
+        method: "GET",
+        params: { search },
+      }),
+    }),
+  }),
 });
+
+export const { useLazyGetPhotosQuery, useGetPhotosQuery } = unsplashApi;
