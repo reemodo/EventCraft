@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
-const ItemSchema = mongoose.model("ItemSchema", require("../../models/Item"));
+
 const Card = require("../../models/card");
 const { findUpdatedItemFields } = require("../../utility");
 const { updateCardFields } = require("./cardCollManager");
+const Item = require("../../models/Item");
 
 class itemCollManager {
   static async getItems(cardId) {
@@ -33,7 +34,7 @@ class itemCollManager {
         return { success: false, error: "Card not found" };
       }
       const lastItemId = await itemCollManager.findTheLastItem(cardId);
-      const newItem = new ItemSchema({ _id: lastItemId, ...newItemData });
+      const newItem = new Item({ _id: lastItemId, ...newItemData });
       card.cardItems.push(newItem);
       await card.save();
       return { success: true, message: "Item saved successfully" };
