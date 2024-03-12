@@ -5,7 +5,7 @@ import { LOCAL_STORAGE_KEYS } from "../../../shared/consts";
 import {
   useLoginMutation,
   useRegisterMutation,
-} from "../../../events/api/user.api";
+} from "../../../users/api/user.api";
 import { rdxUserActions } from "../../../users/rdx/users.rdx";
 
 export const useAuthHelpers = () => {

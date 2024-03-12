@@ -9,7 +9,7 @@ import {
   Button,
 } from "@mui/material";
 import { useTheme } from "@mui/material";
-import { rdxSitesActions } from "../../rdx/events.rdx";
+import { rdxEventsActions } from "../../rdx/events.rdx";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -20,7 +20,7 @@ export const EventCard = ({ event, inHomePage, editModel }) => {
 
   const handelEventClick = (event) => {
     if (inHomePage) {
-      dispatch(rdxSitesActions.setSelectedEvent(event));
+      dispatch(rdxEventsActions.setSelectedEvent(event));
       navigate(`/eventPage`);
     } else {
       dispatch(rdxSitesActions.setSelectedEvent(event));
