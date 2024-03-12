@@ -23,6 +23,7 @@ import { ItemTypes } from "../../card/components/CardEdit/CardEdit";
 
 const validationSchema = Yup.object({
   category: Yup.string().required("category is required"),
+  isPublic: Yup.string().required("visibility is required"),
   title: Yup.string().required("title is required"),
   description: Yup.string().nullable(),
   location: Yup.string().nullable(),
@@ -41,6 +42,17 @@ const initCardItem = {
   style: "",
   color: "",
 };
+
+const publicPrivate = [
+  { name: "Public", value: true },
+  { name: "Private", value: false },
+];
+
+const categories = [
+  { name: "Wadding", id: "wadding" },
+  { name: "Party", id: "party" },
+  { name: "Sport", id: "sport" },
+];
 
 export const EventForm = ({
   onClose,
@@ -102,6 +114,7 @@ export const EventForm = ({
       title: model?.title || "",
       description: model?.description || "",
       location: model?.location || "",
+      isPublic: model?.isPublic || "",
       startDate,
       endDate,
     };
@@ -139,8 +152,26 @@ export const EventForm = ({
               error={!!props.errors.category}
               helperText={props.errors.category ?? ""}
             >
-              {[{ name: "asad", id: "1" }].map(({ name, id }) => (
+              {categories.map(({ name, id }) => (
                 <MenuItem key={name} value={String(id)}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Field>
+
+            {/* isPublic */}
+            <Field
+              name="isPublic"
+              select
+              type="text"
+              label="Visibility"
+              variant="outlined"
+              as={TextField}
+              error={!!props.errors.isPublic}
+              helperText={props.errors.isPublic ?? ""}
+            >
+              {publicPrivate.map(({ name, value }) => (
+                <MenuItem key={name} value={String(value)}>
                   {name}
                 </MenuItem>
               ))}

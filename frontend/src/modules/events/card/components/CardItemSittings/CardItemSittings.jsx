@@ -29,7 +29,7 @@ const imageSettings = [
   { name: "left", type: SettingsType.input },
   { name: "zIndex", type: SettingsType.input },
   {
-    name: "style",
+    name: "cssStyle",
     type: SettingsType.textarea,
   },
 ];
@@ -37,7 +37,7 @@ const imageSettings = [
 const cardSettings = [
   { name: "backgroundColor", type: SettingsType.input },
   {
-    name: "style",
+    name: "cssStyle",
     type: SettingsType.textarea,
   },
 ];
@@ -52,7 +52,7 @@ const shapeSettings = [
 
   { name: "zIndex", type: SettingsType.input },
   {
-    name: "style",
+    name: "cssStyle",
     type: SettingsType.textarea,
   },
 ];
@@ -78,7 +78,7 @@ const textSettings = [
   },
   { name: "zIndex", type: SettingsType.input },
   {
-    name: "style",
+    name: "cssStyle",
     type: SettingsType.textarea,
   },
 ];
@@ -129,7 +129,7 @@ const imageSchema = () =>
     top: Yup.string().required(`top is required`),
     left: Yup.string().required(`left is required`),
     zIndex: Yup.string().nullable(),
-    style: Yup.string().nullable(),
+    cssStyle: Yup.string().nullable(),
   });
 
 const textSchema = () =>
@@ -141,7 +141,7 @@ const textSchema = () =>
     fontFamily: Yup.string().nullable(),
     decoration: Yup.string().nullable(),
     zIndex: Yup.string().nullable(),
-    style: Yup.string().nullable(),
+    cssStyle: Yup.string().nullable(),
   });
 
 const shapeSchema = () =>
@@ -151,7 +151,7 @@ const shapeSchema = () =>
     top: Yup.string().required(`top is required`),
     left: Yup.string().required(`left is required`),
     zIndex: Yup.string().nullable(),
-    style: Yup.string().nullable(),
+    cssStyle: Yup.string().nullable(),
   });
 
 const Input = ({ item, props, onChange, cardItem }) => {

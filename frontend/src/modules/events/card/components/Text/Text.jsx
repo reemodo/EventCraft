@@ -21,7 +21,7 @@ export const Text = ({
             fontWeight: item.weight,
             fontFamily: item.fontFamily,
             color: item.color,
-            ...parseCssStyles(item.style),
+            ...parseCssStyles(item.cssStyle),
           }}
         >
           {item.text}
@@ -34,7 +34,7 @@ export const Text = ({
           html={text && item.uuid === selectedCardItem.uuid ? text : item.text}
           disabled={!selectedCardItem}
           onChange={(e) => onTextChange(item.id, e.target.value)}
-          style={{ ...parseCssStyles(item.style), color: item.color }}
+          style={{ ...parseCssStyles(item.cssStyle), color: item.color }}
           sx={{
             fontSize: item.fontSize,
             textDecoration: item.decoration ?? "",
