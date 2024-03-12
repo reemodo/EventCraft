@@ -20,7 +20,7 @@ import Divider from "@mui/material/Divider";
 import {
   EventCardListItems,
   MainListItemsMenu
-} from "../edatingPage/Dashbord";
+} from "../landing/Dashbord";
 import { useSelector } from "react-redux";
 import { useInit } from "../shared/hooks/useInit/useInit";
 
