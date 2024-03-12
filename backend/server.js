@@ -4,6 +4,7 @@ const api = require("./server/routes/events_API");
 const userAPI = require("./server/routes/users_API");
 const cardAPI = require("./server/routes/cards_API");
 const itemAPI = require("./server/routes/items_API");
+const redALertAPI = require("./server/routes/redAlert_API")
 
 const path = require("path");
 const dbManager = require("./server/events-DB-Server");
@@ -25,6 +26,7 @@ app.use("/events", api);
 app.use("/user", userAPI);
 app.use("/cards", cardAPI);
 app.use("/items", itemAPI);
+app.use("/redAlert", redALertAPI)
 
 dbManager.connectToDB();
 
