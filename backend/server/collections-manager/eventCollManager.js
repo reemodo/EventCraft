@@ -29,7 +29,8 @@ class eventCollManager {
       const newCard = new Card({
         ...card,
         userId: event.userId,
-        img: "imageData.url",
+        img: imageData.url,
+        imgPublicId: imageData.public_id,
       });
       await newCard.save();
 
