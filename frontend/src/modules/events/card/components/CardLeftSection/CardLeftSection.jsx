@@ -4,6 +4,7 @@ import { CardItemSittings } from "../CardItemSittings/CardItemSittings";
 import { Divider, Stack, useMediaQuery } from "@mui/material";
 
 import { useTheme } from "@emotion/react";
+import { useSelector } from "react-redux";
 
 export const CardLeftSection = ({
   selectedCardItem,
@@ -13,6 +14,8 @@ export const CardLeftSection = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
+  const rdxEvents = useSelector((state) => state.events);
+
   return (
     <Stack
       sx={{
@@ -20,13 +23,19 @@ export const CardLeftSection = ({
         gap: 2,
       }}
     >
-      <CardEditSidBar />
-      <Divider orientation={!isMobile ? "vertical" : "horizontal"} flexItem />
-      <CardItemSittings
-        cardItem={selectedCardItem}
-        onChange={onItemSittingsChanged}
-        card={card}
-      />
+      {!!rdxEvents.editedCardItemType && (
+        <>
+          <CardEditSidBar />
+        </>
+      )}
+
+      {!rdxEvents.editedCardItemType && (
+        <CardItemSittings
+          cardItem={selectedCardItem}
+          onChange={onItemSittingsChanged}
+          card={card}
+        />
+      )}
       <Divider orientation={!isMobile ? "vertical" : "horizontal"} flexItem />
     </Stack>
   );

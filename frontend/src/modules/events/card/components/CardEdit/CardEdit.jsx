@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Box, Stack } from "@mui/material";
 import { LoadingButton } from "@mui/lab/";
@@ -14,6 +14,9 @@ import { exportAsImage, parseCssStyles } from "../../../../shared/utils";
 import { CardLeftSection } from "../CardLeftSection/CardLeftSection";
 import Layout from "../../../../landing/Layout";
 
+import { useDispatch } from "react-redux";
+import { rdxEventsActions } from "../../../rdx/events.rdx";
+
 export const ItemTypes = {
   BOX: "box",
   SHAPE: "shape",
@@ -24,6 +27,18 @@ export const ItemTypes = {
 
 export const CardEdit = () => {
   const [items, setItems] = useState([]);
+
+  const dispatch = useDispatch();
+
+  //eff show event card side bar item
+  useEffect(() => {
+    dispatch(rdxEventsActions.setIsEditingEventCard(true));
+
+    return () => {
+      dispatch(rdxEventsActions.setEditedCardItemType(""));
+      dispatch(rdxEventsActions.setIsEditingEventCard(false));
+    };
+  }, [dispatch]);
 
   const [card, setCard] = useState({
     type: ItemTypes.CARD,
@@ -87,6 +102,7 @@ export const CardEdit = () => {
     if (e.detail === 2) {
       selectedCardItemRef.current = item;
       setSelectedCardItem(item);
+      dispatch(rdxEventsActions.setEditedCardItemType(""));
     } else {
       if (selectedCardItemRef.current) {
         if (item.uuid !== selectedCardItemRef.current.uuid) {
@@ -194,6 +210,7 @@ export const CardEdit = () => {
           >
             save
           </LoadingButton>
+
           <Box ref={exportRef}>
             <Box
               ref={combinedRef}
