@@ -29,7 +29,7 @@ class eventCollManager {
       const newCard = new Card({
         ...card,
         userId: event.userId,
-        img: imageData.url,
+        img: "imageData.url",
       });
       await newCard.save();
 
@@ -39,7 +39,7 @@ class eventCollManager {
         const newItem = new Item({
           ...item,
           userId: event.userId,
-          cardId: newCard.toObject()._id,
+          cardId: newCard.toObject()._id.toString(),
         });
         await newItem.save();
         cardItems.push(newItem);
@@ -49,19 +49,64 @@ class eventCollManager {
 
       await Card.findOneAndUpdate(
         { _id: newCardObject._id },
-        { ...newCardObject, cardItems }
+        { ...newCardObject, cardItems },
+        { new: true }
       );
 
       const newEvent = new Event({
         ...event,
-        cardID: newCard.toObject()._id,
+        cardID: newCard.toObject()._id.toString(),
+        attendance: [],
       });
 
       await newEvent.save();
 
-      return newEvent;
+      const results = await Event.aggregate([
+        { $match: { _id: newEvent.toObject()._id } },
+        {
+          $lookup: {
+            from: "cards",
+            localField: "cardID",
+            foreignField: "_id",
+            as: "card",
+          },
+        },
+
+        // {
+        //   $unwind: "$card",
+        // },
+
+        {
+          $lookup: {
+            from: "items",
+            localField: "card.cardItems",
+            foreignField: "_id",
+            as: "cardItems",
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            title: 1,
+            description: 1,
+            location: 1,
+            startDate: 1,
+            endDate: 1,
+            category: 1,
+            createdAt: 1,
+            isPublic: 1,
+            cardItems: "$cardItems",
+            card: { $first: "$card" },
+          },
+        },
+      ]);
+
+      return results;
     }
-    return { success: false, error: "Event not Created" };
+    return {
+      success: false,
+      error: "Event not Created Cloudinary did not save the image",
+    };
   }
   static async myEvents(userId) {
     const userEvents = await Event.find({ userId: userId });
