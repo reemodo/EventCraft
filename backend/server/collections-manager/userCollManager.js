@@ -27,23 +27,11 @@ class userCollManager {
   }
   static async saveUser(user) {
     try {
-      const lastUser = await userCollManager.findTheLastUser();
-      if (lastUser && lastUser.length > 0 && lastUser[0]._id !== undefined) {
-        const newUser = new User({
-          _id: lastUser[0]._id + 1,
-          ...user,
-        });
-        await newUser.save();
-        return newUser;
-      } else {
-        const defaultId = 1;
-        const newUser = new User({
-          _id: defaultId,
-          ...user,
-        });
-        await newUser.save();
-        return newUser;
-      }
+      const newUser = new User({
+        ...user,
+      });
+      await newUser.save();
+      return newUser;
     } catch (error) {
       console.error("Error saving user:", error);
       throw error;
