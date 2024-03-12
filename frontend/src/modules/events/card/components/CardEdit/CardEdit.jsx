@@ -53,7 +53,7 @@ export const CardEdit = () => {
       dispatch(rdxEventsActions.setEditedCardItemType(""));
       dispatch(rdxEventsActions.setIsEditingEventCard(false));
     };
-  }, [dispatch]);
+  }, [dispatch, getEventCard, id]);
 
   const [selectedCardItem, setSelectedCardItem] = useState();
 
