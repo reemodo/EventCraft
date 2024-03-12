@@ -25,7 +25,7 @@ import EditEventPage from "./modules/events/pages/EditEventPage";
 function App() {
   const theme = createTheme({
     palette: {
-    primary: {
+      primary: {
         main: "#2222",
         contrastText: "#000",
       },
@@ -59,7 +59,8 @@ function App() {
                 />
 
                 <Route path="/workSpace" element={withAuth(WorkSpace)} />
-                <Route path="/cardEdit" element={withAuth(CardEdit)} />
+                <Route path="/cardEdit/:id" element={withAuth(CardEdit)} />
+
                 <Route path="/editEvent" element={withAuth(EditEventPage)} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
