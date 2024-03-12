@@ -102,13 +102,15 @@ router.post(
 router.put("/:eventId", async function (req, res) {
   try {
     const eventId = req.params.eventId;
-    const { startDate, endDate, category, location } = req.body;
+    const { startDate, endDate, category, location, description, title } = req.body;
     const updatedEvent = await eventCollManager.updateEventFields(
       eventId,
       startDate,
       endDate,
       category,
-      location
+      location,
+      description, 
+      title 
     );
     res.status(200).send(updatedEvent);
   } catch (err) {

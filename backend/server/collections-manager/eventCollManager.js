@@ -70,13 +70,17 @@ class eventCollManager {
     startDate,
     endDate,
     category,
-    location
+    location,
+    description, 
+    title 
   ) {
     const updateFields = filterAllEventsField(
       startDate,
       endDate,
       location,
-      category
+      category,
+      description, 
+      title 
     );
     const updatedEvent = await Event.findByIdAndUpdate(
       eventId,

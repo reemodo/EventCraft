@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const DBManager = require("../events-DB-Server");
 const cardManager = require("../collections-manager/cardCollManager");
-const card = require("../../models/card");
 const Utilities = require("../../utility");
 
 router.get("/", Utilities.authenticateToken, async function (req, res) {
@@ -52,7 +51,7 @@ router.get("/:cardId", Utilities.authenticateToken, async function (req, res) {
   }
 });
 
-router.put("/:cardId", async function (req, res) {
+router.put("/:cardId", Utilities.authenticateToken, async function (req, res) {
   try {
     const cardId = req.params.cardId;
     const { backgroundColor, cssStyle, img } = req.body;

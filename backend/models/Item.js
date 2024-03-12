@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ItemSchema = new Schema({
+  _id: Number,
   cardId: Number,
   src: String,
   top: String,
@@ -18,5 +19,4 @@ const ItemSchema = new Schema({
   type: String,
 });
 
-const item = mongoose.model("item", ItemSchema);
-module.exports = item;
+module.exports = ItemSchema;
