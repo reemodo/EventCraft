@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 
-import { MenuItem, Stack, TextField } from "@mui/material";
+import { Divider, MenuItem, Stack, TextField } from "@mui/material";
 
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
@@ -17,6 +17,8 @@ import {
 
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+import { CardView } from "../../card/components/CardView/CardView";
+import { exportAsImage } from "../../../shared/utils";
 
 const validationSchema = Yup.object({
   category: Yup.string().required("category is required"),
@@ -27,12 +29,29 @@ const validationSchema = Yup.object({
   endDate: Yup.string().required("end date is required"),
 });
 
-export const EventForm = ({onClose, isModal, isAddFlow, model, onSuccess, setEventsList}) => {
+export const EventForm = ({
+  onClose,
+  isModal,
+  isAddFlow,
+  model,
+  onSuccess,
+  onChangEventTitle,
+}) => {
   const user = useSelector((state) => state.user);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [addEvent, error] = useAddEventMutation();
-  const [updateEvent, { isLoading, error: errorOnUpdatingEvent }] = useUpdateEventMutation();
+  const [updateEvent, { isLoading, error: errorOnUpdatingEvent }] =
+    useUpdateEventMutation();
+
+  const exportRef = useRef(null);
+
+  const onSaveCard = async () => {
+    if (exportRef.current) {
+      const temp = await exportAsImage(exportRef.current, "test");
+      return temp;
+    }
+  };
 
   const handelEvent = async (formValues) => {
     try {
@@ -49,7 +68,7 @@ export const EventForm = ({onClose, isModal, isAddFlow, model, onSuccess, setEve
           id: model._id,
         });
         if (eventData?.data?.success) {
-            navigate('/workSpace')
+          navigate("/workSpace");
         }
       }
     } catch (error) {
@@ -58,12 +77,8 @@ export const EventForm = ({onClose, isModal, isAddFlow, model, onSuccess, setEve
   };
 
   const initFormValues = useMemo(() => {
-    const startDate = model?.startDate
-      ? dayjs(model.startDate)
-      : null;
-    const endDate = model?.endDate
-      ? dayjs(model.endDate)
-      : null;
+    const startDate = model?.startDate ? dayjs(model.startDate) : null;
+    const endDate = model?.endDate ? dayjs(model.endDate) : null;
 
     return {
       category: model?.category || "",
@@ -78,12 +93,17 @@ export const EventForm = ({onClose, isModal, isAddFlow, model, onSuccess, setEve
     <Formik
       initialValues={initFormValues}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
-        handelEvent(values);
+      onSubmit={async (values) => {
+        const img = await onSaveCard();
+        handelEvent({ ...values, img });
       }}
     >
       {(props) => (
         <Form>
+          <CardView ref={exportRef} title={props.values.title} />
+
+          <Divider sx={{ mt: 2, mb: 2 }} />
+
           <Stack sx={{ gap: 2, pt: 2 }}>
             {/* category */}
             <Field

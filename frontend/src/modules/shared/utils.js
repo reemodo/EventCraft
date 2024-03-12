@@ -35,4 +35,6 @@ export const exportAsImage = async (el, imageFileName) => {
   });
   const image = canvas.toDataURL("image/png", 1.0);
   downloadImage(image, imageFileName);
+
+  return image;
 };
