@@ -2,16 +2,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const EventSchema = new Schema({
-  _id: Number,
-  userId: Number,
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   title: String,
   description: String,
   location: String,
   startDate: Date,
   endDate: Date,
   duration: Number,
-  cardID: Number,
-  attendance: [Number],
+  cardID: { type: mongoose.Schema.Types.ObjectId, ref: "card" },
+  attendance: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
   category: String,
   createdAt: Date,
   isPublic: Boolean,

@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const ItemSchema = new Schema({
   _id: Number,
-  cardId: Number,
+  cardId: { type: mongoose.Schema.Types.ObjectId, ref: "card" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   src: String,
   top: String,
   left: String,
@@ -19,4 +20,6 @@ const ItemSchema = new Schema({
   type: String,
 });
 
-module.exports = ItemSchema;
+const Item = mongoose.model("item", ItemSchema);
+
+module.exports = Item;
