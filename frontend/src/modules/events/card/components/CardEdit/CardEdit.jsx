@@ -12,7 +12,8 @@ import { CardItem } from "../CardItem/CardItem";
 import { exportAsImage, parseCssStyles } from "../../../../shared/utils";
 
 import { CardLeftSection } from "../CardLeftSection/CardLeftSection";
-import Landing from "../../../../landing/Landing";
+import Layout from "../../../../landing/Layout";
+
 import { useDispatch } from "react-redux";
 import { rdxEventsActions } from "../../../rdx/events.rdx";
 import { useParams } from "react-router-dom";
@@ -186,13 +187,8 @@ export const CardEdit = () => {
   };
 
   return (
-    <Landing>
-      <Stack
-        width={"100%"}
-        sx={{
-          flexDirection: { sm: "column", md: "row" },
-        }}
-      >
+    <Layout>
+      <Stack width={"100%"} sx={{ flexDirection: { sm: "column", md: "row" } }}>
         <CardLeftSection
           selectedCardItem={selectedCardItemRef.current}
           onItemSittingsChanged={onItemSittingsChanged}
@@ -263,6 +259,6 @@ export const CardEdit = () => {
           </Box>
         </Stack>
       </Stack>
-    </Landing>
+    </Layout>
   );
 };

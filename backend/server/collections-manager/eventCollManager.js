@@ -33,7 +33,12 @@ class eventCollManager {
     return event[0]._id;
   }
   static async filterByParams(id, category, startDate, location) {
-    const filteredFields = filterAllEventsField(startDate, location, category);
+    const filteredFields = filterAllEventsField(
+      startDate,
+      undefined,
+      location,
+      category
+    );
     filteredFields.userId = { $ne: id };
     const events = await Event.find(filteredFields).sort({
       startDate: 1,
@@ -55,6 +60,38 @@ class eventCollManager {
         success: true,
         message: "Event updated successfully",
         data: updatedEvent.attendance,
+      };
+    } else {
+      return { success: false, error: "Event not found" };
+    }
+  }
+  static async updateEventFields(
+    eventId,
+    startDate,
+    endDate,
+    category,
+    location,
+    description, 
+    title 
+  ) {
+    const updateFields = filterAllEventsField(
+      startDate,
+      endDate,
+      location,
+      category,
+      description, 
+      title 
+    );
+    const updatedEvent = await Event.findByIdAndUpdate(
+      eventId,
+      { $set: updateFields },
+      { new: true }
+    );
+    if (updatedEvent) {
+      return {
+        success: true,
+        message: "Event updated successfully",
+        data: updatedEvent,
       };
     } else {
       return { success: false, error: "Event not found" };

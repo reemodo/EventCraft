@@ -23,7 +23,8 @@ export const EventCard = ({ event, inHomePage, editModel }) => {
       dispatch(rdxEventsActions.setSelectedEvent(event));
       navigate(`/eventPage`);
     } else {
-      editModel();
+      dispatch(rdxEventsActions.setSelectedEvent(event));
+      navigate(`/editEvent`);
     }
   };
 

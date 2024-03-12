@@ -3,6 +3,7 @@ const router = express.Router();
 const DBManager = require("../events-DB-Server");
 const eventManager = require("../collections-manager/eventCollManager");
 const Utilities = require("../../utility");
+const eventCollManager = require("../collections-manager/eventCollManager");
 
 router.get("/DBgenerator", async function (req, res) {
   try {
@@ -96,5 +97,23 @@ router.post(
     }
   }
 );
-
+router.put("/:eventId", async function (req, res) {
+  try {
+    const eventId = req.params.eventId;
+    const { startDate, endDate, category, location, description, title } = req.body;
+    const updatedEvent = await eventCollManager.updateEventFields(
+      eventId,
+      startDate,
+      endDate,
+      category,
+      location,
+      description, 
+      title 
+    );
+    res.status(200).send(updatedEvent);
+  } catch (err) {
+    console.error(err);
+    res.status(400).send((err) => err);
+  }
+});
 module.exports = router;

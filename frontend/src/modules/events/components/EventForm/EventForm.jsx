@@ -10,8 +10,13 @@ import { Formik, Form, Field } from "formik";
 
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
-import { useAddEventMutation, useUpdateEventMutation } from "../../api/events.api";
+import {
+  useAddEventMutation,
+  useUpdateEventMutation,
+} from "../../api/events.api";
 
+import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object({
   category: Yup.string().required("category is required"),
@@ -22,57 +27,59 @@ const validationSchema = Yup.object({
   endDate: Yup.string().required("end date is required"),
 });
 
-export const EventForm = ({ onClose, isModal, isAddFlow,  onSuccess}) => {
-  const eventRdx = useSelector((state) => state.events);
-  const [ addEvent , {error: errorOnAddingEvent}] = useAddEventMutation()
-  const [ updateEvent , {isLoading , error: errorOnUpdatingEvent}] = useUpdateEventMutation()
-  const handelEvent  = async(formValues) =>{
-    try{
-      if(!eventRdx.selectedEvent ||  eventRdx.selectedEvent == {}){
-        const eventData = await addEvent(formValues)
-        if(eventData)
-          onSuccess(eventData);
-      }
-      else{
-        const eventUpdatedData= await updateEvent(formValues)
-        if(eventUpdatedData)
-          onSuccess(eventUpdatedData);
-      }
-    }
-    catch(error){
-      
-    }
+export const EventForm = ({onClose, isModal, isAddFlow, model, onSuccess, setEventsList}) => {
+  const user = useSelector((state) => state.user);
+  const navigate = useNavigate()
 
-  }
-  const initFormValues = useMemo(
-    () => ({
-      category: eventRdx?.selectedEvent?.category || "",
-      title: eventRdx?.selectedEvent?.title || "",
-      description: eventRdx?.selectedEvent?.description || "",
-      location: eventRdx?.selectedEvent?.location || "",
-      startDate: eventRdx?.selectedEvent?.startDate
-        ? new Date(eventRdx.selectedEvent.startDate)
-        : "",
-      endDate: eventRdx?.selectedEvent?.endDate
-        ? new Date(eventRdx.selectedEvent.endDate)
-        : "",
-    }),
-    [
-      eventRdx.selectedEvent?.category,
-      eventRdx.selectedEvent?.description,
-      eventRdx.selectedEvent.endDate,
-      eventRdx.selectedEvent?.location,
-      eventRdx.selectedEvent.startDate,
-      eventRdx.selectedEvent?.title,
-    ]
-  );
+  const [addEvent, error] = useAddEventMutation();
+  const [updateEvent, { isLoading, error: errorOnUpdatingEvent }] = useUpdateEventMutation();
 
+  const handelEvent = async (formValues) => {
+    try {
+      if (isModal) {
+        const eventData = await addEvent({
+          ...formValues,
+          userId: user.currentUser.id,
+        });
+        if (eventData) onSuccess(eventData);
+      } else {
+        const eventData = await updateEvent({
+          ...formValues,
+          userId: user.currentUser.id,
+          id: model._id,
+        });
+        if (eventData?.data?.success) {
+            navigate('/workSpace')
+        }
+      }
+    } catch (error) {
+      return <div>Error: {error.message}</div>;
+    }
+  };
+
+  const initFormValues = useMemo(() => {
+    const startDate = model?.startDate
+      ? dayjs(model.startDate)
+      : null;
+    const endDate = model?.endDate
+      ? dayjs(model.endDate)
+      : null;
+
+    return {
+      category: model?.category || "",
+      title: model?.title || "",
+      description: model?.description || "",
+      location: model?.location || "",
+      startDate,
+      endDate,
+    };
+  }, [model]);
   return (
     <Formik
       initialValues={initFormValues}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        handelEvent(values)
+        handelEvent(values);
       }}
     >
       {(props) => (
@@ -130,14 +137,14 @@ export const EventForm = ({ onClose, isModal, isAddFlow,  onSuccess}) => {
 
             {/* start date */}
 
-            <Field
+            <DateTimePicker
               name="startDate"
               label="Start Date"
-              as={DateTimePicker}
-              value={props.values.startDate}
+              value={props.values.startDate} // Pass the value directly to the DateTimePicker
               onChange={(value) => {
-                props.setFieldValue("startDate", new Date(value));
+                props.setFieldValue("startDate", value);
               }}
+              renderInput={(props) => <TextField {...props} />} // Render input
               views={["year", "month", "day", "hours", "minutes"]}
               slotProps={{
                 textField: {
@@ -148,14 +155,14 @@ export const EventForm = ({ onClose, isModal, isAddFlow,  onSuccess}) => {
             />
 
             {/* end date */}
-            <Field
+            <DateTimePicker
               name="endDate"
               label="End Date"
-              as={DateTimePicker}
-              value={props.values.endDate}
+              value={props.values.endDate} // Pass the value directly to the DateTimePicker
               onChange={(value) => {
-                props.setFieldValue("endDate", new Date(value));
+                props.setFieldValue("endDate", value);
               }}
+              renderInput={(props) => <TextField {...props} />} // Render input
               views={["year", "month", "day", "hours", "minutes"]}
               slotProps={{
                 textField: {
@@ -172,7 +179,7 @@ export const EventForm = ({ onClose, isModal, isAddFlow,  onSuccess}) => {
               </LoadingButton>
 
               {isModal && (
-                <LoadingButton variant="outlined" onClick={onClose}>
+                <LoadingButton variant="contained" onClick={onClose}>
                   cancel
                 </LoadingButton>
               )}
