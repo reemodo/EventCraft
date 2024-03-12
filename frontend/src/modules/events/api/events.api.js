@@ -24,8 +24,8 @@ export const eventApi = createApi({
         const formData = eventFormData(body);
 
         return {
-          url: `events/${body.id}`,
-          method: "PUT",
+          url: `events`,
+          method: "POST",
           body: formData,
           headers: {
             "Content-Type": "multipart/form-data",
