@@ -4,7 +4,7 @@ import { CardListItem } from "../CardListItem/CardListItem";
 import { ItemTypes } from "../CardEdit/CardEdit";
 import { Box } from "@mui/material";
 
-export const CardView = forwardRef(({ title }, ref) => {
+export const CardView = forwardRef(({ title, item }, ref) => {
   return (
     <Box ref={ref}>
       <Box
@@ -18,16 +18,8 @@ export const CardView = forwardRef(({ title }, ref) => {
       >
         <CardListItem
           item={{
-            id: "1",
-            type: ItemTypes.TEXT,
-            left: 0,
-            top: 0,
-            position: "absolute",
+            ...item,
             text: title,
-            fontSize: 50,
-            decoration: "",
-            style: "",
-            color: "",
           }}
         />
       </Box>

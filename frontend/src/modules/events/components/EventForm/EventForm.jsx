@@ -19,6 +19,7 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { CardView } from "../../card/components/CardView/CardView";
 import { exportAsImage } from "../../../shared/utils";
+import { ItemTypes } from "../../card/components/CardEdit/CardEdit";
 
 const validationSchema = Yup.object({
   category: Yup.string().required("category is required"),
@@ -28,6 +29,18 @@ const validationSchema = Yup.object({
   startDate: Yup.string().required("start date is required"),
   endDate: Yup.string().required("end date is required"),
 });
+
+const initCardItem = {
+  type: ItemTypes.TEXT,
+  left: 0,
+  top: 0,
+  position: "absolute",
+  text: "",
+  fontSize: 50,
+  decoration: "",
+  style: "",
+  color: "",
+};
 
 export const EventForm = ({
   onClose,
@@ -59,6 +72,9 @@ export const EventForm = ({
         const eventData = await addEvent({
           ...formValues,
           userId: user.currentUser.id,
+          card: {
+            items: [{ ...initCardItem, text: formValues.title }],
+          },
         });
         if (eventData) onSuccess(eventData);
       } else {
@@ -66,6 +82,7 @@ export const EventForm = ({
           ...formValues,
           userId: user.currentUser.id,
           id: model._id,
+          card: model.card,
         });
         if (eventData?.data?.success) {
           navigate("/workSpace");
@@ -100,7 +117,13 @@ export const EventForm = ({
     >
       {(props) => (
         <Form>
-          <CardView ref={exportRef} title={props.values.title} />
+          {!model && (
+            <CardView
+              ref={exportRef}
+              title={props.values.title}
+              item={initCardItem}
+            />
+          )}
 
           <Divider sx={{ mt: 2, mb: 2 }} />
 
