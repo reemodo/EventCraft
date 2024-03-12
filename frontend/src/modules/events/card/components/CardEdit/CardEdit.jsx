@@ -32,6 +32,11 @@ export const CardEdit = () => {
   //eff show event card side bar item
   useEffect(() => {
     dispatch(rdxEventsActions.setIsEditingEventCard(true));
+
+    return () => {
+      dispatch(rdxEventsActions.setEditedCardItemType(""));
+      dispatch(rdxEventsActions.setIsEditingEventCard(false));
+    };
   }, [dispatch]);
 
   const [card, setCard] = useState({
@@ -96,6 +101,7 @@ export const CardEdit = () => {
     if (e.detail === 2) {
       selectedCardItemRef.current = item;
       setSelectedCardItem(item);
+      dispatch(rdxEventsActions.setEditedCardItemType(""));
     } else {
       if (selectedCardItemRef.current) {
         if (item.uuid !== selectedCardItemRef.current.uuid) {
@@ -176,7 +182,12 @@ export const CardEdit = () => {
 
   return (
     <Landing>
-      <Stack width={"100%"} sx={{ flexDirection: { sm: "column", md: "row" } }}>
+      <Stack
+        width={"100%"}
+        sx={{
+          flexDirection: { sm: "column", md: "row" },
+        }}
+      >
         <CardLeftSection
           selectedCardItem={selectedCardItemRef.current}
           onItemSittingsChanged={onItemSittingsChanged}
@@ -203,6 +214,7 @@ export const CardEdit = () => {
           >
             save
           </LoadingButton>
+
           <Box ref={exportRef}>
             <Box
               ref={combinedRef}
