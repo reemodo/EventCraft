@@ -4,7 +4,7 @@ import { localStorageSvc } from "../../shared/LocalStorageSvc/LocalStorageSvc";
 import { LOCAL_STORAGE_KEYS } from "../../shared/consts";
 
 
-export const useIsLoggedIn =  () => {
+export const useGetEvents =  () => {
 
   const userId = localStorageSvc.get(LOCAL_STORAGE_KEYS.USER)?.data?.id;
   const [getEvents, { isLoading, error }] = useLazyGetEventsQuery();

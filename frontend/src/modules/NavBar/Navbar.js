@@ -17,7 +17,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import List from "@mui/material/List";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Divider from "@mui/material/Divider";
-import { mainListItems, secondaryListItems } from "../edatingPage/Dashbord";
+import { mainListItems } from "../landing/Dashbord";
 import { useSelector } from "react-redux";
 import { useInit } from "../shared/hooks/useInit/useInit";
 
@@ -192,8 +192,6 @@ const Navbar = () => {
           <Divider />
           <List component="nav">
             {mainListItems}
-            <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
           </List>
         </Drawer>
 

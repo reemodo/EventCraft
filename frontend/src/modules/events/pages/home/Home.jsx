@@ -4,11 +4,11 @@ import "./home.css";
 import { useEffect } from "react";
 import Layout from "../../../landing/Layout";
 import { TopContainer } from "./TopContainer";
-import {useIsLoggedIn} from "../../hooks/getEvents";
+import {useGetEvents} from "../../hooks/useGetEvents";
 
 export function Home(props) {
   const [eventsList, setEventsList] = useState([]);
-  const { isLoading, error, fetchEvents } = useIsLoggedIn();
+  const { isLoading, error, fetchEvents } = useGetEvents();
 
   useEffect(() => {
     (async ()=> { 
