@@ -1,14 +1,14 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { apiUrl } from "../../../env";
-
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { getBaseQuery} from '../../../rdx/rdxUtilities'
 export const eventApi = createApi({
   reducerPath: "eventApi",
-  baseQuery: fetchBaseQuery({ baseUrl: apiUrl }),
+  baseQuery: getBaseQuery(),
   endpoints: (builder) => ({
     getEvents: builder.query({
-      query: () => ({
+      query: (id) => ({
         url: `events`,
-        method: "GET"
+        method: "GET",
+        params:{id}
       }),
     }),
     getMyEvents: builder.query({
@@ -49,5 +49,6 @@ export const {
   useDeleteEventMutation,
   useLazyGetEventsQuery,
   useGetMyEventsQuery,
-  useUpdateEventMutation
+  useUpdateEventMutation,
+  useLazyGetMyEventsQuery
 } = eventApi;

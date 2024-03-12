@@ -4,7 +4,7 @@ import { EventCard } from "./EventCard";
 import { Grid, Typography } from "@mui/material";
 
 export function Events({ inHomePage, events, editModel }) {
-  const groupedEvents = events.reduce((event, obj) => {
+  const groupedEvents = events.length ?events?.reduce((event, obj) => {
     const { category, ...rest } = obj;
     if (!event[category]) {
       event[category] = [rest]; // Create a new array for the category
@@ -12,7 +12,7 @@ export function Events({ inHomePage, events, editModel }) {
       event[category].push(rest); // Push the object to the existing array
     }
     return event;
-  }, {});
+  }, {}):{};
 
   return (
     <>

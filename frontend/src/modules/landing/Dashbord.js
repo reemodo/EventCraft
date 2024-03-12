@@ -19,10 +19,9 @@ import { ItemTypes } from "../events/card/components/CardEdit/CardEdit";
 import { rdxEventsActions } from "../events/rdx/events.rdx";
 
 const mainListItems = [
-  { title: "Events Joined", icon: CalendarMonthIcon, url: "/" },
-  { title: "Events Created", icon: EventNoteIcon, url: "/workSpace" },
-  { title: "Add Events", icon: InsertInvitationIcon, url: "/addEvent" },
-  { title: "Edit Events", icon: EditCalendarIcon, url: "/editEvent" },
+  { title: "Home", icon: CalendarMonthIcon, url: "/" },
+  { title: "WorkSpace", icon: EventNoteIcon, url: "/workSpace" },
+
 ];
 
 export const MainListItemsMenu = () => {
@@ -49,30 +48,6 @@ export const MainListItemsMenu = () => {
   );
 };
 
-const secondaryListItems = [
-  { title: "Current month", icon: AssignmentIcon, url: "/" },
-  { title: "Last quarter", icon: AssignmentIcon, url: "/" },
-  { title: "Year-end sale", icon: AssignmentIcon, url: "/" },
-];
-
-export const SecondaryListItems = () => {
-  return (
-    <React.Fragment>
-      <ListSubheader component="div" inset>
-        Saved reports
-      </ListSubheader>
-
-      {secondaryListItems.map((link, idx) => (
-        <ListItemButton key={idx}>
-          <ListItemIcon>
-            <link.icon />
-          </ListItemIcon>
-          <ListItemText primary={link.title} />
-        </ListItemButton>
-      ))}
-    </React.Fragment>
-  );
-};
 
 const editCardEventListItems = [
   { type: ItemTypes.TEXT, icon: TitleIcon },

@@ -5,10 +5,11 @@ import "./workSpace.css";
 import { Icon } from "@mui/material";
 import { useState } from "react";
 import { EventFormModal } from "../../components/EventFormModal/EventFormModal";
-import { useGetMyEventsQuery } from "./../../api/events.api";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import Layout from "../../../landing/Layout";
 
-import Landing from "../../../landing/Landing";
+import { useGetMyEvents } from "../../hooks/useGetMyEvents";
 
 export const WorkSpace = (props) => {
   const [OpenCreateModel, setOpenCreateModel] = useState(false);
@@ -22,13 +23,21 @@ export const WorkSpace = (props) => {
     setOpenCreateModel(false);
     alert("we add a new event");
   };
+
   const [eventsList, setEventsList] = useState([]);
-  //TODO: UserId should be in state
-  const userId = 1;
-  const { data, error, isLoading } = useGetMyEventsQuery(userId);
+
+  const { isLoading, error, fetchMyEvents } = useGetMyEvents();
+
   useEffect(() => {
-    if (data) setEventsList(data);
-  }, [data]);
+    (async ()=> { 
+      const data = await fetchMyEvents();
+
+      if (data) {
+        setEventsList(data);
+      }
+    })()
+  }, []);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -37,12 +46,9 @@ export const WorkSpace = (props) => {
     return <div>Error: {error.message}</div>;
   }
 
-  if (!data || data.length === 0) {
-    return <div>No events found.</div>;
-  }
   return (
     <>
-      <Landing>
+      <Layout>
         <div className="homeContainer">
           <div className="iconContainer" onClick={onOpenCreateModel}>
             <Icon
@@ -67,15 +73,15 @@ export const WorkSpace = (props) => {
           <Events
             inHomePage={false}
             events={eventsList}
-            editModel={onOpenCreateModel}
           />
           <EventFormModal
             isOpen={OpenCreateModel}
             onClose={onCloseCreateModel}
             onSubmit={onAddNewEvent}
+            setEventsList={setEventsList}
           />
         </div>
-      </Landing>
+      </Layout>
     </>
   );
 };

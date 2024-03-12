@@ -18,7 +18,7 @@ const setupStore = () => {
       [userApi.reducerPath]: userApi.reducer,
       [externalApi.reducerPath]: externalApi.reducer,
     },
-
+    
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat([
         eventApi.middleware,

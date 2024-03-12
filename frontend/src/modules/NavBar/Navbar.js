@@ -19,9 +19,8 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Divider from "@mui/material/Divider";
 import {
   EventCardListItems,
-  MainListItemsMenu,
-  SecondaryListItems,
-} from "../edatingPage/Dashbord";
+  MainListItemsMenu
+} from "../landing/Dashbord";
 import { useSelector } from "react-redux";
 import { useInit } from "../shared/hooks/useInit/useInit";
 
@@ -204,8 +203,8 @@ const Navbar = () => {
                 <EventCardListItems />
               </>
             )}
-            <Divider sx={{ my: 1 }} />
-            <SecondaryListItems />
+
+        
           </List>
         </Drawer>
 
