@@ -229,7 +229,7 @@ export const CardEdit = () => {
                 height: "300px",
                 border: "1px solid #000",
                 background: card.backgroundColor,
-                ...parseCssStyles(card.style),
+                ...parseCssStyles(card.cssStyle),
               }}
               overflow={"hidden"}
             >

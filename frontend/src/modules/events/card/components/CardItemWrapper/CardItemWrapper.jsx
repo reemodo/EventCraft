@@ -58,7 +58,7 @@ export const CardItemWrapper = ({
         }
         style={{
           border: showLayout ? "1px solid " : "none",
-          ...parseCssStyles(item.style),
+          ...parseCssStyles(item.cssStyle),
           overflow: "hidden",
         }}
       >
