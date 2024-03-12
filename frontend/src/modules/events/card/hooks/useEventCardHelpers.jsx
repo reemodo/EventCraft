@@ -6,14 +6,21 @@ export const useEventCardHelpers = () => {
 
   const [getEventCardApi] = useLazyGetEventCardQuery();
 
-  const getEventCard = useCallback(async () => {
-    setPendingEventCard();
-    try {
-      const eventCard = await getEventCardApi();
+  const getEventCard = useCallback(
+    async (id) => {
+      setPendingEventCard(true);
+      try {
+        const eventCard = await getEventCardApi(id);
 
-      return eventCard;
-    } catch (e) {}
-  }, []);
+        return eventCard;
+      } catch (e) {
+        console.log("🚀 ~ getEventCard ~ e:", e);
+      } finally {
+        setPendingEventCard(false);
+      }
+    },
+    [getEventCardApi]
+  );
 
-  return <div>useEventCardHelpers</div>;
+  return { getEventCard, pendingGetEventCard };
 };

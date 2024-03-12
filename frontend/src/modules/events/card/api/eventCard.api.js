@@ -1,9 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
+
 import { apiUrl } from "../../../../env";
+import { getBaseQuery } from "../../../../rdx/rdxUtilities";
 
 const eventCardApi = createApi({
   reducerPath: "eventCardApi",
-  baseQuery: fetchBaseQuery({ baseUrl: apiUrl }),
+  baseQuery: getBaseQuery(),
   endpoints: (builder) => ({
     getEventCard: builder.query({
       query: (id) => ({

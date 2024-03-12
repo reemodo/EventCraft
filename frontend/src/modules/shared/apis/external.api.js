@@ -1,9 +1,10 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { apiUrl } from "../../../env";
+import { createApi } from "@reduxjs/toolkit/query/react";
+
+import { getBaseQuery } from "../../../rdx/rdxUtilities";
 
 export const externalApi = createApi({
   reducerPath: "externalApi",
-  baseQuery: fetchBaseQuery({ baseUrl: apiUrl }),
+  baseQuery: getBaseQuery(),
   endpoints: (builder) => ({
     getPhotos: builder.query({
       query: ({ search }) => ({
