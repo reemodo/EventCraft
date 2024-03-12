@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const secretKey = "my_secret_key";
-const filterAllEventsField = function (startDate, endDate, location, category) {
+const filterAllEventsField = function (startDate, endDate, location, category, description, title) {
   const filter = {};
   if (startDate) {
     filter.startDate = startDate;
@@ -14,7 +14,12 @@ const filterAllEventsField = function (startDate, endDate, location, category) {
   if (category) {
     filter.category = category;
   }
-
+  if (description){
+    filter.description = description
+  }
+  if(title){
+    filter.title = title
+  }
   return filter;
 };
 
@@ -49,4 +54,19 @@ const findUpdatedFields = function (backgroundColor, cssStyle, img) {
 
   return filter;
 };
-module.exports = { filterAllEventsField, authenticateToken, findUpdatedFields };
+
+const findUpdatedItemFields = function (newPosition) {
+  const updateFields = {};
+  for (const key in newPosition) {
+    if (newPosition[key] !== undefined) {
+      updateFields[`cardItems.$.${key}`] = newPosition[key];
+    }
+  }
+  return updateFields;
+};
+module.exports = {
+  filterAllEventsField,
+  authenticateToken,
+  findUpdatedFields,
+  findUpdatedItemFields,
+};
