@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const secretKey = "my_secret_key";
-const filterAllEventsField = function (startDate, endDate, location, category) {
+const filterAllEventsField = function (startDate, endDate, location, category, description, title) {
   const filter = {};
   if (startDate) {
     filter.startDate = startDate;
@@ -14,7 +14,12 @@ const filterAllEventsField = function (startDate, endDate, location, category) {
   if (category) {
     filter.category = category;
   }
-
+  if (description){
+    filter.description = description
+  }
+  if(title){
+    filter.title = title
+  }
   return filter;
 };
 
