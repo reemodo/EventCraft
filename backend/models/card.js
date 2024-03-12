@@ -1,13 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const ItemSchema = require("../models/Item");
 
 const CardSchema = new Schema({
-  _id: Number,
-  userId: Number,
-  eventId: Number,
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+  eventId: { type: mongoose.Schema.Types.ObjectId, ref: "event" },
   img: String,
-  cardItems: [ItemSchema],
+  cardItems: [{ type: mongoose.Schema.Types.ObjectId, ref: "item" }],
   createdAt: Date,
   backgroundColor: String,
   cssStyle: String,
