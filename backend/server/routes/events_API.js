@@ -54,6 +54,8 @@ router.post("/", Utilities.authenticateToken, async (req, res) => {
   }
 });
 
+
+
 router.get(
   "/myEvents/:userId",
   Utilities.authenticateToken,

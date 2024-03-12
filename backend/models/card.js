@@ -7,7 +7,7 @@ const CardSchema = new Schema({
   userId: Number,
   eventId: Number,
   img: String,
-  cardItems: [Item],
+  cardItems: [Item.schema],
   createdAt: Date,
   backgroundColor: String,
   cssStyle: String,

@@ -3,10 +3,13 @@ const app = express();
 const api = require("./server/routes/events_API");
 const userAPI = require("./server/routes/users_API");
 const cardAPI = require("./server/routes/cards_API");
+const cloudAPI = require("./server/routes/cloud_API");
+
 
 const path = require("path");
 const dbManager = require("./server/events-DB-Server");
 const { port } = require("./constants");
+
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -23,6 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/events", api);
 app.use("/user", userAPI);
 app.use("/cards", cardAPI);
+app.use("/cloud", cloudAPI)
 
 dbManager.connectToDB();
 
