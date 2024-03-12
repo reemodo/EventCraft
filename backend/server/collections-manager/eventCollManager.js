@@ -1,4 +1,5 @@
 const Event = require("../../models/event");
+const Card = require("../../models/card");
 const utilitiesFunctions = require("../../utility");
 const filterAllEventsField = utilitiesFunctions.filterAllEventsField;
 
@@ -9,6 +10,7 @@ class eventCollManager {
   }
   static async deleteEvent(eventId) {
     const deletedEvent = await Event.findByIdAndDelete(eventId);
+    await Card.findByIdAndDelete(deletedEvent.cardID);
     if (deletedEvent) {
       return { success: true, message: "Event removed successfully" };
     } else {
@@ -30,7 +32,8 @@ class eventCollManager {
   }
   static async findTheLastEvent() {
     const event = await Event.find({}).sort({ _id: -1 }).limit(1);
-    return event[0]._id;
+    if (event[0]) return event[0]._id;
+    else return -1;
   }
   static async filterByParams(id, category, startDate, location) {
     const filteredFields = filterAllEventsField(
