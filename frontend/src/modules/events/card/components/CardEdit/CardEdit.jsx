@@ -15,6 +15,7 @@ import { CardLeftSection } from "../CardLeftSection/CardLeftSection";
 import Landing from "../../../../landing/Landing";
 import { useDispatch } from "react-redux";
 import { rdxEventsActions } from "../../../rdx/events.rdx";
+import { useParams } from "react-router-dom";
 
 export const ItemTypes = {
   BOX: "box",
@@ -27,10 +28,14 @@ export const ItemTypes = {
 export const CardEdit = () => {
   const [items, setItems] = useState([]);
 
+  const { id } = useParams();
+
   const dispatch = useDispatch();
 
   //eff show event card side bar item
   useEffect(() => {
+    (() => {})();
+
     dispatch(rdxEventsActions.setIsEditingEventCard(true));
 
     return () => {

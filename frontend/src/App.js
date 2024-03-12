@@ -58,7 +58,7 @@ function App() {
                 />
 
                 <Route path="/workSpace" element={withAuth(WorkSpace)} />
-                <Route path="/cardEdit" element={withAuth(CardEdit)} />
+                <Route path="/cardEdit/:id" element={withAuth(CardEdit)} />
 
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
