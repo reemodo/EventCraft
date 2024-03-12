@@ -17,6 +17,7 @@ import Layout from "../../../../landing/Layout";
 import { useDispatch } from "react-redux";
 import { rdxEventsActions } from "../../../rdx/events.rdx";
 import { useParams } from "react-router-dom";
+import { useEventCardHelpers } from "../../hooks/useEventCardHelpers";
 
 export const ItemTypes = {
   BOX: "box",
@@ -31,11 +32,20 @@ export const CardEdit = () => {
 
   const { id } = useParams();
 
+  const { getEventCard, pendingGetEventCard } = useEventCardHelpers();
+
+  const [card, setCard] = useState();
+
   const dispatch = useDispatch();
 
   //eff show event card side bar item
   useEffect(() => {
-    (() => {})();
+    (async () => {
+      if (id) {
+        const eventCard = await getEventCard();
+        setCard({ ...eventCard, type: ItemTypes.CARD });
+      }
+    })();
 
     dispatch(rdxEventsActions.setIsEditingEventCard(true));
 
@@ -44,12 +54,6 @@ export const CardEdit = () => {
       dispatch(rdxEventsActions.setIsEditingEventCard(false));
     };
   }, [dispatch]);
-
-  const [card, setCard] = useState({
-    type: ItemTypes.CARD,
-    style: "",
-    backgroundColor: "",
-  });
 
   const [selectedCardItem, setSelectedCardItem] = useState();
 
