@@ -29,14 +29,14 @@ export const WorkSpace = (props) => {
   const { isLoading, error, fetchMyEvents } = useGetMyEvents();
 
   useEffect(() => {
-    (async ()=> { 
+    (async () => {
       const data = await fetchMyEvents();
 
       if (data) {
         setEventsList(data);
       }
-    })()
-  }, []);
+    })();
+  }, [fetchMyEvents]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -70,10 +70,7 @@ export const WorkSpace = (props) => {
               +
             </Icon>
           </div>
-          <Events
-            inHomePage={false}
-            events={eventsList}
-          />
+          <Events inHomePage={false} events={eventsList} />
           <EventFormModal
             isOpen={OpenCreateModel}
             onClose={onCloseCreateModel}

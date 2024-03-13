@@ -4,21 +4,21 @@ import "./home.css";
 import { useEffect } from "react";
 import Layout from "../../../landing/Layout";
 import { TopContainer } from "./TopContainer";
-import {useGetEvents} from "../../hooks/useGetEvents";
+import { useGetEvents } from "../../hooks/useGetEvents";
 
 export function Home(props) {
   const [eventsList, setEventsList] = useState([]);
   const { isLoading, error, fetchEvents } = useGetEvents();
 
   useEffect(() => {
-    (async ()=> { 
+    (async () => {
       const data = await fetchEvents();
 
       if (data) {
         setEventsList(data);
       }
-    })()
-  }, []);
+    })();
+  }, [fetchEvents]);
 
   if (isLoading) {
     return <div>Loading...</div>;
