@@ -40,11 +40,11 @@ router.post("/", Utilities.authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/:cardId", Utilities.authenticateToken, async function (req, res) {
+router.get("/:cardId", async function (req, res) {
   try {
     const cardId = req.params.cardId;
-    const myCards = await cardManager.myCards(cardId);
-    res.send(myCards);
+    const card = await cardManager.getCard(cardId);
+    res.send(card);
   } catch (err) {
     console.error(err);
     res.status(400).send((err) => err);
