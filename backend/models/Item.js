@@ -2,21 +2,26 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ItemSchema = new Schema({
-  _id: Number,
-  cardId: Number,
+  cardId: { type: mongoose.Schema.Types.ObjectId, ref: "card" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   src: String,
-  top: String,
-  left: String,
-  fontSize: String,
+  top: Number,
+  left: Number,
+  position: String,
+  fontSize: Number,
   color: String,
-  weight: String,
+  weight: Number,
   fontFamily: String,
   decoration: String,
   borderRadius: String,
-  zIndex: String,
+  zIndex: Number,
   svgPath: String,
   cssStyle: String,
   type: String,
+  width: Number,
+  height: Number,
 });
 
-module.exports = ItemSchema;
+const Item = mongoose.model("item", ItemSchema);
+
+module.exports = Item;

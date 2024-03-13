@@ -1,17 +1,19 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const ItemSchema = require("../models/Item");
 
-const CardSchema = new Schema({
-  _id: Number,
-  userId: Number,
-  eventId: Number,
-  img: String,
-  cardItems: [ItemSchema],
-  createdAt: Date,
-  backgroundColor: String,
-  cssStyle: String,
-});
+const CardSchema = new Schema(
+  {
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+    eventId: { type: mongoose.Schema.Types.ObjectId, ref: "event" },
+    img: String,
+    cardItems: [{ type: mongoose.Schema.Types.ObjectId, ref: "item" }],
+
+    backgroundColor: String,
+    cssStyle: String,
+    imgPublicId: String,
+  },
+  { timestamps: true }
+);
 
 const card = mongoose.model("card", CardSchema);
 module.exports = card;
