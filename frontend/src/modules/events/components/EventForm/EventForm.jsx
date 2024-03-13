@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef ,useState} from "react";
 
-import { MenuItem, Stack, TextField } from "@mui/material";
+import { Divider, MenuItem, Stack, TextField } from "@mui/material";
+
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LoadingButton } from "@mui/lab";
 import { Formik, Form, Field } from "formik";
@@ -13,10 +14,15 @@ import { useAddEventMutation, useUpdateEventMutation } from "../../api/events.ap
 
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+import { CardView } from "../../card/components/CardView/CardView";
+import { exportAsCanvas } from "../../../shared/utils";
+import { ItemTypes } from "../../card/components/CardEdit/CardEdit";
+import { eventFormData } from "../../event.utils";
 
 
 const validationSchema = Yup.object({
   category: Yup.string().required("category is required"),
+  isPublic: Yup.string().required("visibility is required"),
   title: Yup.string().required("title is required"),
   description: Yup.string().nullable(),
   location: Yup.string().nullable(),
@@ -24,11 +30,53 @@ const validationSchema = Yup.object({
   endDate: Yup.string().required("end date is required"),
 });
 
-export const EventForm = ({ onClose, isModal, isAddFlow, model, onSuccess, setEventsList }) => {
+const initCardItem = {
+  type: ItemTypes.TEXT,
+  left: 0,
+  top: 0,
+  position: "absolute",
+  text: "",
+  fontSize: 50,
+  decoration: "",
+  style: "",
+  color: "",
+};
+
+const publicPrivate = [
+  { name: "Public", value: true },
+  { name: "Private", value: false },
+];
+
+const categories = [
+  { name: "Wadding", id: "wadding" },
+  { name: "Party", id: "party" },
+  { name: "Sport", id: "sport" },
+];
+
+export const EventForm = ({
+  onClose,
+  isModal,
+  isAddFlow,
+  model,
+  onSuccess,
+  onChangEventTitle,
+}) => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
+  
+
   const [addEvent, error] = useAddEventMutation();
-  const [updateEvent, { isLoading, error: errorOnUpdatingEvent }] = useUpdateEventMutation();
+  const [updateEvent, { isLoading, error: errorOnUpdatingEvent }] =
+    useUpdateEventMutation();
+
+  const exportRef = useRef(null);
+
+  const onSaveCard = async () => {
+    if (exportRef.current) {
+      const temp = await exportAsCanvas(exportRef.current, "test");
+      return temp;
+    }
+  };
 
  
   const [Results, setResults] = useState([]);
@@ -62,19 +110,33 @@ export const EventForm = ({ onClose, isModal, isAddFlow, model, onSuccess, setEv
   const handleEvent = async (formValues) => {
     try {
       if (isModal) {
+        const body = {
+          ...formValues,
+          card: {
+            items: [{ ...initCardItem, text: formValues.title }],
+          },
+          userId: user.currentUser.id,
+        };
+
         const eventData = await addEvent({
           ...formValues,
+          card: {
+            items: [{ ...initCardItem, text: formValues.title }],
+          },
           userId: user.currentUser.id,
         });
-        if (eventData) onSuccess(eventData);
+        if (eventData[0] && eventData[0]._id) {
+          onSuccess(eventData);
+        }
       } else {
-        const eventData = await updateEvent({
+        const formData = eventFormData({
           ...formValues,
+          card: model.card,
           userId: user.currentUser.id,
-          id: model._id,
         });
+        const eventData = await updateEvent(formData, model._id);
         if (eventData?.data?.success) {
-          navigate('/workSpace');
+          navigate("/workSpace");
         }
       }
     } catch (error) {
@@ -91,6 +153,7 @@ export const EventForm = ({ onClose, isModal, isAddFlow, model, onSuccess, setEv
       title: model?.title || "",
       description: model?.description || "",
       location: model?.location || "",
+      isPublic: model?.isPublic || "",
       startDate,
       endDate,
     };
@@ -100,12 +163,25 @@ export const EventForm = ({ onClose, isModal, isAddFlow, model, onSuccess, setEv
     <Formik
       initialValues={initFormValues}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
-        handleEvent(values);
+      onSubmit={async (values) => {
+        const img = await onSaveCard();
+        img.toBlob((result) => {
+          handleEvent({ ...values, img: result });
+        });
       }}
     >
       {(props) => (
         <Form>
+          {!model && (
+            <CardView
+              ref={exportRef}
+              title={props.values.title}
+              item={initCardItem}
+            />
+          )}
+
+          <Divider sx={{ mt: 2, mb: 2 }} />
+
           <Stack sx={{ gap: 2, pt: 2 }}>
             {/* category */}
             <Field
@@ -118,8 +194,26 @@ export const EventForm = ({ onClose, isModal, isAddFlow, model, onSuccess, setEv
               error={!!props.errors.category}
               helperText={props.errors.category ?? ""}
             >
-              {[{ name: "asad", id: "1" }].map(({ name, id }) => (
+              {categories.map(({ name, id }) => (
                 <MenuItem key={name} value={String(id)}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Field>
+
+            {/* isPublic */}
+            <Field
+              name="isPublic"
+              select
+              type="text"
+              label="Visibility"
+              variant="outlined"
+              as={TextField}
+              error={!!props.errors.isPublic}
+              helperText={props.errors.isPublic ?? ""}
+            >
+              {publicPrivate.map(({ name, value }) => (
+                <MenuItem key={name} value={String(value)}>
                   {name}
                 </MenuItem>
               ))}

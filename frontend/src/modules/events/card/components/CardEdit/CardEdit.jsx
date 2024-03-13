@@ -9,13 +9,15 @@ import { useDrop } from "react-dnd";
 
 import { CardItem } from "../CardItem/CardItem";
 
-import { exportAsImage, parseCssStyles } from "../../../../shared/utils";
+import { exportAsCanvas, parseCssStyles } from "../../../../shared/utils";
 
 import { CardLeftSection } from "../CardLeftSection/CardLeftSection";
 import Layout from "../../../../landing/Layout";
 
 import { useDispatch } from "react-redux";
 import { rdxEventsActions } from "../../../rdx/events.rdx";
+import { useParams } from "react-router-dom";
+import { useEventCardHelpers } from "../../hooks/useEventCardHelpers";
 
 export const ItemTypes = {
   BOX: "box",
@@ -28,23 +30,30 @@ export const ItemTypes = {
 export const CardEdit = () => {
   const [items, setItems] = useState([]);
 
+  const { id } = useParams();
+
+  const { getEventCard, pendingGetEventCard } = useEventCardHelpers();
+
+  const [card, setCard] = useState();
+
   const dispatch = useDispatch();
 
   //eff show event card side bar item
   useEffect(() => {
+    (async () => {
+      if (id) {
+        const eventCard = await getEventCard();
+        setCard({ ...eventCard, type: ItemTypes.CARD });
+      }
+    })();
+
     dispatch(rdxEventsActions.setIsEditingEventCard(true));
 
     return () => {
       dispatch(rdxEventsActions.setEditedCardItemType(""));
       dispatch(rdxEventsActions.setIsEditingEventCard(false));
     };
-  }, [dispatch]);
-
-  const [card, setCard] = useState({
-    type: ItemTypes.CARD,
-    style: "",
-    backgroundColor: "",
-  });
+  }, [dispatch, getEventCard, id]);
 
   const [selectedCardItem, setSelectedCardItem] = useState();
 
@@ -177,7 +186,7 @@ export const CardEdit = () => {
 
   const onSaveCard = async () => {
     if (exportRef.current) {
-      const temp = await exportAsImage(exportRef.current, "test");
+      const temp = await exportAsCanvas(exportRef.current, "test");
     }
   };
 
@@ -220,7 +229,7 @@ export const CardEdit = () => {
                 height: "300px",
                 border: "1px solid #000",
                 background: card.backgroundColor,
-                ...parseCssStyles(card.style),
+                ...parseCssStyles(card.cssStyle),
               }}
               overflow={"hidden"}
             >

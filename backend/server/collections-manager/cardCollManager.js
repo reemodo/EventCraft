@@ -14,9 +14,7 @@ class cardCollManager {
     }
   }
   static async saveCard(card) {
-    const lastCardId = await cardCollManager.findTheLastCard();
     const newCard = new Card({
-      _id: lastCardId + 1,
       ...card,
     });
     await newCard.save();
@@ -28,7 +26,9 @@ class cardCollManager {
   }
   static async findTheLastCard() {
     const card = await Card.find({}).sort({ _id: -1 }).limit(1);
-    return card[0]._id;
+    if (card[0]) {
+      return card[0]._id;
+    } else return -1;
   }
   static async updateCardFields(cardId, backgroundColor, cssStyle, img) {
     const updateFields = findUpdatedFields(backgroundColor, cssStyle, img);

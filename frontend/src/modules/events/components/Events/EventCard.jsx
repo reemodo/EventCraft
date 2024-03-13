@@ -9,33 +9,35 @@ import {
   Button,
 } from "@mui/material";
 import { useTheme } from "@mui/material";
+import { ActionsList } from "./ActionsList";
 import { rdxEventsActions } from "../../rdx/events.rdx";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-export const EventCard = ({ event, inHomePage, editModel }) => {
+export const EventCard = ({ event, inHomePage }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const handelSelectedEvent = () => {
+    dispatch(rdxEventsActions.setSelectedEvent(event));
+  };
   const handelEventClick = (event) => {
     if (inHomePage) {
       dispatch(rdxEventsActions.setSelectedEvent(event));
       navigate(`/eventPage`);
-    } else {
-      dispatch(rdxEventsActions.setSelectedEvent(event));
-      navigate(`/editEvent`);
     }
   };
-
   return (
     <>
-      <Card sx={{ width: 350 }} onClick={() => handelEventClick(event)}>
+      <Card sx={{ width: 350 }} onClick={handelEventClick}>
         <CardActionArea>
           <CardMedia
             component="img"
-            height="140"
-            image="https://img.freepik.com/free-vector/hand-drawn-wedding-invitation_23-2149091987.jpg?size=626&ext=jpg"
+            height="160"
+            sx={{ objectFit: "fill" }}
+            objectFit={"cover"}
+            image={event.cardID?.img}
             alt="green iguana"
           />
           <CardContent>
@@ -55,7 +57,11 @@ export const EventCard = ({ event, inHomePage, editModel }) => {
         </CardActionArea>
         <CardActions className="cardActions">
           <Button disableSpacing size="small" color="secondary">
-            {inHomePage ? "join" : "delete"}
+            {inHomePage ? (
+              "join"
+            ) : (
+              <ActionsList handelSelectedEvent={handelSelectedEvent} />
+            )}
           </Button>
         </CardActions>
       </Card>
