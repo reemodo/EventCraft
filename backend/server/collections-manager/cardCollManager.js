@@ -1,6 +1,8 @@
 const Item = require("../../models/Item");
 const Card = require("../../models/card");
 const { findUpdatedFields } = require("../../utility");
+const mongoose = require("mongoose");
+const { ObjectId } = require("mongodb");
 class cardCollManager {
   static async getCards() {
     const cards = await Card.find({});
@@ -54,7 +56,8 @@ class cardCollManager {
         await newItem.save();
         newCardItemsIds.push(newItem.toObject()._id);
       } else {
-        newItemsIdsSet.add(item._id);
+        await Item.findByIdAndUpdate(item._id, item);
+        newItemsIdsSet.add(ObjectId(item._id));
       }
     }
 
