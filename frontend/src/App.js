@@ -61,7 +61,10 @@ function App() {
                 <Route path="/workSpace" element={withAuth(WorkSpace)} />
                 <Route path="/cardEdit/:id" element={withAuth(CardEdit)} />
 
-                <Route path="/editEvent" element={withAuth(EditEventPage)} />
+                <Route
+                  path="/editEvent/:id"
+                  element={withAuth(EditEventPage)}
+                />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Box>
