@@ -64,8 +64,8 @@ router.delete(
 
 router.post(
   "/",
-  upload.single("img"),
   Utilities.authenticateToken,
+  upload.single("img"),
   async (req, res) => {
     try {
       const newEvent = await eventManager.saveEvent(req);

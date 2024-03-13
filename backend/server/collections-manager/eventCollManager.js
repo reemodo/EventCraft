@@ -85,6 +85,7 @@ class eventCollManager {
       for (let item of card.items) {
         const newItem = new Item({
           ...item,
+          text: item.text,
           userId: event.userId,
           cardId: newCard.toObject()._id.toString(),
         });
