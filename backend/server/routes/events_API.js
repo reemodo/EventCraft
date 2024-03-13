@@ -33,6 +33,18 @@ router.get("/", async function (req, res) {
   }
 });
 
+router.get("/:eventId", async function (req, res) {
+  try {
+    const { eventId } = req.params;
+    const event = await getEvent(eventId);
+
+    res.send(event);
+  } catch (err) {
+    console.error(err);
+    res.status(400).send((err) => err);
+  }
+});
+
 router.delete(
   "/:eventId",
   Utilities.authenticateToken,

@@ -125,6 +125,15 @@ class eventCollManager {
     if (event[0]) return event[0]._id;
     else return -1;
   }
+
+  static async getEvent(eventId) {
+    const event = await this.getEventPopulated(
+      new mongoose.Types.ObjectId(eventId)
+    );
+
+    return event;
+  }
+
   static async filterByParams(id, category, startDate, location) {
     const filteredFields = filterAllEventsField(
       startDate,
