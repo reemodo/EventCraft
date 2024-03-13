@@ -6,6 +6,7 @@ import { userReducer } from "../modules/users/rdx/users.rdx";
 import { userApi } from "../modules/users/api/user.api";
 import { externalApi } from "../modules/shared/apis/external.api";
 import { eventCardApi } from "../modules/events/card/api/eventCard.api";
+import { cardItemApi } from "../modules/events/card/api/cardItem.api";
 
 const setupStore = () => {
   return configureStore({
@@ -19,6 +20,7 @@ const setupStore = () => {
       [userApi.reducerPath]: userApi.reducer,
       [externalApi.reducerPath]: externalApi.reducer,
       [eventCardApi.reducerPath]: eventCardApi.reducer,
+      [cardItemApi.reducerPath]: cardItemApi.reducer,
     },
 
     middleware: (getDefaultMiddleware) =>
@@ -27,6 +29,7 @@ const setupStore = () => {
         userApi.middleware,
         externalApi.middleware,
         eventCardApi.middleware,
+        cardItemApi.middleware,
       ]),
   });
 };

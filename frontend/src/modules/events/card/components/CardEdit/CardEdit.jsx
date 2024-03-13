@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { rdxEventsActions } from "../../../rdx/events.rdx";
 import { useParams } from "react-router-dom";
 import { useEventCardHelpers } from "../../hooks/useEventCardHelpers";
+import { useItemHelpers } from "../../hooks/useItemHelpers";
 
 export const ItemTypes = {
   BOX: "box",
@@ -44,7 +45,15 @@ export const CardEdit = () => {
       if (id) {
         const eventCard = await getEventCard(id);
         setCard({ ...eventCard, type: ItemTypes.CARD });
-        setItems(eventCard.cardItems);
+        if (eventCard) {
+          const uiItems = eventCard.cardItems.map((item) => ({
+            ...item,
+            uuid: uuidv4(),
+          }));
+          setCard(eventCard);
+
+          setItems(uiItems);
+        }
       }
     })();
 
@@ -58,13 +67,17 @@ export const CardEdit = () => {
 
   const [selectedCardItem, setSelectedCardItem] = useState();
 
+  const { addItem, removeItem, updateItem } = useItemHelpers();
+
   const selectedCardItemRef = useRef(null);
 
   const boundingBox = useRef(null);
 
   const exportRef = useRef(null);
 
-  const onDrop = (itemData) => {
+  const onDrop = async (itemData) => {
+    const changedItem = items.find((item) => item.uuid === itemData.uuid);
+
     if (itemData.position) {
       const updatedItems = items.map((item) =>
         item.uuid === itemData.uuid
@@ -76,9 +89,24 @@ export const CardEdit = () => {
             }
           : item
       );
+
       setItems(updatedItems);
+
+      const newItem = {
+        ...changedItem,
+        left: itemData.left,
+        top: itemData.top,
+        position: "absolute",
+      };
+      await updateItem(newItem);
     } else {
-      setItems([...items, { ...itemData, position: "absolute" }]);
+      const createdItem = await addItem({
+        ...itemData,
+        cardId: card._id,
+        position: "absolute",
+      });
+
+      setItems([...items, createdItem.item]);
     }
   };
 
@@ -124,6 +152,7 @@ export const CardEdit = () => {
 
   const onDeleteItem = (itemData) => {
     onFocusOut();
+    // todo: delete the item from the backend
     setItems((prev) => prev.filter((item) => item.uuid !== itemData.uuid));
   };
 
