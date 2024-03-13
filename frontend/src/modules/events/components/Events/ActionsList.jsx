@@ -3,17 +3,24 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from "react-router-dom";
+import { useEventCardHelpers } from '../../card/hooks/useEventCardHelpers';
 
-const options = [
-  'View',
-  'Edit Event',
-  'Edit Card',
-  'Delete'
-];
-export function ActionsList({handelSelectedEvent}){
+export function ActionsList({event}){
+  const options = [
+    'View',
+    'Edit Event',
+    'Edit Card',
+    'Delete'
+  ];
+  const EventActions = {
+    View : '/eventPage/' +event._id,
+    EditEvent : '/editEvent/' + event._id,
+    EditCard : '/editCard/'+ event.cardID?._id,
+    Delete : '',
+  };
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedOption, setSelectedOption] = React.useState('None'); 
-
+  const {getEventCard} = useEventCardHelpers();
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -22,17 +29,12 @@ export function ActionsList({handelSelectedEvent}){
     setAnchorEl(null);
   };
   const navigate = useNavigate();
-
+//TODO:  for each option make a handel
   const handelEventClick = (value) => {
-    setSelectedOption(value); 
-    handelSelectedEvent();
-    handleClose();
-    if (value === "View") {
-      navigate(`/eventPage`);
+    if (EventActions[value]) {
+      navigate(EventActions[value] );
     } 
-    else if (value === "Edit Event") {
-      navigate(`/editEvent`);
-    }
+    
   }
 
   return (
@@ -59,7 +61,7 @@ export function ActionsList({handelSelectedEvent}){
           <MenuItem
             key={option}
             selected={option === selectedOption}
-            onClick={() => handelEventClick(option)} // Pass the selected option to the handler
+            onClick={() => handelEventClick(option.replace(" ", ""))} // Pass the selected option to the handler
           >
             {option}
           </MenuItem>
