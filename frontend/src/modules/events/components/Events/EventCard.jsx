@@ -22,10 +22,9 @@ export const EventCard = ({ event, inHomePage }) => {
   const handelSelectedEvent = () => {
     dispatch(rdxEventsActions.setSelectedEvent(event));
   };
-  const handelEventClick = (event) => {
+  const handelEventClick = (e) => {
     if (inHomePage) {
-      dispatch(rdxEventsActions.setSelectedEvent(event));
-      navigate(`/eventPage`);
+      navigate(`/eventPage/${event._id}`);
     }
   };
   return (
