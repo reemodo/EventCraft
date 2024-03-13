@@ -1,4 +1,4 @@
-export const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+export const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3002";
 
 // unsplash api
 export const apiUnsplashAccessKey = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;

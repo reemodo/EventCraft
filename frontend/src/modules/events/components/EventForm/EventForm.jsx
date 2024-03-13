@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { CardView } from "../../card/components/CardView/CardView";
 import { exportAsImage } from "../../../shared/utils";
 import { ItemTypes } from "../../card/components/CardEdit/CardEdit";
+import { eventFormData } from "../../event.utils";
 
 const validationSchema = Yup.object({
   category: Yup.string().required("category is required"),
@@ -81,21 +82,29 @@ export const EventForm = ({
   const handelEvent = async (formValues) => {
     try {
       if (isModal) {
-        const eventData = await addEvent({
+        const body = {
           ...formValues,
-          userId: user.currentUser.id,
           card: {
             items: [{ ...initCardItem, text: formValues.title }],
           },
-        });
-        if (eventData) onSuccess(eventData);
-      } else {
-        const eventData = await updateEvent({
-          ...formValues,
           userId: user.currentUser.id,
-          id: model._id,
-          card: model.card,
+        };
+
+        const eventData = await addEvent({
+          ...formValues,
+          card: {
+            items: [{ ...initCardItem, text: formValues.title }],
+          },
+          userId: user.currentUser.id,
         });
+        // if (eventData) onSuccess(eventData);
+      } else {
+        const formData = eventFormData({
+          ...formValues,
+          card: model.card,
+          userId: user.currentUser.id,
+        });
+        const eventData = await updateEvent(formData, model._id);
         if (eventData?.data?.success) {
           navigate("/workSpace");
         }
@@ -125,7 +134,9 @@ export const EventForm = ({
       validationSchema={validationSchema}
       onSubmit={async (values) => {
         const img = await onSaveCard();
-        handelEvent({ ...values, img });
+        img.toBlob((result) => {
+          handelEvent({ ...values, img: result });
+        });
       }}
     >
       {(props) => (
