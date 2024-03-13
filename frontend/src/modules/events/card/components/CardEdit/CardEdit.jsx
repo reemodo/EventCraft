@@ -42,8 +42,9 @@ export const CardEdit = () => {
   useEffect(() => {
     (async () => {
       if (id) {
-        const eventCard = await getEventCard();
+        const eventCard = await getEventCard(id);
         setCard({ ...eventCard, type: ItemTypes.CARD });
+        setItems(eventCard.cardItems);
       }
     })();
 
@@ -228,12 +229,12 @@ export const CardEdit = () => {
                 width: "500px",
                 height: "300px",
                 border: "1px solid #000",
-                background: card.backgroundColor,
-                ...parseCssStyles(card.cssStyle),
+                background: card?.backgroundColor || "",
+                ...parseCssStyles(card?.cssStyle || ""),
               }}
               overflow={"hidden"}
             >
-              {items.map((item, idx) => (
+              {items?.map((item, idx) => (
                 <CardItem
                   key={item.uuid}
                   item={{ ...item, zIndex: item.zIndex ? item.zIndex : idx }}

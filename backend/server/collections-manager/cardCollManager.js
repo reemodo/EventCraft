@@ -29,9 +29,7 @@ class cardCollManager {
   }
 
   static async getCard(cardId) {
-    const card = await Card.findOne({
-      _id: cardId,
-    }).populate("cardItems");
+    const card = await Card.findById(cardId).populate("cardItems");
     return card;
   }
 

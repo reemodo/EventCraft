@@ -44,6 +44,7 @@ router.get("/:cardId", async function (req, res) {
   try {
     const cardId = req.params.cardId;
     const card = await cardManager.getCard(cardId);
+
     res.send(card);
   } catch (err) {
     console.error(err);
