@@ -5,6 +5,7 @@ const filterAllEventsField = utilitiesFunctions.filterAllEventsField;
 
 const cloudinaryCollManager = require("./cloudinaryCollManager");
 const Item = require("../../models/Item");
+const mongoose = require("mongoose");
 
 class eventCollManager {
   static async getEvents() {

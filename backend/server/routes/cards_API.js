@@ -44,6 +44,7 @@ router.get("/:cardId", async function (req, res) {
   try {
     const cardId = req.params.cardId;
     const card = await cardManager.getCard(cardId);
+
     res.send(card);
   } catch (err) {
     console.error(err);
@@ -54,12 +55,14 @@ router.get("/:cardId", async function (req, res) {
 router.put("/:cardId", Utilities.authenticateToken, async function (req, res) {
   try {
     const cardId = req.params.cardId;
-    const { backgroundColor, cssStyle, img } = req.body;
+    const { backgroundColor, cssStyle, img, items } = req.body;
+
     const updatedCard = await cardManager.updateCardFields(
       cardId,
       backgroundColor,
       cssStyle,
-      img
+      img,
+      items
     );
     res.status(200).send(updatedCard);
   } catch (err) {

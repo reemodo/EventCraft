@@ -7,6 +7,7 @@ const ItemSchema = new Schema({
   src: String,
   top: Number,
   left: Number,
+  text: String,
   position: String,
   fontSize: Number,
   color: String,

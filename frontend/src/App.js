@@ -59,7 +59,7 @@ function App() {
                 />
 
                 <Route path="/workSpace" element={withAuth(WorkSpace)} />
-                <Route path="/cardEdit/:id" element={withAuth(CardEdit)} />
+                <Route path="/editCard/:id" element={withAuth(CardEdit)} />
 
                 <Route
                   path="/editEvent/:id"

@@ -1,5 +1,8 @@
+const Item = require("../../models/Item");
 const Card = require("../../models/card");
 const { findUpdatedFields } = require("../../utility");
+const mongoose = require("mongoose");
+const { ObjectId } = require("mongodb");
 class cardCollManager {
   static async getCards() {
     const cards = await Card.find({});
@@ -26,9 +29,7 @@ class cardCollManager {
   }
 
   static async getCard(cardId) {
-    const card = await Card.findOne({
-      _id: cardId,
-    }).populate("cardItems");
+    const card = await Card.findById(cardId).populate("cardItems");
     return card;
   }
 
@@ -38,8 +39,36 @@ class cardCollManager {
       return card[0]._id;
     } else return -1;
   }
-  static async updateCardFields(cardId, backgroundColor, cssStyle, img) {
+  static async updateCardFields(cardId, backgroundColor, cssStyle, img, items) {
     const updateFields = findUpdatedFields(backgroundColor, cssStyle, img);
+    const card = await Card.findById(cardId);
+    const existedItemsIds = card.toObject().cardItems;
+
+    const newItemsIdsSet = new Set();
+
+    const newCardItemsIds = [];
+
+    for (let item of items) {
+      if (!item._id) {
+        const newItem = new Item({ ...item });
+        await newItem.save();
+        newCardItemsIds.push(newItem.toObject()._id);
+      } else {
+        await Item.findByIdAndUpdate(item._id, item);
+        newItemsIdsSet.add(ObjectId(item._id));
+      }
+    }
+
+    for (let itemId of existedItemsIds) {
+      if (newItemsIdsSet.has(itemId)) {
+        newCardItemsIds.push(itemId);
+      } else {
+        await Item.findByIdAndDelete(itemId.toString());
+      }
+    }
+
+    updateFields.cardItems = newCardItemsIds;
+
     const updatedCard = await Card.findByIdAndUpdate(
       cardId,
       { $set: updateFields },
