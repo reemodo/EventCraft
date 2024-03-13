@@ -1,22 +1,19 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 
 import { MenuItem, Stack, TextField } from "@mui/material";
-
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-
 import { LoadingButton } from "@mui/lab";
-
 import { Formik, Form, Field } from "formik";
+
+import Autocomplete from '@mui/material/Autocomplete';
 
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
-import {
-  useAddEventMutation,
-  useUpdateEventMutation,
-} from "../../api/events.api";
+import { useAddEventMutation, useUpdateEventMutation } from "../../api/events.api";
 
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+
 
 const validationSchema = Yup.object({
   category: Yup.string().required("category is required"),
@@ -27,14 +24,42 @@ const validationSchema = Yup.object({
   endDate: Yup.string().required("end date is required"),
 });
 
-export const EventForm = ({onClose, isModal, isAddFlow, model, onSuccess, setEventsList}) => {
+export const EventForm = ({ onClose, isModal, isAddFlow, model, onSuccess, setEventsList }) => {
   const user = useSelector((state) => state.user);
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
   const [addEvent, error] = useAddEventMutation();
   const [updateEvent, { isLoading, error: errorOnUpdatingEvent }] = useUpdateEventMutation();
 
-  const handelEvent = async (formValues) => {
+ 
+  const [Results, setResults] = useState([]);
+  
+  const fetchData = (value) => {
+    if(value){
+
+      fetch(`https://dev.virtualearth.net/REST/v1/Locations?q=${value}&key=At9eDSmuRlIFv8AYYWu-9AZxH3oxgpF_bpeQbKiwKrxOmYr9Coxwk-qGJRW_3FL4`)
+      .then((response) => response.json())
+      .then((json) => {
+        const results = json.resourceSets[0].resources.filter((user) => {
+          return (
+            value &&
+            user &&
+            user.name &&
+            user.name.toLowerCase().includes(value)
+          )
+        })
+        console.log(results)
+        setResults(results)
+      })
+    }
+  }
+
+  const handleChange = (value) => {
+    fetchData(value)
+  }
+
+ 
+
+  const handleEvent = async (formValues) => {
     try {
       if (isModal) {
         const eventData = await addEvent({
@@ -49,7 +74,7 @@ export const EventForm = ({onClose, isModal, isAddFlow, model, onSuccess, setEve
           id: model._id,
         });
         if (eventData?.data?.success) {
-            navigate('/workSpace')
+          navigate('/workSpace');
         }
       }
     } catch (error) {
@@ -58,12 +83,8 @@ export const EventForm = ({onClose, isModal, isAddFlow, model, onSuccess, setEve
   };
 
   const initFormValues = useMemo(() => {
-    const startDate = model?.startDate
-      ? dayjs(model.startDate)
-      : null;
-    const endDate = model?.endDate
-      ? dayjs(model.endDate)
-      : null;
+    const startDate = model?.startDate ? dayjs(model.startDate) : null;
+    const endDate = model?.endDate ? dayjs(model.endDate) : null;
 
     return {
       category: model?.category || "",
@@ -74,12 +95,13 @@ export const EventForm = ({onClose, isModal, isAddFlow, model, onSuccess, setEve
       endDate,
     };
   }, [model]);
+
   return (
     <Formik
       initialValues={initFormValues}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        handelEvent(values);
+        handleEvent(values);
       }}
     >
       {(props) => (
@@ -125,19 +147,35 @@ export const EventForm = ({onClose, isModal, isAddFlow, model, onSuccess, setEve
               helperText={props.errors.description ?? ""}
             />
 
-            {/* location  */}
-            <Field
+            {/* location */}
+            
+            
+
+            <Field name="location">
+             {({
+               field, // { name, value, onChange, onBlur }
+               form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+               meta,
+             }) => (
+              <Autocomplete
               name="location"
-              label="Location"
+              freeSolo
+              type="text"
+              label="location"
               variant="outlined"
-              as={TextField}
+              
+              value={field.value}
+              onChange={(e) => {field.onChange(e); }}
               error={!!props.errors.location}
               helperText={props.errors.location ?? ""}
-            />
+              options={Results?.map((option) => option.name)}
+              renderInput={(params) => <TextField {...params} onChange={(e) => handleChange(e.target.value)} label="location" />}
+              />
+             )}
+           </Field>
 
-            {/* start date */}
-
-            <DateTimePicker
+             {/* start date */}
+             <DateTimePicker
               name="startDate"
               label="Start Date"
               value={props.values.startDate} // Pass the value directly to the DateTimePicker

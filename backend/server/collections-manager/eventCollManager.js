@@ -16,9 +16,8 @@ class eventCollManager {
     }
   }
   static async saveEvent(event) {
-    const lastEventId = await eventCollManager.findTheLastEvent();
+    //const lastEventId = await eventCollManager.findTheLastEvent();
     const newEvent = new Event({
-      _id: lastEventId + 1,
       ...event,
     });
     await newEvent.save();
