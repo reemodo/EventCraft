@@ -27,9 +27,7 @@ class userCollManager {
   }
   static async saveUser(user) {
     try {
-      const lastUser = await userCollManager.findTheLastUser();
       const newUser = new User({
-        _id: lastUser[0]._id + 1,
         ...user,
       });
       await newUser.save();

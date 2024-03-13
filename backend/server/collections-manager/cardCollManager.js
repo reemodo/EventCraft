@@ -14,9 +14,7 @@ class cardCollManager {
     }
   }
   static async saveCard(card) {
-    const lastCardId = await cardCollManager.findTheLastCard();
     const newCard = new Card({
-      _id: lastCardId + 1,
       ...card,
     });
     await newCard.save();
