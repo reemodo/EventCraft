@@ -8,7 +8,7 @@ const Item = require("../../models/Item");
 
 class eventCollManager {
   static async getEvents() {
-    const events = await Event.find({});
+    const events = await Event.find({}).populate("cardID");
     return events;
   }
   static async deleteEvent(eventId) {
@@ -111,7 +111,7 @@ class eventCollManager {
     };
   }
   static async myEvents(userId) {
-    const userEvents = await Event.find({ userId: userId });
+    const userEvents = await Event.find({ userId: userId }).populate("cardID");
     return userEvents;
   }
   static async findTheLastEvent() {
@@ -127,9 +127,11 @@ class eventCollManager {
       category
     );
     filteredFields.userId = { $ne: id };
-    const events = await Event.find(filteredFields).sort({
-      startDate: 1,
-    });
+    const events = await Event.find(filteredFields)
+      .sort({
+        startDate: 1,
+      })
+      .populate("cardID");
     return events;
   }
   static async findJoinedEvents(userId) {
