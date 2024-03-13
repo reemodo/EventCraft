@@ -13,7 +13,6 @@ const path = require("path");
 const dbManager = require("./server/events-DB-Server");
 const { port } = require("./constants");
 
-
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
@@ -30,11 +29,10 @@ app.use("/events", api);
 app.use("/user", userAPI);
 app.use("/cards", cardAPI);
 
-app.use("/cloud", cloudAPI)
+app.use("/cloud", cloudAPI);
 
 app.use("/items", itemAPI);
 app.use("/external", externalAPI);
-
 
 dbManager.connectToDB();
 
