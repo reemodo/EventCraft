@@ -3,8 +3,10 @@ const Datauri = require("datauri/sync");
 
 class cloudinaryCollManager {
   static async uploadImage(req) {
-    const file = Datauri(req.file.path).content;
-    const image = await cloudinary.uploader.upload(file);
+    // const file = Datauri(req.file.buffer).content;
+    const b64 = Buffer.from(req.file.buffer).toString("base64");
+    let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+    const image = await cloudinary.uploader.upload(dataURI);
     const { public_id, url } = image;
 
     return { public_id, url };

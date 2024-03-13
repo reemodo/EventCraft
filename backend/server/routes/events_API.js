@@ -4,6 +4,7 @@ const DBManager = require("../events-DB-Server");
 const eventManager = require("../collections-manager/eventCollManager");
 const Utilities = require("../../utility");
 const eventCollManager = require("../collections-manager/eventCollManager");
+
 const upload = require("../../middleware/multer");
 
 router.get("/DBgenerator", async function (req, res) {
@@ -46,14 +47,19 @@ router.delete(
   }
 );
 
-router.post("/", [upload.single("img")], async (req, res) => {
-  try {
-    const newEvent = await eventManager.saveEvent(req);
-    res.send(newEvent);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to create event" });
+router.post(
+  "/",
+  upload.single("img"),
+  Utilities.authenticateToken,
+  async (req, res) => {
+    try {
+      const newEvent = await eventManager.saveEvent(req);
+      res.send(newEvent);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create event" });
+    }
   }
-});
+);
 
 router.get(
   "/myEvents/:userId",
