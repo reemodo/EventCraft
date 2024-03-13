@@ -1,19 +1,16 @@
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef ,useState} from "react";
 
 import { Divider, MenuItem, Stack, TextField } from "@mui/material";
 
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-
 import { LoadingButton } from "@mui/lab";
-
 import { Formik, Form, Field } from "formik";
+
+import Autocomplete from '@mui/material/Autocomplete';
 
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
-import {
-  useAddEventMutation,
-  useUpdateEventMutation,
-} from "../../api/events.api";
+import { useAddEventMutation, useUpdateEventMutation } from "../../api/events.api";
 
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +18,7 @@ import { CardView } from "../../card/components/CardView/CardView";
 import { exportAsCanvas } from "../../../shared/utils";
 import { ItemTypes } from "../../card/components/CardEdit/CardEdit";
 import { eventFormData } from "../../event.utils";
+
 
 const validationSchema = Yup.object({
   category: Yup.string().required("category is required"),
@@ -65,6 +63,7 @@ export const EventForm = ({
 }) => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
+  
 
   const [addEvent, error] = useAddEventMutation();
   const [updateEvent, { isLoading, error: errorOnUpdatingEvent }] =
@@ -79,7 +78,36 @@ export const EventForm = ({
     }
   };
 
-  const handelEvent = async (formValues) => {
+ 
+  const [Results, setResults] = useState([]);
+  
+  const fetchData = (value) => {
+    if(value){
+
+      fetch(`https://dev.virtualearth.net/REST/v1/Locations?q=${value}&key=At9eDSmuRlIFv8AYYWu-9AZxH3oxgpF_bpeQbKiwKrxOmYr9Coxwk-qGJRW_3FL4`)
+      .then((response) => response.json())
+      .then((json) => {
+        const results = json.resourceSets[0].resources.filter((user) => {
+          return (
+            value &&
+            user &&
+            user.name &&
+            user.name.toLowerCase().includes(value)
+          )
+        })
+        console.log(results)
+        setResults(results)
+      })
+    }
+  }
+
+  const handleChange = (value) => {
+    fetchData(value)
+  }
+
+ 
+
+  const handleEvent = async (formValues) => {
     try {
       if (isModal) {
         const body = {
@@ -130,6 +158,7 @@ export const EventForm = ({
       endDate,
     };
   }, [model]);
+
   return (
     <Formik
       initialValues={initFormValues}
@@ -137,7 +166,7 @@ export const EventForm = ({
       onSubmit={async (values) => {
         const img = await onSaveCard();
         img.toBlob((result) => {
-          handelEvent({ ...values, img: result });
+          handleEvent({ ...values, img: result });
         });
       }}
     >
@@ -212,19 +241,35 @@ export const EventForm = ({
               helperText={props.errors.description ?? ""}
             />
 
-            {/* location  */}
-            <Field
+            {/* location */}
+            
+            
+
+            <Field name="location">
+             {({
+               field, // { name, value, onChange, onBlur }
+               form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+               meta,
+             }) => (
+              <Autocomplete
               name="location"
-              label="Location"
+              freeSolo
+              type="text"
+              label="location"
               variant="outlined"
-              as={TextField}
+              
+              value={field.value}
+              onChange={(e) => {field.onChange(e); }}
               error={!!props.errors.location}
               helperText={props.errors.location ?? ""}
-            />
+              options={Results?.map((option) => option.name)}
+              renderInput={(params) => <TextField {...params} onChange={(e) => handleChange(e.target.value)} label="location" />}
+              />
+             )}
+           </Field>
 
-            {/* start date */}
-
-            <DateTimePicker
+             {/* start date */}
+             <DateTimePicker
               name="startDate"
               label="Start Date"
               value={props.values.startDate} // Pass the value directly to the DateTimePicker

@@ -11,6 +11,50 @@ class eventCollManager {
     const events = await Event.find({}).populate("cardID");
     return events;
   }
+
+  static async getEventPopulated(eventId) {
+    const results = await Event.aggregate([
+      { $match: { _id: eventId } },
+      {
+        $lookup: {
+          from: "cards",
+          localField: "cardID",
+          foreignField: "_id",
+          as: "card",
+        },
+      },
+
+      // {
+      //   $unwind: "$card",
+      // },
+
+      {
+        $lookup: {
+          from: "items",
+          localField: "card.cardItems",
+          foreignField: "_id",
+          as: "cardItems",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          description: 1,
+          location: 1,
+          startDate: 1,
+          endDate: 1,
+          category: 1,
+          createdAt: 1,
+          isPublic: 1,
+          cardItems: "$cardItems",
+          card: { $first: "$card" },
+        },
+      },
+    ]);
+    return results;
+  }
+
   static async deleteEvent(eventId) {
     const deletedEvent = await Event.findByIdAndDelete(eventId);
     await Card.findByIdAndDelete(deletedEvent.cardID);
@@ -63,45 +107,7 @@ class eventCollManager {
 
       await newEvent.save();
 
-      const results = await Event.aggregate([
-        { $match: { _id: newEvent.toObject()._id } },
-        {
-          $lookup: {
-            from: "cards",
-            localField: "cardID",
-            foreignField: "_id",
-            as: "card",
-          },
-        },
-
-        // {
-        //   $unwind: "$card",
-        // },
-
-        {
-          $lookup: {
-            from: "items",
-            localField: "card.cardItems",
-            foreignField: "_id",
-            as: "cardItems",
-          },
-        },
-        {
-          $project: {
-            _id: 1,
-            title: 1,
-            description: 1,
-            location: 1,
-            startDate: 1,
-            endDate: 1,
-            category: 1,
-            createdAt: 1,
-            isPublic: 1,
-            cardItems: "$cardItems",
-            card: { $first: "$card" },
-          },
-        },
-      ]);
+      const results = this.getEventPopulated(newEvent.toObject()._id);
 
       return results;
     }
