@@ -18,7 +18,7 @@ import {
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { CardView } from "../../card/components/CardView/CardView";
-import { exportAsImage } from "../../../shared/utils";
+import { exportAsCanvas } from "../../../shared/utils";
 import { ItemTypes } from "../../card/components/CardEdit/CardEdit";
 import { eventFormData } from "../../event.utils";
 
@@ -74,7 +74,7 @@ export const EventForm = ({
 
   const onSaveCard = async () => {
     if (exportRef.current) {
-      const temp = await exportAsImage(exportRef.current, "test");
+      const temp = await exportAsCanvas(exportRef.current, "test");
       return temp;
     }
   };
@@ -97,7 +97,9 @@ export const EventForm = ({
           },
           userId: user.currentUser.id,
         });
-        // if (eventData) onSuccess(eventData);
+        if (eventData[0] && eventData[0]._id) {
+          onSuccess(eventData);
+        }
       } else {
         const formData = eventFormData({
           ...formValues,

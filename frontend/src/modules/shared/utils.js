@@ -27,14 +27,12 @@ const downloadImage = (blob, fileName) => {
   fakeLink.remove();
 };
 
-export const exportAsImage = async (el, imageFileName) => {
+export const exportAsCanvas = async (el, imageFileName) => {
   const canvas = await html2canvas(el, {
     letterRendering: 1,
     allowTaint: true,
     useCORS: true,
   });
-  const image = canvas;
-  // downloadImage(image, imageFileName);
 
-  return image;
+  return canvas;
 };

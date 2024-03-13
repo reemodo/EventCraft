@@ -9,7 +9,7 @@ import { useDrop } from "react-dnd";
 
 import { CardItem } from "../CardItem/CardItem";
 
-import { exportAsImage, parseCssStyles } from "../../../../shared/utils";
+import { exportAsCanvas, parseCssStyles } from "../../../../shared/utils";
 
 import { CardLeftSection } from "../CardLeftSection/CardLeftSection";
 import Layout from "../../../../landing/Layout";
@@ -186,7 +186,7 @@ export const CardEdit = () => {
 
   const onSaveCard = async () => {
     if (exportRef.current) {
-      const temp = await exportAsImage(exportRef.current, "test");
+      const temp = await exportAsCanvas(exportRef.current, "test");
     }
   };
 

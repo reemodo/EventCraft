@@ -24,16 +24,7 @@ export const eventApi = createApi({
 
     addEvent: builder.mutation({
       query: (body) => {
-        const formData = new FormData();
-        formData.append("img", body.img || "");
-        formData.append("title", body.title || "");
-        formData.append("category", body.category || "");
-        formData.append("description", body.description || "");
-        formData.append("location", body.location || "");
-        formData.append("startDate", body.startDate || "");
-        formData.append("endDate", body.endDate || "");
-        formData.append("userId", body.userId || "");
-        formData.append("card", JSON.stringify(body.card) || "");
+        const formData = eventFormData(body);
         return {
           url: `events/`,
           method: "POST",

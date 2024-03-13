@@ -34,8 +34,10 @@ export const EventCard = ({ event, inHomePage }) => {
         <CardActionArea>
           <CardMedia
             component="img"
-            height="140"
-            image="https://img.freepik.com/free-vector/hand-drawn-wedding-invitation_23-2149091987.jpg?size=626&ext=jpg"
+            height="160"
+            sx={{ objectFit: "fill" }}
+            objectFit={"cover"}
+            image={event.cardID?.img}
             alt="green iguana"
           />
           <CardContent>
