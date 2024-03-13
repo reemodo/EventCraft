@@ -33,8 +33,8 @@ export const exportAsImage = async (el, imageFileName) => {
     allowTaint: true,
     useCORS: true,
   });
-  const image = canvas.toDataURL("image/png", 1.0);
-  downloadImage(image, imageFileName);
+  const image = canvas;
+  // downloadImage(image, imageFileName);
 
   return image;
 };

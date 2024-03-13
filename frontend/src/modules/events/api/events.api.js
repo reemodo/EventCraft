@@ -1,13 +1,16 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { getBaseQuery } from "../../../rdx/rdxUtilities";
 import { eventFormData } from "../event.utils";
+
+import { v4 as uuid } from "uuid";
+
 export const eventApi = createApi({
   reducerPath: "eventApi",
   baseQuery: getBaseQuery(),
   endpoints: (builder) => ({
     getEvents: builder.query({
       query: (id) => ({
-        url: `events`,
+        url: `events/`,
         method: "GET",
         params: { id },
       }),
@@ -21,15 +24,20 @@ export const eventApi = createApi({
 
     addEvent: builder.mutation({
       query: (body) => {
-        const formData = eventFormData(body);
-
+        const formData = new FormData();
+        formData.append("img", body.img || "");
+        formData.append("title", body.title || "");
+        formData.append("category", body.category || "");
+        formData.append("description", body.description || "");
+        formData.append("location", body.location || "");
+        formData.append("startDate", body.startDate || "");
+        formData.append("endDate", body.endDate || "");
+        formData.append("userId", body.userId || "");
+        formData.append("card", JSON.stringify(body.card) || "");
         return {
-          url: `events`,
+          url: `events/`,
           method: "POST",
           body: formData,
-          headers: {
-            // "Content-Type": "multipart/form-data",
-          },
         };
       },
     }),
@@ -42,16 +50,11 @@ export const eventApi = createApi({
     }),
 
     updateEvent: builder.mutation({
-      query: (body) => {
-        const formData = eventFormData(body);
-
+      query: (body, id) => {
         return {
-          url: `events/${body.id}`,
+          url: `events/${id}`,
           method: "PUT",
-          body: formData,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          body,
         };
       },
     }),

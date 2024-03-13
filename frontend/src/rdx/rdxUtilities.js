@@ -4,15 +4,15 @@ export const getBaseQuery = function () {
   const baseQuery = fetchBaseQuery({
     baseUrl: apiUrl,
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().user.currentUser.accessToken
-  
+      const token = getState().user.currentUser.accessToken;
+
       // If we have a token set in state, let's assume that we should be passing it.
       if (token) {
-        headers.set('authorization', `Bearer ${token}`)
+        headers.set("authorization", `Bearer ${token}`);
       }
-  
-      return headers
+
+      return headers;
     },
-  })
+  });
   return baseQuery;
-}
+};
