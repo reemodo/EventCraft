@@ -19,9 +19,6 @@ export const EventCard = ({ event, inHomePage }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handelSelectedEvent = () => {
-    dispatch(rdxEventsActions.setSelectedEvent(event));
-  };
   const handelEventClick = (e) => {
     if (inHomePage) {
       navigate(`/eventPage/${event._id}`);
@@ -59,7 +56,7 @@ export const EventCard = ({ event, inHomePage }) => {
             {inHomePage ? (
               "join"
             ) : (
-              <ActionsList handelSelectedEvent={handelSelectedEvent} />
+              <ActionsList event={event} />
             )}
           </Button>
         </CardActions>
