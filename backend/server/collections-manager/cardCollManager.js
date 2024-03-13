@@ -21,9 +21,17 @@ class cardCollManager {
     return newCard;
   }
   static async myCards(userId) {
-    const userCards = await Card.find({ userId: userId });
+    const userCards = await Card.find({ userId: userId }).populate("cardItems");
     return userCards;
   }
+
+  static async getCard(cardId) {
+    const card = await Card.findOne({
+      _id: cardId,
+    }).populate("cardItems");
+    return card;
+  }
+
   static async findTheLastCard() {
     const card = await Card.find({}).sort({ _id: -1 }).limit(1);
     if (card[0]) {
