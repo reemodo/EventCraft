@@ -24,7 +24,7 @@ const SettingsType = {
 const imageSettings = [
   { name: "width", type: SettingsType.input },
   { name: "height", type: SettingsType.input },
-  { name: "radios", type: SettingsType.input },
+  { name: "borderRadius", type: SettingsType.input },
   { name: "top", type: SettingsType.input },
   { name: "left", type: SettingsType.input },
   { name: "zIndex", type: SettingsType.input },
@@ -125,7 +125,7 @@ const imageSchema = () =>
   Yup.object({
     width: widthValidation(),
     height: heightValidation(),
-    radios: Yup.string().nullable(),
+    borderRadius: Yup.string().nullable(),
     top: Yup.string().required(`top is required`),
     left: Yup.string().required(`left is required`),
     zIndex: Yup.string().nullable(),

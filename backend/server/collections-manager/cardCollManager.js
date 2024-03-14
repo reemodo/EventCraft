@@ -3,6 +3,7 @@ const Card = require("../../models/card");
 const { findUpdatedFields } = require("../../utility");
 const mongoose = require("mongoose");
 const { ObjectId } = require("mongodb");
+const cloudinaryCollManager = require("./cloudinaryCollManager");
 class cardCollManager {
   static async getCards() {
     const cards = await Card.find({});
@@ -39,35 +40,22 @@ class cardCollManager {
       return card[0]._id;
     } else return -1;
   }
-  static async updateCardFields(cardId, backgroundColor, cssStyle, img, items) {
-    const updateFields = findUpdatedFields(backgroundColor, cssStyle, img);
+  static async updateCardFields(
+    cardId,
+    backgroundColor,
+    cssStyle,
+    img,
+    items,
+    req
+  ) {
+    const updateFields = findUpdatedFields(backgroundColor, cssStyle);
     const card = await Card.findById(cardId);
-    const existedItemsIds = card.toObject().cardItems;
 
-    const newItemsIdsSet = new Set();
+    await cloudinaryCollManager.removeImage(card.toObject().imgPublicId);
+    const newImgeData = await cloudinaryCollManager.uploadImage(req);
 
-    const newCardItemsIds = [];
-
-    for (let item of items) {
-      if (!item._id) {
-        const newItem = new Item({ ...item });
-        await newItem.save();
-        newCardItemsIds.push(newItem.toObject()._id);
-      } else {
-        await Item.findByIdAndUpdate(item._id, item);
-        newItemsIdsSet.add(ObjectId(item._id));
-      }
-    }
-
-    for (let itemId of existedItemsIds) {
-      if (newItemsIdsSet.has(itemId)) {
-        newCardItemsIds.push(itemId);
-      } else {
-        await Item.findByIdAndDelete(itemId.toString());
-      }
-    }
-
-    updateFields.cardItems = newCardItemsIds;
+    updateFields.imgPublicId = newImgeData.public_id;
+    updateFields.img = newImgeData.url;
 
     const updatedCard = await Card.findByIdAndUpdate(
       cardId,

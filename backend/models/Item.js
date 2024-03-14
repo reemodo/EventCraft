@@ -11,7 +11,7 @@ const ItemSchema = new Schema({
   position: String,
   fontSize: Number,
   color: String,
-  weight: Number,
+  weight: String,
   fontFamily: String,
   decoration: String,
   borderRadius: String,
