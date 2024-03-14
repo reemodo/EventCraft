@@ -11,7 +11,7 @@ import TitleIcon from "@mui/icons-material/Title";
 import ImageIcon from "@mui/icons-material/Image";
 import InterestsIcon from "@mui/icons-material/Interests";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { ItemTypes } from "../events/card/components/CardEdit/CardEdit";
 import { rdxEventsActions } from "../events/rdx/events.rdx";
 
