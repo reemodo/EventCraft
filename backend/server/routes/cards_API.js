@@ -3,6 +3,7 @@ const router = express.Router();
 const DBManager = require("../events-DB-Server");
 const cardManager = require("../collections-manager/cardCollManager");
 const Utilities = require("../../utility");
+const upload = require("../../middleware/multer");
 
 router.get("/", Utilities.authenticateToken, async function (req, res) {
   try {
@@ -52,23 +53,29 @@ router.get("/:cardId", async function (req, res) {
   }
 });
 
-router.put("/:cardId", Utilities.authenticateToken, async function (req, res) {
-  try {
-    const cardId = req.params.cardId;
-    const { backgroundColor, cssStyle, img, items } = req.body;
+router.put(
+  "/:cardId",
+  Utilities.authenticateToken,
+  upload.single("img"),
+  async function (req, res) {
+    try {
+      const cardId = req.params.cardId;
+      const { backgroundColor, cssStyle, img, items } = req.body;
 
-    const updatedCard = await cardManager.updateCardFields(
-      cardId,
-      backgroundColor,
-      cssStyle,
-      img,
-      items
-    );
-    res.status(200).send(updatedCard);
-  } catch (err) {
-    console.error(err);
-    res.status(400).send((err) => err);
+      const updatedCard = await cardManager.updateCardFields(
+        cardId,
+        backgroundColor,
+        cssStyle,
+        img,
+        items,
+        req
+      );
+      res.status(200).send(updatedCard);
+    } catch (err) {
+      console.error(err);
+      res.status(400).send((err) => err);
+    }
   }
-});
+);
 
 module.exports = router;

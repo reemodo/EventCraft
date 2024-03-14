@@ -1,11 +1,16 @@
 import React, { useCallback, useState } from "react";
-import { useLazyGetEventCardQuery } from "../api/eventCard.api";
+import {
+  useLazyGetEventCardQuery,
+  useUpdateEventCardMutation,
+} from "../api/eventCard.api";
 
 export const useEventCardHelpers = () => {
   const [pendingGetEventCard, setPendingEventCard] = useState(false);
+  const [pendingUpdateEventCard, setPendingUpdateEventCard] = useState(false);
   const [isErrorGetEventCard, setIsErrorEventCard] = useState(false);
 
   const [getEventCardApi] = useLazyGetEventCardQuery();
+  const [updateEventCardApi] = useUpdateEventCardMutation();
 
   const getEventCard = useCallback(
     async (id) => {
@@ -25,5 +30,28 @@ export const useEventCardHelpers = () => {
     [getEventCardApi]
   );
 
-  return { getEventCard, pendingGetEventCard, isErrorGetEventCard };
+  const updateEventCard = useCallback(
+    async (data) => {
+      setPendingUpdateEventCard(true);
+
+      try {
+        const eventCard = await updateEventCardApi(data);
+
+        return eventCard.data;
+      } catch (e) {
+        console.log("🚀 ~ getEventCard ~ e:", e);
+      } finally {
+        setPendingEventCard(false);
+      }
+    },
+    [updateEventCardApi]
+  );
+
+  return {
+    getEventCard,
+    pendingGetEventCard,
+    isErrorGetEventCard,
+    updateEventCard,
+    pendingUpdateEventCard,
+  };
 };

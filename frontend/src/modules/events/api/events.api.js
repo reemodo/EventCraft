@@ -2,8 +2,6 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { getBaseQuery } from "../../../rdx/rdxUtilities";
 import { eventFormData } from "../event.utils";
 
-import { v4 as uuid } from "uuid";
-
 export const eventApi = createApi({
   reducerPath: "eventApi",
   baseQuery: getBaseQuery(),
