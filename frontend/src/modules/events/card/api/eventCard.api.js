@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
-import { apiUrl } from "../../../../env";
 import { getBaseQuery } from "../../../../rdx/rdxUtilities";
+import { cardFormData } from "../card.utils";
 
 export const eventCardApi = createApi({
   reducerPath: "eventCardApi",
@@ -14,15 +14,19 @@ export const eventCardApi = createApi({
       }),
     }),
 
-    updateEventCard: builder.query({
+    updateEventCard: builder.mutation({
       query: (body) => {
+        const formData = cardFormData(body);
+
         return {
-          url: `cards/${body.id}`,
+          url: `cards/${body._id}`,
           method: "PUT",
+          body: formData,
         };
       },
     }),
   }),
 });
 
-export const { useLazyGetEventCardQuery } = eventCardApi;
+export const { useLazyGetEventCardQuery, useUpdateEventCardMutation } =
+  eventCardApi;

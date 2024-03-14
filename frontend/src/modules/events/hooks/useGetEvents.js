@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useLazyGetEventsQuery } from "../api/events.api";
 import { localStorageSvc } from "../../shared/LocalStorageSvc/LocalStorageSvc";
 import { LOCAL_STORAGE_KEYS } from "../../shared/consts";
