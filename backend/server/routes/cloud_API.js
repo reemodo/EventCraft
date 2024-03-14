@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../../middleware/multer");
 const cloudinary = require("../collections-manager/cloudCollManager");
-const Datauri = require("datauri/sync");
 
 router.post("/upload", upload.single("image"), function (req, res) {
   const b64 = Buffer.from(req.file.buffer).toString("base64");
