@@ -14,7 +14,7 @@ import { rdxEventsActions } from "../../rdx/events.rdx";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-export const EventCard = ({ event, inHomePage }) => {
+export const EventCard = ({ event, inHomePage, handelSetEventLists }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -56,7 +56,7 @@ export const EventCard = ({ event, inHomePage }) => {
             {inHomePage ? (
               "join"
             ) : (
-              <ActionsList event={event} />
+              <ActionsList event={event} handelSetEventLists={handelSetEventLists}/>
             )}
           </Button>
         </CardActions>

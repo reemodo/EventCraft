@@ -48,7 +48,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route
-                  path="/eventPage"
+                  path="/eventPage/:id"
                   element={
                     <EventPage
                       imageUrl="\Frame-1-3-min-1-3.png"

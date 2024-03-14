@@ -8,6 +8,7 @@ export const eventFormData = (data) => {
   formData.append("startDate", data.startDate);
   formData.append("endDate", data.endDate);
   formData.append("userId", data.userId);
+  formData.append("isPublic", data.isPublic);
   formData.append("card", JSON.stringify(data.card));
 
   return formData;
