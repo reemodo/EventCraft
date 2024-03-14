@@ -1,7 +1,7 @@
 import React from "react";
 
 import { EventCard } from "./EventCard";
-import { Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import { EventCategoryList } from "./EventCategoryList";
 
