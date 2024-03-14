@@ -14,17 +14,17 @@ import TitleIcon from "@mui/icons-material/Title";
 import ImageIcon from "@mui/icons-material/Image";
 import InterestsIcon from "@mui/icons-material/Interests";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ItemTypes } from "../events/card/components/CardEdit/CardEdit";
 import { rdxEventsActions } from "../events/rdx/events.rdx";
 
 const mainListItems = [
-  { title: "Home", icon: CalendarMonthIcon, url: "/" },
   { title: "WorkSpace", icon: EventNoteIcon, url: "/workSpace" },
-
 ];
 
 export const MainListItemsMenu = () => {
+  const { loggedIn } = useSelector((state) => state.user);
+
   return (
     <React.Fragment>
       {mainListItems.map((link, idx) => (
@@ -47,7 +47,6 @@ export const MainListItemsMenu = () => {
     </React.Fragment>
   );
 };
-
 
 const editCardEventListItems = [
   { type: ItemTypes.TEXT, icon: TitleIcon },
