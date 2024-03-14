@@ -16,7 +16,7 @@ import Layout from "../../../../landing/Layout";
 
 import { useDispatch } from "react-redux";
 import { rdxEventsActions } from "../../../rdx/events.rdx";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEventCardHelpers } from "../../hooks/useEventCardHelpers";
 import { useItemHelpers } from "../../hooks/useItemHelpers";
 
@@ -33,9 +33,15 @@ export const CardEdit = () => {
 
   const { id } = useParams();
 
-  const { getEventCard, pendingGetEventCard } = useEventCardHelpers();
+  const {
+    getEventCard,
+    pendingGetEventCard,
+    updateEventCard,
+    pendingUpdateEventCard,
+  } = useEventCardHelpers();
 
   const [card, setCard] = useState();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -106,7 +112,7 @@ export const CardEdit = () => {
         position: "absolute",
       });
 
-      setItems([...items, createdItem.item]);
+      setItems([...items, { ...createdItem.item, uuid: itemData.uuid }]);
     }
   };
 
@@ -120,7 +126,7 @@ export const CardEdit = () => {
     selectedCardItemRef.current.text = text;
   };
 
-  const onFocusOut = () => {
+  const onFocusOut = async () => {
     if (selectedCardItemRef.current) {
       const updatedItems = items.map((item) =>
         item.uuid === selectedCardItemRef.current.uuid
@@ -129,6 +135,7 @@ export const CardEdit = () => {
             }
           : item
       );
+      await updateItem(selectedCardItemRef.current);
       setItems(updatedItems);
     }
     selectedCardItemRef.current = null;
@@ -150,15 +157,15 @@ export const CardEdit = () => {
     }
   };
 
-  const onDeleteItem = (itemData) => {
+  const onDeleteItem = async (itemData) => {
     onFocusOut();
-    // todo: delete the item from the backend
     setItems((prev) => prev.filter((item) => item.uuid !== itemData.uuid));
+    await removeItem({ itemId: itemData._id, cardId: itemData.cardId });
   };
 
   const onItemSittingsChanged = (item, inputName, value) => {
     const numValue = +value;
-    if (!isNaN(numValue)) {
+    if (!isNaN(numValue) && value !== "") {
       value = numValue;
     }
     if (!selectedCardItemRef.current) {
@@ -216,7 +223,13 @@ export const CardEdit = () => {
 
   const onSaveCard = async () => {
     if (exportRef.current) {
-      const temp = await exportAsCanvas(exportRef.current, "test");
+      const convas = await exportAsCanvas(exportRef.current, "test");
+      convas.toBlob(async (blob) => {
+        const data = await updateEventCard({ ...card, img: blob, items });
+        if (data) {
+          navigate("/workspace");
+        }
+      });
     }
   };
 
@@ -257,7 +270,7 @@ export const CardEdit = () => {
                 position: "relative",
                 width: "500px",
                 height: "300px",
-                border: "1px solid #000",
+                boxShadow: "rgba(17, 12, 46, 0.15) 0px 48px 100px 0px",
                 background: card?.backgroundColor || "",
                 ...parseCssStyles(card?.cssStyle || ""),
               }}

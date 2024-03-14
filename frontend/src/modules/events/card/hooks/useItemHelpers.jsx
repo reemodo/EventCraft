@@ -33,7 +33,8 @@ export const useItemHelpers = () => {
     async (item) => {
       try {
         setPendingUpdateItem(true);
-        const createdItem = await updateCardItem(item);
+        const newItem = { ...item };
+        const createdItem = await updateCardItem(newItem);
         return createdItem.data;
       } catch (err) {
         return null;
