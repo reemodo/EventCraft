@@ -89,7 +89,6 @@ export const EventCard = ({
               disableSpacing
               size="small"
               color="secondary"
-              onClick={onUserJoinEvent}
             >
               cancel
             </LoadingButton>
