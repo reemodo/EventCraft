@@ -10,7 +10,7 @@ export const EventFormModal = ({
   isOpen,
   onClose,
   onSubmit,
-  setEventsList,
+  onAddEvent,
 }) => {
   return (
     <Dialog open={isOpen} onClose={onClose}>
@@ -22,7 +22,7 @@ export const EventFormModal = ({
           isModal={true}
           isAddFlow
           onSuccess={onSubmit}
-          setEventsList={setEventsList}
+          onAddEvent={onAddEvent}
         />
       </DialogContent>
     </Dialog>

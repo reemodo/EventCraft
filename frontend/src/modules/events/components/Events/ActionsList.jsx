@@ -4,8 +4,9 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from "react-router-dom";
 import { useEventCardHelpers } from '../../card/hooks/useEventCardHelpers';
+import { useDeleteEventMutation } from '../../api/events.api';
 
-export function ActionsList({event}){
+export function ActionsList({event, handelSetEventLists}){
   const options = [
     'View',
     'Edit Event',
@@ -21,6 +22,8 @@ export function ActionsList({event}){
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedOption, setSelectedOption] = React.useState('None'); 
   const {getEventCard} = useEventCardHelpers();
+
+  const [deleteEvent] = useDeleteEventMutation();
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -31,10 +34,22 @@ export function ActionsList({event}){
   const navigate = useNavigate();
 //TODO:  for each option make a handel
   const handelEventClick = (value) => {
+    if(value === 'Delete'){
+      (async() => {
+        const deletedEvent = await deleteEvent({id:event._id} )
+        if(deleteEvent){
+          handleClose()
+          alert('deleted')
+          handelSetEventLists(event._id)
+        }
+        else{
+          alert('error')
+        }
+      })();
+    }
     if (EventActions[value]) {
       navigate(EventActions[value] );
     } 
-    
   }
 
   return (

@@ -2,12 +2,18 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { getBaseQuery } from "../../../rdx/rdxUtilities";
 import { eventFormData } from "../event.utils";
 
-import { v4 as uuid } from "uuid";
-
 export const eventApi = createApi({
   reducerPath: "eventApi",
   baseQuery: getBaseQuery(),
   endpoints: (builder) => ({
+
+    getEvent: builder.query({
+      query: (id) => ({
+        url: `events/${id}`,
+        method: "GET",
+      }),
+    }),
+
     getEvents: builder.query({
       query: (id) => ({
         url: `events/`,
@@ -15,6 +21,7 @@ export const eventApi = createApi({
         params: { id },
       }),
     }),
+
     getMyEvents: builder.query({
       query: (id) => ({
         url: `events/myEvents/${id}`,
@@ -35,17 +42,17 @@ export const eventApi = createApi({
 
     deleteEvent: builder.mutation({
       query: ({ id }) => ({
-        url: `events/myEvents/${id}`,
+        url: `events/${id}`,
         method: "DELETE",
       }),
     }),
 
     updateEvent: builder.mutation({
-      query: (body, id) => {
+      query: ({formData, id}) => {
         return {
           url: `events/${id}`,
           method: "PUT",
-          body,
+          body: formData,
         };
       },
     }),
@@ -60,4 +67,5 @@ export const {
   useGetMyEventsQuery,
   useUpdateEventMutation,
   useLazyGetMyEventsQuery,
+  useLazyGetEventQuery
 } = eventApi;

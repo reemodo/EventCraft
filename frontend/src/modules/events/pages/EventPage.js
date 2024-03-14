@@ -1,31 +1,53 @@
-import React from 'react';
+import React,  { useEffect, useState } from 'react';
 import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import { MapContainer } from 'react-leaflet/MapContainer'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import { Marker } from 'react-leaflet/Marker'
 import { Popup } from 'react-leaflet/Popup'
+import { useParams } from "react-router-dom";
+import { useEventHelpers } from "../hooks/useEventHelper"
+import { rdxEventsActions } from '../rdx/events.rdx';
+import { useDispatch } from "react-redux";
+import  Layout  from '../../landing/Layout';
 import { Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useSelector } from "react-redux";
-import  Layout  from '../../landing/Layout';
-
 function EventPage({ imageUrl, lat, lng }) {
-    const position = [lat, lng]
+    const { id } = useParams();
+    const { getEvent, pendingGetEvent } = useEventHelpers();
     const customIcon = new Icon({
         iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
         iconSize: [38, 38]
     });
+    const position = [lat, lng]
+    const [event, setEvent] = useState();
+  
+    const dispatch = useDispatch();
+  
+    useEffect(() => {
+      (async () => {
+        if (id) {
+          const eventData = await getEvent(id);
+          if (eventData) {
+            setEvent(eventData);
+            dispatch(rdxEventsActions.setSelectedEvent(eventData));
 
-    const selectedEvent = useSelector((state) => state.events);
-    const event = selectedEvent.selectedEvent;
+          }
+        }
+    })();
+    }, [id, getEvent, dispatch]);
+    if(pendingGetEvent)
+    return <div>Loading...</div>
+    if(!event || event.length === 0){
+        return <div>empty</div>
+    }
     return (
         <>
         
         <Layout>
                 <CardMedia
                     component="img"
-                    sx={{ width: '100vh', objectFit: 'cover', height: '250px', margin: 'auto' }}
-                    image={imageUrl}
+                    sx={{ width: '100vh', objectFit: 'cover', height: '550px', margin: 'auto' }}
+                    image={event.card.img}
                     alt="Event"
                 />
                 <CardContent sx={{ flex: '1' }}>
@@ -34,25 +56,25 @@ function EventPage({ imageUrl, lat, lng }) {
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         <strong>Additional Information:</strong><br />
-                        {event.info}
+                        {event.description}
                     </Typography>
                     <Typography variant="body1" color="text.secondary" gutterBottom>
-                        <strong>Date & Time:</strong> {event.startDate}
+                        <strong>startDate:</strong> {event.startDate}<strong xs={{paddingRight: 50}}>EndDate:</strong> {event.endDate}
                     </Typography>
                     <Typography variant="body1" color="text.secondary" gutterBottom>
                         <strong>Location:</strong> {event.location}
                     </Typography>
-                </CardContent>
+                    </CardContent>
       
             <MapContainer center={position} zoom={17} style={{ width: 1000, height: 300, margin: 'auto' }} >
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <Marker position={position} icon={customIcon}>
-                    <Popup>Hello I'm Here!</Popup>
-                </Marker>
-            </MapContainer>
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={position} icon={customIcon}>
+                        <Popup>Hello I'm Here!</Popup>
+                    </Marker>
+                </MapContainer>
         </Layout>
         </>
     );

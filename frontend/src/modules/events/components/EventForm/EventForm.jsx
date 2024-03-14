@@ -59,15 +59,14 @@ export const EventForm = ({
   isAddFlow,
   model,
   onSuccess,
-  onChangEventTitle,
+  onAddEvent,
 }) => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   
 
   const [addEvent, error] = useAddEventMutation();
-  const [updateEvent, { isLoading, error: errorOnUpdatingEvent }] =
-    useUpdateEventMutation();
+  const [updateEvent] = useUpdateEventMutation();
 
   const exportRef = useRef(null);
 
@@ -125,8 +124,9 @@ export const EventForm = ({
           },
           userId: user.currentUser.id,
         });
-        if (eventData[0] && eventData[0]._id) {
-          onSuccess(eventData);
+        if (eventData.data[0] && eventData.data[0]._id) {
+          onAddEvent(eventData.data[0])
+          onSuccess(eventData.data[0]);
         }
       } else {
         const formData = eventFormData({
@@ -134,7 +134,7 @@ export const EventForm = ({
           card: model.card,
           userId: user.currentUser.id,
         });
-        const eventData = await updateEvent(formData, model._id);
+        const eventData = await updateEvent({formData:formData, id:model._id});
         if (eventData?.data?.success) {
           navigate("/workSpace");
         }
@@ -153,7 +153,7 @@ export const EventForm = ({
       title: model?.title || "",
       description: model?.description || "",
       location: model?.location || "",
-      isPublic: model?.isPublic || "",
+      isPublic: model?.isPublic || false,
       startDate,
       endDate,
     };
@@ -164,10 +164,14 @@ export const EventForm = ({
       initialValues={initFormValues}
       validationSchema={validationSchema}
       onSubmit={async (values) => {
-        const img = await onSaveCard();
-        img.toBlob((result) => {
-          handleEvent({ ...values, img: result });
-        });
+        if(isModal){
+          const img = await onSaveCard();
+          img.toBlob((result) => {
+            handleEvent({ ...values, img: result });
+          });
+        }
+        else
+         handleEvent({ ...values });
       }}
     >
       {(props) => (
@@ -213,7 +217,7 @@ export const EventForm = ({
               helperText={props.errors.isPublic ?? ""}
             >
               {publicPrivate.map(({ name, value }) => (
-                <MenuItem key={name} value={String(value)}>
+                <MenuItem key={name} value={value}>
                   {name}
                 </MenuItem>
               ))}
@@ -245,7 +249,7 @@ export const EventForm = ({
             
             
 
-            <Field name="location">
+            <Field name="location" >
              {({
                field, // { name, value, onChange, onBlur }
                form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
@@ -257,9 +261,10 @@ export const EventForm = ({
               type="text"
               label="location"
               variant="outlined"
-              
               value={field.value}
-              onChange={(e) => {field.onChange(e); }}
+              onChange={(value) => {
+                props.setFieldValue("location", value);
+              }}
               error={!!props.errors.location}
               helperText={props.errors.location ?? ""}
               options={Results?.map((option) => option.name)}
