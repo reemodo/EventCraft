@@ -41,6 +41,7 @@ export function Events({
           <EventCategoryList
             title={JOINED_CATEGORY}
             events={groupedEvents[JOINED_CATEGORY]}
+            onJoinEvent={onJoinEvent}
           />
         )}
 
@@ -48,7 +49,11 @@ export function Events({
           Object.entries(groupedEvents).map(([category, items]) =>
             category !== JOINED_CATEGORY ? (
               <div key={category}>
-                <EventCategoryList title={category} events={items} />
+                <EventCategoryList
+                  title={category}
+                  events={items}
+                  onJoinEvent={onJoinEvent}
+                />
               </div>
             ) : (
               <></>
