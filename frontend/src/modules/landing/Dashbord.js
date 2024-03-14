@@ -5,10 +5,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
-import EditCalendarIcon from "@mui/icons-material/EditCalendar";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import InsertInvitationIcon from "@mui/icons-material/InsertInvitation";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import TitleIcon from "@mui/icons-material/Title";
 import ImageIcon from "@mui/icons-material/Image";
@@ -23,8 +20,6 @@ const mainListItems = [
 ];
 
 export const MainListItemsMenu = () => {
-  const { loggedIn } = useSelector((state) => state.user);
-
   return (
     <React.Fragment>
       {mainListItems.map((link, idx) => (
