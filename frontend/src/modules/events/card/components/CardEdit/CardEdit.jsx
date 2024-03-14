@@ -112,7 +112,7 @@ export const CardEdit = () => {
         position: "absolute",
       });
 
-      setItems([...items, createdItem.item]);
+      setItems([...items, { ...createdItem.item, uuid: itemData.uuid }]);
     }
   };
 

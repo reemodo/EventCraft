@@ -66,8 +66,6 @@ router.put(
         cardId,
         backgroundColor,
         cssStyle,
-        img,
-        items,
         req
       );
       res.status(200).send(updatedCard);

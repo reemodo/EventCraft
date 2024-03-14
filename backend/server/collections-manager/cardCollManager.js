@@ -40,14 +40,7 @@ class cardCollManager {
       return card[0]._id;
     } else return -1;
   }
-  static async updateCardFields(
-    cardId,
-    backgroundColor,
-    cssStyle,
-    img,
-    items,
-    req
-  ) {
+  static async updateCardFields(cardId, backgroundColor, cssStyle, req) {
     const updateFields = findUpdatedFields(backgroundColor, cssStyle);
     const card = await Card.findById(cardId);
 
