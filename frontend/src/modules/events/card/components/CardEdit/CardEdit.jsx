@@ -260,7 +260,7 @@ export const CardEdit = () => {
             variant="contained"
             onClick={onSaveCard}
           >
-            save
+            update card image
           </LoadingButton>
 
           <Box ref={exportRef}>
