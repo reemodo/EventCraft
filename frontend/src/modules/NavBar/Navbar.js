@@ -23,7 +23,7 @@ import {
 } from "../landing/Dashbord";
 import { useSelector } from "react-redux";
 import { useInit } from "../shared/hooks/useInit/useInit";
-
+import "./navbar.css";
 import { useAuthHelpers } from "../auth/hooks/useAuthHelpers/useAuthHelpers";
 
 const drawerWidth = 240;
@@ -113,7 +113,7 @@ const Navbar = () => {
           >
             <IconButton
               edge="start"
-              color="secondary"
+              //color="secondary"
               aria-label="open drawer"
               onClick={toggleDrawer}
               sx={{
