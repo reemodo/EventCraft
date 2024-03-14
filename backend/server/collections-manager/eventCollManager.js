@@ -13,6 +13,22 @@ class eventCollManager {
     return events;
   }
 
+  static async joinEvent(userId, eventId) {
+    const event = await Event.findById(eventId);
+
+    const attendeeId = event.attendance.findIndex(
+      (id) => id.toString() === userId
+    );
+
+    if (attendeeId === -1) {
+      event.attendance.push(userId);
+      event.save();
+      return event;
+    }
+
+    throw new Error("user all ready joined");
+  }
+
   static async getEventPopulated(eventId) {
     const results = await Event.aggregate([
       { $match: { _id: eventId } },
@@ -59,16 +75,15 @@ class eventCollManager {
   static async deleteEvent(eventId) {
     const event = await Event.findById(eventId).populate("cardID");
     const card = await event.cardID.populate("cardItems");
-    for(let itemId of card.cardItems){
-      const deleteItem = await Item.findByIdAndDelete(itemId)
+    for (let itemId of card.cardItems) {
+      const deleteItem = await Item.findByIdAndDelete(itemId);
       if (!deleteItem) {
         return { success: false, error: "Item not found" };
       }
     }
     const deletedCard = await Card.findByIdAndDelete(event.cardID);
-    if (!deletedCard) 
-      return { success: false, error: "Event not found" };
-  
+    if (!deletedCard) return { success: false, error: "Event not found" };
+
     const deletedEvent = await Event.findByIdAndDelete(eventId);
     if (deletedEvent) {
       return { success: true, message: "Event removed successfully" };
