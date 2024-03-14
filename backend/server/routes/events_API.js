@@ -47,7 +47,6 @@ router.get("/", async function (req, res) {
   }
 });
 
-
 router.delete(
   "/:eventId",
   Utilities.authenticateToken,
@@ -104,6 +103,23 @@ router.get(
     }
   }
 );
+
+router.post(
+  "/joinEvent/:eventId/:userId",
+  Utilities.authenticateToken,
+  async function (req, res) {
+    try {
+      const eventId = req.params.eventId;
+      const userId = req.params.userId;
+      const myJoinedEvent = await eventManager.joinEvent(userId, eventId);
+      res.send(myJoinedEvent);
+    } catch (err) {
+      console.error(err);
+      res.status(400).send("bad request");
+    }
+  }
+);
+
 router.post(
   "/:userId/:eventId",
   Utilities.authenticateToken,
@@ -119,7 +135,7 @@ router.post(
     }
   }
 );
-router.put("/:eventId",Utilities.authenticateToken, async function (req, res) {
+router.put("/:eventId", Utilities.authenticateToken, async function (req, res) {
   try {
     const eventId = req.params.eventId;
     const { startDate, endDate, category, location, description, title } =
