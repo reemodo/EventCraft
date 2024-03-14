@@ -16,6 +16,20 @@ router.get("/DBgenerator", async function (req, res) {
     res.status(400).send((err) => err);
   }
 });
+router.get("/:eventId", async function (req, res) {
+  try {
+    const { eventId } = req.params;
+    const event = await eventManager.getEvent(eventId);
+    if (event.length) {
+      res.send(event[0]);
+    } else {
+      res.send(null);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(400).send((err) => err);
+  }
+});
 
 router.get("/", async function (req, res) {
   try {
@@ -33,20 +47,6 @@ router.get("/", async function (req, res) {
   }
 });
 
-router.get("/:eventId", async function (req, res) {
-  try {
-    const { eventId } = req.params;
-    const event = await eventManager.getEvent(eventId);
-    if (event.length) {
-      res.send(event[0]);
-    } else {
-      res.send(null);
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(400).send((err) => err);
-  }
-});
 
 router.delete(
   "/:eventId",
@@ -119,7 +119,7 @@ router.post(
     }
   }
 );
-router.put("/:eventId", async function (req, res) {
+router.put("/:eventId",Utilities.authenticateToken, async function (req, res) {
   try {
     const eventId = req.params.eventId;
     const { startDate, endDate, category, location, description, title } =
