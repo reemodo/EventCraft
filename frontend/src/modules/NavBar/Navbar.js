@@ -18,6 +18,7 @@ import List from '@mui/material/List';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Divider from '@mui/material/Divider';
 import { mainListItems, secondaryListItems } from '../edatingPage/Dashbord';
+import "./navbar.css"
 
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {

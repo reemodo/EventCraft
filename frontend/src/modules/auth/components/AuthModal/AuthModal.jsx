@@ -66,3 +66,4 @@ export const AuthModal = ({ isOpen, onClose }) => {
     </Dialog>
   );
 };
+export default AuthModal;
