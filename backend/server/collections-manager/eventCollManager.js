@@ -57,8 +57,19 @@ class eventCollManager {
   }
 
   static async deleteEvent(eventId) {
+    const event = await Event.findById(eventId).populate("cardID");
+    const card = await event.cardID.populate("cardItems");
+    for(let itemId of card.cardItems){
+      const deleteItem = await Item.findByIdAndDelete(itemId)
+      if (!deleteItem) {
+        return { success: false, error: "Item not found" };
+      }
+    }
+    const deletedCard = await Card.findByIdAndDelete(event.cardID);
+    if (!deletedCard) 
+      return { success: false, error: "Event not found" };
+  
     const deletedEvent = await Event.findByIdAndDelete(eventId);
-    await Card.findByIdAndDelete(deletedEvent.cardID);
     if (deletedEvent) {
       return { success: true, message: "Event removed successfully" };
     } else {
@@ -178,7 +189,8 @@ class eventCollManager {
     category,
     location,
     description,
-    title
+    title,
+    isPublic
   ) {
     const updateFields = filterAllEventsField(
       startDate,
@@ -186,7 +198,8 @@ class eventCollManager {
       location,
       category,
       description,
-      title
+      title,
+      isPublic
     );
     const updatedEvent = await Event.findByIdAndUpdate(
       eventId,
