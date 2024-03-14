@@ -3,7 +3,7 @@ import React from "react";
 import { EventCard } from "./EventCard";
 import { useSelector } from "react-redux";
 
-export const EventCategoryList = ({ title, events }) => {
+export const EventCategoryList = ({ title, events, onJoinEvent }) => {
   const rdxUser = useSelector((state) => state.user);
 
   return (
@@ -26,6 +26,7 @@ export const EventCategoryList = ({ title, events }) => {
                 event={event}
                 inHomePage
                 userJoined={event.attendance.includes(rdxUser.currentUser.id)}
+                onJoinEvent={onJoinEvent}
               />
             </Grid>
           );
