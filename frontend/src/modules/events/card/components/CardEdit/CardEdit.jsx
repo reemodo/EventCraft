@@ -157,10 +157,10 @@ export const CardEdit = () => {
     }
   };
 
-  const onDeleteItem = (itemData) => {
+  const onDeleteItem = async (itemData) => {
     onFocusOut();
-    // todo: delete the item from the backend
     setItems((prev) => prev.filter((item) => item.uuid !== itemData.uuid));
+    await removeItem({ itemId: itemData._id, cardId: itemData.cardId });
   };
 
   const onItemSittingsChanged = (item, inputName, value) => {
