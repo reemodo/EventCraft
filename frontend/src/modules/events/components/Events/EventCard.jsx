@@ -83,6 +83,18 @@ export const EventCard = ({
             </LoadingButton>
           )}
 
+          {inHomePage && userJoined && (
+            <LoadingButton
+              loading={pendingJoinEvent}
+              disableSpacing
+              size="small"
+              color="secondary"
+              onClick={onUserJoinEvent}
+            >
+              cancel
+            </LoadingButton>
+          )}
+
           {!inHomePage && (
             <Button disableSpacing size="small" color="secondary">
               <ActionsList
