@@ -13,6 +13,7 @@ export function Events({
   editModel,
   handelSetEventLists,
   onJoinEvent,
+  onCancelJoinEvent
 }) {
   const rdxUser = useSelector((state) => state.user);
 
@@ -42,6 +43,7 @@ export function Events({
             title={JOINED_CATEGORY}
             events={groupedEvents[JOINED_CATEGORY]}
             onJoinEvent={onJoinEvent}
+            onCancelJoinEvent={onCancelJoinEvent}
           />
         )}
 

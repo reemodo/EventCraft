@@ -45,15 +45,15 @@ class eventCollManager {
     );
 
     if (attendeeIdIdx !== -1) {
-      const userDuc = await User.findById(userId);
+      // const userDuc = await User.findById(userId);
 
       event.attendance.splice(attendeeIdIdx, 1);
       event.save();
-      await mailerSvc.sendEventEmail({
-        event: event.toObject(),
-        to: userDuc.toObject().email,
-        action: "cancel joining",
-      });
+      // await mailerSvc.sendEventEmail({
+      //   event: event.toObject(),
+      //   to: userDuc.toObject().email,
+      //   action: "cancel joining",
+      // });
 
       return event;
     }
@@ -207,13 +207,13 @@ class eventCollManager {
     return event;
   }
 
-  static async filterByParams(id, category, startDate, location) {
-    const filteredFields = filterAllEventsField(
+  static async filterByParams(id, category, startDate, location, title) {
+    const filteredFields = filterAllEventsField({
       startDate,
-      undefined,
       location,
-      category
-    );
+      category, 
+      title
+    });
     filteredFields.userId = { $ne: id };
     const events = await Event.find(filteredFields)
       .sort({
