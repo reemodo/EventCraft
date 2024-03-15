@@ -5,6 +5,8 @@ const eventManager = require("../collections-manager/eventCollManager");
 const Utilities = require("../../utility");
 const eventCollManager = require("../collections-manager/eventCollManager");
 
+const upload = require("../../middleware/multer");
+
 router.get("/DBgenerator", async function (req, res) {
   try {
     await DBManager.reGenerate();
@@ -14,15 +16,30 @@ router.get("/DBgenerator", async function (req, res) {
     res.status(400).send((err) => err);
   }
 });
+router.get("/:eventId", async function (req, res) {
+  try {
+    const { eventId } = req.params;
+    const event = await eventManager.getEvent(eventId);
+    if (event.length) {
+      res.send(event[0]);
+    } else {
+      res.send(null);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(400).send((err) => err);
+  }
+});
 
 router.get("/", async function (req, res) {
   try {
-    const { id, category, startDate, location } = req.query;
+    const { id, category, startDate, location, title } = req.query;
     const event = await eventManager.filterByParams(
-      id,
-      category,
-      startDate,
-      location
+        id,
+        category,
+        startDate,
+        location, 
+        title
     );
     res.send(event);
   } catch (err) {
@@ -45,16 +62,19 @@ router.delete(
   }
 );
 
-router.post("/", Utilities.authenticateToken, async (req, res) => {
-  try {
-    const newEvent = await eventManager.saveEvent(req.body);
-    res.send(newEvent);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to create event" });
+router.post(
+  "/",
+  Utilities.authenticateToken,
+  upload.single("img"),
+  async (req, res) => {
+    try {
+      const newEvent = await eventManager.saveEvent(req);
+      res.send(newEvent);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create event" });
+    }
   }
-});
-
-
+);
 
 router.get(
   "/myEvents/:userId",
@@ -84,6 +104,39 @@ router.get(
     }
   }
 );
+
+router.post(
+  "/joinEvent/:eventId/:userId",
+  Utilities.authenticateToken,
+  async function (req, res) {
+    try {
+      const eventId = req.params.eventId;
+      const userId = req.params.userId;
+      const myJoinedEvent = await eventManager.joinEvent(userId, eventId);
+      res.send(myJoinedEvent);
+    } catch (err) {
+      console.error(err);
+      res.status(401).send("bad request");
+    }
+  }
+);
+
+router.post(
+  "/cancelJoinedEvent/:eventId/:userId",
+  Utilities.authenticateToken,
+  async function (req, res) {
+    try {
+      const eventId = req.params.eventId;
+      const userId = req.params.userId;
+      const myJoinedEvent = await eventManager.cancelJoinEvent(userId, eventId);
+      res.send(myJoinedEvent);
+    } catch (err) {
+      console.error(err);
+      res.status(401).send({ message: "bad request" });
+    }
+  }
+);
+
 router.post(
   "/:userId/:eventId",
   Utilities.authenticateToken,
@@ -99,18 +152,19 @@ router.post(
     }
   }
 );
-router.put("/:eventId", async function (req, res) {
+router.put("/:eventId", Utilities.authenticateToken, async function (req, res) {
   try {
     const eventId = req.params.eventId;
-    const { startDate, endDate, category, location, description, title } = req.body;
+    const { startDate, endDate, category, location, description, title } =
+      req.body;
     const updatedEvent = await eventCollManager.updateEventFields(
       eventId,
       startDate,
       endDate,
       category,
       location,
-      description, 
-      title 
+      description,
+      title
     );
     res.status(200).send(updatedEvent);
   } catch (err) {

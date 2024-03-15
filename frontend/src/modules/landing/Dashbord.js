@@ -5,10 +5,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
-import EditCalendarIcon from "@mui/icons-material/EditCalendar";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import InsertInvitationIcon from "@mui/icons-material/InsertInvitation";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import TitleIcon from "@mui/icons-material/Title";
 import ImageIcon from "@mui/icons-material/Image";
@@ -19,9 +16,7 @@ import { ItemTypes } from "../events/card/components/CardEdit/CardEdit";
 import { rdxEventsActions } from "../events/rdx/events.rdx";
 
 const mainListItems = [
-  { title: "Home", icon: CalendarMonthIcon, url: "/" },
   { title: "WorkSpace", icon: EventNoteIcon, url: "/workSpace" },
-
 ];
 
 export const MainListItemsMenu = () => {
@@ -47,7 +42,6 @@ export const MainListItemsMenu = () => {
     </React.Fragment>
   );
 };
-
 
 const editCardEventListItems = [
   { type: ItemTypes.TEXT, icon: TitleIcon },

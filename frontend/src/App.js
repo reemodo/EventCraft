@@ -21,11 +21,12 @@ import { CardEdit } from "./modules/events/card/components/CardEdit/CardEdit";
 
 import "./App.css";
 import EditEventPage from "./modules/events/pages/EditEventPage";
+import { EventAttendeesPage } from "./modules/events/pages/EventAttendeesPage/EventAttendeesPage";
 
 function App() {
   const theme = createTheme({
     palette: {
-    primary: {
+      primary: {
         main: "#2222",
         contrastText: "#000",
       },
@@ -48,7 +49,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route
-                  path="/eventPage"
+                  path="/eventPage/:id"
                   element={
                     <EventPage
                       imageUrl="\Frame-1-3-min-1-3.png"
@@ -59,8 +60,16 @@ function App() {
                 />
 
                 <Route path="/workSpace" element={withAuth(WorkSpace)} />
-                <Route path="/cardEdit" element={withAuth(CardEdit)} />
-                <Route path="/editEvent" element={withAuth(EditEventPage)} />
+                <Route path="/editCard/:id" element={withAuth(CardEdit)} />
+                <Route
+                  path="/event/attendees/:id"
+                  element={withAuth(EventAttendeesPage)}
+                />
+
+                <Route
+                  path="/editEvent/:id"
+                  element={withAuth(EditEventPage)}
+                />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Box>

@@ -1,44 +1,83 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { getBaseQuery} from '../../../rdx/rdxUtilities'
+import { getBaseQuery } from "../../../rdx/rdxUtilities";
+import { eventFormData } from "../event.utils";
+
 export const eventApi = createApi({
   reducerPath: "eventApi",
   baseQuery: getBaseQuery(),
   endpoints: (builder) => ({
-    getEvents: builder.query({
+    getEvent: builder.query({
       query: (id) => ({
-        url: `events`,
+        url: `events/${id}`,
         method: "GET",
-        params:{id}
       }),
     }),
+
+    getEvents: builder.query({
+      query: (filters) => ({
+        url: `events/`,
+        method: "GET",
+        params: {
+          id: filters?.id,
+          category: filters?.category,
+          startDate: filters?.date,
+          location: filters?.location,
+          title: filters?.title
+        }
+      }),
+    }),
+
     getMyEvents: builder.query({
       query: (id) => ({
         url: `events/myEvents/${id}`,
-        method: "GET"
+        method: "GET",
       }),
     }),
 
     addEvent: builder.mutation({
-      query: (body) => ({
-        url: `events`,
-        method: "POST",
-        body,
-      }),
+      query: (body) => {
+        const formData = eventFormData(body);
+        return {
+          url: `events/`,
+          method: "POST",
+          body: formData,
+        };
+      },
+    }),
+
+    joinEvent: builder.mutation({
+      query: ({ userId, eventId }) => {
+        return {
+          url: `events/joinEvent/${eventId}/${userId}`,
+          method: "POST",
+        };
+      },
+    }),
+
+    cancelJoinedEvent: builder.mutation({
+      query: ({ userId, eventId }) => {
+        return {
+          url: `events/cancelJoinedEvent/${eventId}/${userId}`,
+          method: "POST",
+        };
+      },
     }),
 
     deleteEvent: builder.mutation({
       query: ({ id }) => ({
-        url: `events/myEvents/${id}`,
+        url: `events/${id}`,
         method: "DELETE",
       }),
     }),
 
     updateEvent: builder.mutation({
-      query: (body) => ({
-        url: `events/${body.id}`,
-        method: "PUT",
-        body,
-      }),
+      query: ({ formData, id }) => {
+        return {
+          url: `events/${id}`,
+          method: "PUT",
+          body: formData,
+        };
+      },
     }),
   }),
 });
@@ -50,5 +89,8 @@ export const {
   useLazyGetEventsQuery,
   useGetMyEventsQuery,
   useUpdateEventMutation,
-  useLazyGetMyEventsQuery
+  useLazyGetMyEventsQuery,
+  useLazyGetEventQuery,
+  useJoinEventMutation,
+  useCancelJoinedEventMutation,
 } = eventApi;

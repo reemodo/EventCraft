@@ -1,12 +1,12 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef, useState } from "react";
 
-import { MenuItem, Stack, TextField } from "@mui/material";
+import { Divider, MenuItem, Stack, TextField } from "@mui/material";
 
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-
 import { LoadingButton } from "@mui/lab";
-
 import { Formik, Form, Field } from "formik";
+
+import Autocomplete from "@mui/material/Autocomplete";
 
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
@@ -17,9 +17,14 @@ import {
 
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+import { CardView } from "../../card/components/CardView/CardView";
+import { exportAsCanvas } from "../../../shared/utils";
+import { ItemTypes } from "../../card/components/CardEdit/CardEdit";
+import { eventFormData } from "../../event.utils";
 
 const validationSchema = Yup.object({
   category: Yup.string().required("category is required"),
+  isPublic: Yup.string().required("visibility is required"),
   title: Yup.string().required("title is required"),
   description: Yup.string().nullable(),
   location: Yup.string().nullable(),
@@ -27,29 +32,107 @@ const validationSchema = Yup.object({
   endDate: Yup.string().required("end date is required"),
 });
 
-export const EventForm = ({onClose, isModal, isAddFlow, model, onSuccess, setEventsList}) => {
+const initCardItem = {
+  type: ItemTypes.TEXT,
+  left: 0,
+  top: 0,
+  position: "absolute",
+  text: "",
+  fontSize: 50,
+  decoration: "",
+  style: "",
+  color: "",
+};
+
+const publicPrivate = [
+  { name: "Public", value: true },
+  { name: "Private", value: false },
+];
+
+const categories = [
+  { name: "Wadding", id: "wadding" },
+  { name: "Party", id: "party" },
+  { name: "Sport", id: "sport" },
+];
+
+export const EventForm = ({
+  onClose,
+  isModal,
+  isAddFlow,
+  model,
+  onSuccess,
+  onAddEvent,
+}) => {
   const user = useSelector((state) => state.user);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [addEvent, error] = useAddEventMutation();
-  const [updateEvent, { isLoading, error: errorOnUpdatingEvent }] = useUpdateEventMutation();
+  const [updateEvent] = useUpdateEventMutation();
 
-  const handelEvent = async (formValues) => {
+  const exportRef = useRef(null);
+
+  const onSaveCard = async () => {
+    if (exportRef.current) {
+      const temp = await exportAsCanvas(exportRef.current, "test");
+      return temp;
+    }
+  };
+
+  const [Results, setResults] = useState([]);
+
+  const fetchData = (value) => {
+    if (value) {
+      fetch(
+        `https://dev.virtualearth.net/REST/v1/Locations?q=${value}&key=At9eDSmuRlIFv8AYYWu-9AZxH3oxgpF_bpeQbKiwKrxOmYr9Coxwk-qGJRW_3FL4`
+      )
+        .then((response) => response.json())
+        .then((json) => {
+          const results = json.resourceSets[0].resources.filter((user) => {
+            return (
+              value &&
+              user &&
+              user.name &&
+              user.name.toLowerCase().includes(value)
+            );
+          });
+          console.log(results);
+          setResults(results);
+        });
+    }
+  };
+
+  const handleChange = (value) => {
+    if (value) {
+      fetchData(value);
+    }
+  };
+
+  const handleEvent = async (formValues) => {
     try {
       if (isModal) {
         const eventData = await addEvent({
           ...formValues,
+          card: {
+            items: [{ ...initCardItem, text: formValues.title }],
+          },
           userId: user.currentUser.id,
         });
-        if (eventData) onSuccess(eventData);
+        if (eventData.data[0] && eventData.data[0]._id) {
+          onAddEvent(eventData.data[0]);
+          onSuccess(eventData.data[0]);
+        }
       } else {
-        const eventData = await updateEvent({
+        const formData = eventFormData({
           ...formValues,
+          card: model.card,
           userId: user.currentUser.id,
+        });
+        const eventData = await updateEvent({
+          formData: formData,
           id: model._id,
         });
         if (eventData?.data?.success) {
-            navigate('/workSpace')
+          navigate("/workSpace");
         }
       }
     } catch (error) {
@@ -58,32 +141,45 @@ export const EventForm = ({onClose, isModal, isAddFlow, model, onSuccess, setEve
   };
 
   const initFormValues = useMemo(() => {
-    const startDate = model?.startDate
-      ? dayjs(model.startDate)
-      : null;
-    const endDate = model?.endDate
-      ? dayjs(model.endDate)
-      : null;
+    const startDate = model?.startDate ? dayjs(model.startDate) : null;
+    const endDate = model?.endDate ? dayjs(model.endDate) : null;
 
     return {
       category: model?.category || "",
       title: model?.title || "",
       description: model?.description || "",
       location: model?.location || "",
+      isPublic: model?.isPublic || false,
       startDate,
       endDate,
     };
   }, [model]);
+
   return (
     <Formik
       initialValues={initFormValues}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
-        handelEvent(values);
+      onSubmit={async (values) => {
+        if (isModal) {
+          const img = await onSaveCard();
+          img.toBlob((result) => {
+            handleEvent({ ...values, img: result });
+          });
+        } else handleEvent({ ...values });
       }}
     >
       {(props) => (
         <Form>
+          {!model && (
+            <CardView
+              ref={exportRef}
+              title={props.values.title}
+              item={initCardItem}
+            />
+          )}
+
+          <Divider sx={{ mt: 2, mb: 2 }} />
+
           <Stack sx={{ gap: 2, pt: 2 }}>
             {/* category */}
             <Field
@@ -93,11 +189,29 @@ export const EventForm = ({onClose, isModal, isAddFlow, model, onSuccess, setEve
               label="Category"
               variant="outlined"
               as={TextField}
-              error={!!props.errors.category}
+              error={props.errors.category}
               helperText={props.errors.category ?? ""}
             >
-              {[{ name: "asad", id: "1" }].map(({ name, id }) => (
+              {categories.map(({ name, id }) => (
                 <MenuItem key={name} value={String(id)}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Field>
+
+            {/* isPublic */}
+            <Field
+              name="isPublic"
+              select
+              type="text"
+              label="Visibility"
+              variant="outlined"
+              as={TextField}
+              error={props.errors.isPublic}
+              helperText={props.errors.isPublic ?? ""}
+            >
+              {publicPrivate.map(({ name, value }) => (
+                <MenuItem key={name} value={value}>
                   {name}
                 </MenuItem>
               ))}
@@ -110,7 +224,7 @@ export const EventForm = ({onClose, isModal, isAddFlow, model, onSuccess, setEve
               label="Title"
               variant="outlined"
               as={TextField}
-              error={!!props.errors.title}
+              error={props.errors.title}
               helperText={props.errors.title ?? ""}
             />
 
@@ -121,22 +235,48 @@ export const EventForm = ({onClose, isModal, isAddFlow, model, onSuccess, setEve
               variant="outlined"
               as={TextField}
               multiline
-              error={!!props.errors.description}
+              error={props.errors.description}
               helperText={props.errors.description ?? ""}
             />
 
-            {/* location  */}
-            <Field
-              name="location"
-              label="Location"
-              variant="outlined"
-              as={TextField}
-              error={!!props.errors.location}
-              helperText={props.errors.location ?? ""}
-            />
+            {/* location */}
+
+            <Field name="location">
+              {({
+                field, // { name, value, onChange, onBlur }
+                form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                meta,
+              }) => (
+                <Autocomplete
+                  name="location"
+                  freeSolo
+                  type="text"
+                  label="location"
+                  variant="outlined"
+                  value={field.value ? field.value.split(":")[0] : ""}
+                  onChange={(e, value) => {
+                    const location = Results.find((loc) => loc.name === value);
+                    console.log("🚀 ~ location:", location);
+
+                    const lang = location?.geocodePoints[0].coordinates[0];
+                    const lat = location?.geocodePoints[0].coordinates[1];
+                    props.setFieldValue("location", `${value}: ${lang}:${lat}`);
+                  }}
+                  error={props.errors.location}
+                  helperText={props.errors.location ?? ""}
+                  options={Results?.map((option) => option.name) || []}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      onChange={(e) => handleChange(e.target.value)}
+                      label="location"
+                    />
+                  )}
+                />
+              )}
+            </Field>
 
             {/* start date */}
-
             <DateTimePicker
               name="startDate"
               label="Start Date"

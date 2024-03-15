@@ -24,12 +24,12 @@ const SettingsType = {
 const imageSettings = [
   { name: "width", type: SettingsType.input },
   { name: "height", type: SettingsType.input },
-  { name: "radios", type: SettingsType.input },
+  { name: "borderRadius", type: SettingsType.input },
   { name: "top", type: SettingsType.input },
   { name: "left", type: SettingsType.input },
   { name: "zIndex", type: SettingsType.input },
   {
-    name: "style",
+    name: "cssStyle",
     type: SettingsType.textarea,
   },
 ];
@@ -37,7 +37,7 @@ const imageSettings = [
 const cardSettings = [
   { name: "backgroundColor", type: SettingsType.input },
   {
-    name: "style",
+    name: "cssStyle",
     type: SettingsType.textarea,
   },
 ];
@@ -52,7 +52,7 @@ const shapeSettings = [
 
   { name: "zIndex", type: SettingsType.input },
   {
-    name: "style",
+    name: "cssStyle",
     type: SettingsType.textarea,
   },
 ];
@@ -68,17 +68,33 @@ const textSettings = [
   },
   {
     name: "fontFamily",
-    options: ["", "Roboto"],
+    options: [
+      "none",
+      "Roboto",
+      "Brush Script MT",
+      "Courier New",
+      "Garamond",
+      "Georgia",
+      "Times New Roman",
+      "Trebuchet MS",
+      "Tahoma",
+      "Arial",
+      "Verdana",
+      "Bebas Neue",
+      "Josefin Sans",
+      "Lato",
+      "Libre Baskerville",
+    ],
     type: SettingsType.select,
   },
   {
     name: "decoration",
-    options: ["", "underline"],
+    options: ["none", "underline", "underline dotted"],
     type: SettingsType.select,
   },
   { name: "zIndex", type: SettingsType.input },
   {
-    name: "style",
+    name: "cssStyle",
     type: SettingsType.textarea,
   },
 ];
@@ -125,11 +141,11 @@ const imageSchema = () =>
   Yup.object({
     width: widthValidation(),
     height: heightValidation(),
-    radios: Yup.string().nullable(),
+    borderRadius: Yup.string().nullable(),
     top: Yup.string().required(`top is required`),
     left: Yup.string().required(`left is required`),
     zIndex: Yup.string().nullable(),
-    style: Yup.string().nullable(),
+    cssStyle: Yup.string().nullable(),
   });
 
 const textSchema = () =>
@@ -141,7 +157,7 @@ const textSchema = () =>
     fontFamily: Yup.string().nullable(),
     decoration: Yup.string().nullable(),
     zIndex: Yup.string().nullable(),
-    style: Yup.string().nullable(),
+    cssStyle: Yup.string().nullable(),
   });
 
 const shapeSchema = () =>
@@ -151,7 +167,7 @@ const shapeSchema = () =>
     top: Yup.string().required(`top is required`),
     left: Yup.string().required(`left is required`),
     zIndex: Yup.string().nullable(),
-    style: Yup.string().nullable(),
+    cssStyle: Yup.string().nullable(),
   });
 
 const Input = ({ item, props, onChange, cardItem }) => {

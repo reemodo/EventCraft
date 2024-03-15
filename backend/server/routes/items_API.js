@@ -42,25 +42,16 @@ router.post("/:cardId", Utilities.authenticateToken, async (req, res) => {
   }
 });
 
-router.put(
-  "/:cardId/:itemId",
-  Utilities.authenticateToken,
-  async function (req, res) {
-    try {
-      const cardId = req.params.cardId;
-      const itemId = req.params.itemId;
-      const newData = req.body;
-      const updatedItem = await itemManager.editItemPosition(
-        cardId,
-        itemId,
-        newData
-      );
-      res.status(200).send(updatedItem);
-    } catch (err) {
-      console.error(err);
-      res.status(400).send((err) => err);
-    }
+router.put("/:itemId", Utilities.authenticateToken, async function (req, res) {
+  try {
+    const itemId = req.params.itemId;
+    const newData = req.body;
+    const updatedItem = await itemManager.editItemPosition(itemId, newData);
+    res.status(200).send(updatedItem);
+  } catch (err) {
+    console.error(err);
+    res.status(400).send((err) => err);
   }
-);
+});
 
 module.exports = router;
