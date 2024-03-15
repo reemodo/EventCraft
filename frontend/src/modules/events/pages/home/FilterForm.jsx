@@ -45,10 +45,6 @@ const FilterForm = ({ eventsList, onFilter }) => {
     onFilter({ location, category, date: selectedDate });
   };
 
-
-
-
-
   return (
     <Grid container alignItems="center" >
       <Grid item>

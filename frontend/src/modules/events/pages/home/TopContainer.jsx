@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import SearchBar from "./SearchBar";
-export function TopContainer(props) {
+export function TopContainer({handelSearch}) {
   return (
     <>
       <Box
@@ -26,7 +26,7 @@ export function TopContainer(props) {
         >
           Mange your events with EventCraft
         </Typography>
-        <SearchBar />
+        <SearchBar handelSearch={handelSearch}/>
       </Box>
     </>
   );
