@@ -95,6 +95,15 @@ class eventCollManager {
       },
 
       {
+        $lookup: {
+          from: "users",
+          localField: "users._id",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+
+      {
         $project: {
           _id: 1,
           title: 1,
@@ -106,8 +115,10 @@ class eventCollManager {
           createdAt: 1,
           isPublic: 1,
           attendance: {
-            _id: "$users._id",
-            name: "$users.name",
+            _id: "$user._id",
+            name: "$user.name",
+            phone: "$user.phone",
+            email: "$user.email",
           },
           cardItems: "$cardItems",
           card: { $first: "$card" },
@@ -211,8 +222,8 @@ class eventCollManager {
     const filteredFields = filterAllEventsField({
       startDate,
       location,
-      category, 
-      title
+      category,
+      title,
     });
     filteredFields.userId = { $ne: id };
     const events = await Event.find(filteredFields)
