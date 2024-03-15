@@ -180,7 +180,7 @@ export const EventForm = ({ isAddFlow, model, onAddEvent }) => {
       onSubmit={async (values) => {
         if (isAddFlow) {
           const img = await onSaveCard();
-          await img.toBlob((result) => {
+          img.toBlob((result) => {
             handleEvent({ ...values, img: result });
           });
         } else handleEvent({ ...values, img: model.img });

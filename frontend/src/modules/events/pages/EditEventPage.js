@@ -19,7 +19,13 @@ function EditEventPage({ props }) {
       if (id) {
         const eventData = await getEvent(id);
         if (eventData) {
-          setEvent(eventData);
+          setEvent((prev) => {
+            if (!prev) {
+              return eventData;
+            } else {
+              return prev;
+            }
+          });
           // dispatch(rdxEventsActions.setSelectedEvent(eventData));
         }
       }
