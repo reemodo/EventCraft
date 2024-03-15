@@ -72,11 +72,6 @@ class eventCollManager {
           as: "card",
         },
       },
-
-      // {
-      //   $unwind: "$card",
-      // },
-
       {
         $lookup: {
           from: "items",
@@ -206,7 +201,9 @@ class eventCollManager {
       .sort({
         startDate: 1,
       })
-      .populate("cardID");
+      .populate("cardID")
+      .populate("attendance", "name");
+
     return events;
   }
   static async findJoinedEvents(userId) {
