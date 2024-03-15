@@ -6,6 +6,8 @@ const filterAllEventsField = utilitiesFunctions.filterAllEventsField;
 const cloudinaryCollManager = require("./cloudinaryCollManager");
 const Item = require("../../models/Item");
 const mongoose = require("mongoose");
+const { mailerSvc } = require("../mailer/mailer.service");
+const User = require("../../models/user");
 
 class eventCollManager {
   static async getEvents() {
@@ -14,19 +16,49 @@ class eventCollManager {
   }
 
   static async joinEvent(userId, eventId) {
-    const event = await Event.findById(eventId);
+    const event = await Event.findById(eventId).populate("cardID");
 
     const attendeeId = event.attendance.findIndex(
       (id) => id.toString() === userId
     );
 
     if (attendeeId === -1) {
+      // const userDuc = await User.findById(userId);
       event.attendance.push(userId);
       event.save();
+      // await mailerSvc.sendEventEmail({
+      //   event: event.toObject(),
+      //   to: userDuc.toObject().email,
+      //   action: "join",
+      // });
       return event;
     }
 
     throw new Error("user all ready joined");
+  }
+
+  static async cancelJoinEvent(userId, eventId) {
+    const event = await Event.findById(eventId).populate("cardID");
+
+    const attendeeIdIdx = event.attendance.findIndex(
+      (id) => id.toString() === userId
+    );
+
+    if (attendeeIdIdx !== -1) {
+      const userDuc = await User.findById(userId);
+
+      event.attendance.splice(attendeeIdIdx, 1);
+      event.save();
+      await mailerSvc.sendEventEmail({
+        event: event.toObject(),
+        to: userDuc.toObject().email,
+        action: "cancel joining",
+      });
+
+      return event;
+    }
+
+    throw new Error("user not joined");
   }
 
   static async getEventPopulated(eventId) {
@@ -40,11 +72,6 @@ class eventCollManager {
           as: "card",
         },
       },
-
-      // {
-      //   $unwind: "$card",
-      // },
-
       {
         $lookup: {
           from: "items",
@@ -174,7 +201,9 @@ class eventCollManager {
       .sort({
         startDate: 1,
       })
-      .populate("cardID");
+      .populate("cardID")
+      .populate("attendance", "name");
+
     return events;
   }
   static async findJoinedEvents(userId) {

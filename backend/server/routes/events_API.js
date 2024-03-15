@@ -116,7 +116,23 @@ router.post(
       res.send(myJoinedEvent);
     } catch (err) {
       console.error(err);
-      res.status(400).send("bad request");
+      res.status(401).send("bad request");
+    }
+  }
+);
+
+router.post(
+  "/cancelJoinedEvent/:eventId/:userId",
+  Utilities.authenticateToken,
+  async function (req, res) {
+    try {
+      const eventId = req.params.eventId;
+      const userId = req.params.userId;
+      const myJoinedEvent = await eventManager.cancelJoinEvent(userId, eventId);
+      res.send(myJoinedEvent);
+    } catch (err) {
+      console.error(err);
+      res.status(401).send({ message: "bad request" });
     }
   }
 );
