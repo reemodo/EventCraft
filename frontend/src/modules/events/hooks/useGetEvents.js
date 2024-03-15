@@ -7,17 +7,18 @@ export const useGetEvents = () => {
   const userId = localStorageSvc.get(LOCAL_STORAGE_KEYS.USER)?.data?.id;
   const [getEvents, { isLoading, error }] = useLazyGetEventsQuery();
 
-  const fetchEvents = useCallback(async () => {
+  const fetchEvents = useCallback(async (filter) => {
     if (userId) {
       try {
-        const eventData = await getEvents(userId);
+        filter.id = userId;
+        const eventData = await getEvents(filter);
         return eventData.data;
       } catch (error) {
         console.error("Error fetching events:", error);
       }
     } else {
       try {
-        const eventData = await getEvents();
+        const eventData = await getEvents(filter);
         return eventData.data;
       } catch (error) {
         console.error("Error fetching events:", error);

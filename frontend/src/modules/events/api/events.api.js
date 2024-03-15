@@ -14,10 +14,16 @@ export const eventApi = createApi({
     }),
 
     getEvents: builder.query({
-      query: (id) => ({
+      query: (filters) => ({
         url: `events/`,
         method: "GET",
-        params: { id },
+        params: {
+          id: filters?.id,
+          category: filters?.category,
+          startDate: filters?.date,
+          location: filters?.location,
+          title: filters?.title
+        }
       }),
     }),
 
