@@ -40,6 +40,19 @@ export function Home(props) {
 
     setEventsList(eventsListClone);
   };
+
+  const onCancelJoinEvent=  (event, userId) => {
+    const eventsListClone = [...eventsList];
+    const idx = eventsListClone.findIndex((evt) => event._id === evt._id);
+
+    const updatedEvent = { ...eventsListClone[idx] };
+
+    updatedEvent.attendance =  [...updatedEvent.attendance.filter((id) => id !== userId)];
+
+    eventsListClone.splice(idx, 1, updatedEvent);
+
+    setEventsList(eventsListClone);
+  };
   
   const handleFilter = (filters) => {
     const newFilter = {...filters, title : filteredEvents.title};
@@ -64,7 +77,7 @@ export function Home(props) {
         <TopContainer events={eventsList}  handelSearch={handelSearch}/>
         <FilterForm eventsList={eventsList} onFilter={ handleFilter}/>
         <div className="homeContainer">
-          <Events inHomePage={true} events={eventsList} onJoinEvent={onJoinEvent}/>
+          <Events inHomePage={true} events={eventsList} onJoinEvent={onJoinEvent}  onCancelJoinEvent={onCancelJoinEvent}/>
         </div>
       </Layout>
     </>
