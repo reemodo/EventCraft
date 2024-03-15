@@ -80,6 +80,20 @@ class eventCollManager {
           as: "cardItems",
         },
       },
+
+      {
+        $lookup: {
+          from: "users",
+          localField: "attendance",
+          foreignField: "_id",
+          as: "users",
+        },
+      },
+
+      {
+        $unwind: "$users",
+      },
+
       {
         $project: {
           _id: 1,
@@ -91,6 +105,10 @@ class eventCollManager {
           category: 1,
           createdAt: 1,
           isPublic: 1,
+          attendance: {
+            _id: "$users._id",
+            name: "$users.name",
+          },
           cardItems: "$cardItems",
           card: { $first: "$card" },
         },
