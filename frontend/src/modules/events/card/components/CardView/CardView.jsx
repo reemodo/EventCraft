@@ -12,7 +12,8 @@ export const CardView = forwardRef(({ title, item }, ref) => {
           position: "relative",
           width: "500px",
           height: "300px",
-          border: "1px solid #000",
+          boxShadow: "rgba(17, 12, 46, 0.08) 0px 48px 100px 0px",
+          mt: 2,
         }}
         overflow={"hidden"}
       >

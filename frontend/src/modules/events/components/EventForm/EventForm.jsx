@@ -110,14 +110,6 @@ export const EventForm = ({
   const handleEvent = async (formValues) => {
     try {
       if (isModal) {
-        const body = {
-          ...formValues,
-          card: {
-            items: [{ ...initCardItem, text: formValues.title }],
-          },
-          userId: user.currentUser.id,
-        };
-
         const eventData = await addEvent({
           ...formValues,
           card: {
@@ -168,13 +160,12 @@ export const EventForm = ({
       initialValues={initFormValues}
       validationSchema={validationSchema}
       onSubmit={async (values) => {
-        console.log(values);
-        // if (isModal) {
-        //   const img = await onSaveCard();
-        //   img.toBlob((result) => {
-        //     handleEvent({ ...values, img: result });
-        //   });
-        // } else handleEvent({ ...values });
+        if (isModal) {
+          const img = await onSaveCard();
+          img.toBlob((result) => {
+            handleEvent({ ...values, img: result });
+          });
+        } else handleEvent({ ...values });
       }}
     >
       {(props) => (
@@ -198,7 +189,7 @@ export const EventForm = ({
               label="Category"
               variant="outlined"
               as={TextField}
-              error={!!props.errors.category}
+              error={props.errors.category}
               helperText={props.errors.category ?? ""}
             >
               {categories.map(({ name, id }) => (
@@ -216,7 +207,7 @@ export const EventForm = ({
               label="Visibility"
               variant="outlined"
               as={TextField}
-              error={!!props.errors.isPublic}
+              error={props.errors.isPublic}
               helperText={props.errors.isPublic ?? ""}
             >
               {publicPrivate.map(({ name, value }) => (
@@ -233,7 +224,7 @@ export const EventForm = ({
               label="Title"
               variant="outlined"
               as={TextField}
-              error={!!props.errors.title}
+              error={props.errors.title}
               helperText={props.errors.title ?? ""}
             />
 
@@ -244,7 +235,7 @@ export const EventForm = ({
               variant="outlined"
               as={TextField}
               multiline
-              error={!!props.errors.description}
+              error={props.errors.description}
               helperText={props.errors.description ?? ""}
             />
 
@@ -271,7 +262,7 @@ export const EventForm = ({
                     const lat = location?.geocodePoints[0].coordinates[1];
                     props.setFieldValue("location", `${value}: ${lang}:${lat}`);
                   }}
-                  error={!!props.errors.location}
+                  error={props.errors.location}
                   helperText={props.errors.location ?? ""}
                   options={Results?.map((option) => option.name) || []}
                   renderInput={(params) => (

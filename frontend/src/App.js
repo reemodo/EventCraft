@@ -21,6 +21,7 @@ import { CardEdit } from "./modules/events/card/components/CardEdit/CardEdit";
 
 import "./App.css";
 import EditEventPage from "./modules/events/pages/EditEventPage";
+import { EventAttendeesPage } from "./modules/events/pages/EventAttendeesPage/EventAttendeesPage";
 
 function App() {
   const theme = createTheme({
@@ -60,6 +61,10 @@ function App() {
 
                 <Route path="/workSpace" element={withAuth(WorkSpace)} />
                 <Route path="/editCard/:id" element={withAuth(CardEdit)} />
+                <Route
+                  path="/event/attendees/:id"
+                  element={withAuth(EventAttendeesPage)}
+                />
 
                 <Route
                   path="/editEvent/:id"
