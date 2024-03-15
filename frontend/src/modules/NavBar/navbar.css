@@ -1,3 +1,55 @@
-.navbar{
-  background-color: aqua;
-}
+/* navbar.css */
+
+.menuIconButton {
+    margin-right: 36px;
+  }
+  
+  .logoTypography {
+    flex-grow: 1;
+  }
+  
+  .aboutButton,
+  .loginButton {
+    color: black !important; /* Override the inherited color */
+  }
+  
+  .chevronIconButton {
+    margin-left: 8px;
+  }
+  
+  .divider {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+
+
+
+
+/* navbar.css */
+
+
+
+/* navbar.css */
+
+.logoContainer {
+    display: flex; /* Ensures children are aligned horizontally */
+    align-items: center; /* Aligns children vertically */
+  }
+  
+  .logoImage {
+    width: 60px; /* Adjust as needed */
+    height: 60px; /* Adjust as needed */
+    background-image: url('logo.jpg'); /* Path to your logo image */
+    background-size: cover; /* Ensures the entire container is covered by the background image */
+    background-repeat: no-repeat; /* Prevents repeating the image */
+    margin-right: 20px; /* Adjust as needed for spacing */
+    background-position: center; /* Centers the background image */
+    border-radius: 50%; /* Rounds the corners to make it circular */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+  }
+  
+  
+  
+  
+  

@@ -19,11 +19,14 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Divider from '@mui/material/Divider';
 import { mainListItems, secondaryListItems } from '../edatingPage/Dashbord';
 import "./navbar.css"
+import logoImage from './logo.jpg';
+
 
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
+  backgroundColor: '#00784A', // Adding the desired color
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
@@ -89,20 +92,13 @@ const Navbar = () => {
       <CssBaseline />
       
       <AppBar position="absolute" open={open}>
-      <Toolbar
-            sx={{
-              pr: '24px', // keep right padding when drawer closed
-            }}
-          >
+      <Toolbar>
           <IconButton
               edge="start"
               color="secondary"
               aria-label="open drawer"
               onClick={toggleDrawer}
-              sx={{
-                marginRight: '36px',
-                ...(open && { display: 'none' }),
-              }}
+              className="menuIconButton"
             >
               <MenuIcon />
             </IconButton>
@@ -111,8 +107,7 @@ const Navbar = () => {
               variant="h6"
               color="inherit"
               noWrap
-              sx={{ flexGrow: 1 }}
-              
+              className="logoTypography"
             >
               <Link
                 to="/"
@@ -121,8 +116,14 @@ const Navbar = () => {
                   textDecoration: "none",
                 }}
               >
-                EVENTCRAFT
+                <div className="logoContainer">
+                    <div className="logoImage"></div>
+                    <span>EVENTCRAFT</span>
+                  </div>
+
+                
               </Link>
+
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -132,18 +133,14 @@ const Navbar = () => {
       
             <Button
               color="inherit"
-              style={{
-                color: theme.palette.secondary.main,
-              }}
+              className="aboutButton"
               onClick={onLogin}
             >
               About us
             </Button>
             <Button
               color="inherit"
-              style={{
-                color: theme.palette.secondary.main,
-              }}
+              className="loginButton"
               onClick={onLogin}
             >
               Login
@@ -151,30 +148,20 @@ const Navbar = () => {
           </Toolbar>
           </AppBar> 
           <Drawer variant="permanent" open={open}>
-          <Toolbar
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              px: [1],
-            }}
-          >
-            <IconButton onClick={toggleDrawer}>
+          <Toolbar>
+            <IconButton onClick={toggleDrawer} className="chevronIconButton">
               <ChevronLeftIcon />
             </IconButton>
             </Toolbar>
           <Divider />
           <List component="nav">
             {mainListItems}
-            <Divider sx={{ my: 1 }} />
+            <Divider className="divider" />
             {secondaryListItems}
           </List>
         </Drawer>
-   
-
         <AuthModal isOpen={openAuthModal} onClose={onCloseLogin} />
       </Box>
-
     </nav>
   );
 };

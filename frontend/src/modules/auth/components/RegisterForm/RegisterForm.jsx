@@ -30,6 +30,7 @@ const validationSchema = Yup.object({
 });
 
 export const RegisterForm = ({ onClose, isModal, onRegister, loading }) => {
+  
   return (
     <Formik
       initialValues={initFormValues}
