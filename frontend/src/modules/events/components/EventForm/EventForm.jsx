@@ -58,14 +58,7 @@ const categories = [
   { name: "Sport", id: "sport" },
 ];
 
-export const EventForm = ({
-  onClose,
-  isModal,
-  isAddFlow,
-  model,
-  onSuccess,
-  onAddEvent,
-}) => {
+export const EventForm = ({ isAddFlow, model, onAddEvent }) => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
 
@@ -127,7 +120,7 @@ export const EventForm = ({
 
   const handleEvent = async (formValues) => {
     try {
-      if (isModal) {
+      if (isAddFlow) {
         const eventData = await addEvent({
           ...formValues,
           card: {
@@ -137,7 +130,7 @@ export const EventForm = ({
         });
         if (eventData.data[0] && eventData.data[0]._id) {
           onAddEvent(eventData.data[0]);
-          onSuccess(eventData.data[0]);
+          navigate("/workSpace");
         }
       } else {
         const formData = eventFormData({
@@ -185,9 +178,9 @@ export const EventForm = ({
       validationSchema={validationSchema}
       enableReinitialize
       onSubmit={async (values) => {
-        if (isModal) {
+        if (isAddFlow) {
           const img = await onSaveCard();
-          img.toBlob((result) => {
+          await img.toBlob((result) => {
             handleEvent({ ...values, img: result });
           });
         } else handleEvent({ ...values });
@@ -226,7 +219,7 @@ export const EventForm = ({
                 label="Category"
                 variant="outlined"
                 as={TextField}
-                error={props.errors.category}
+                error={!!props.errors.category}
                 helperText={props.errors.category ?? ""}
               >
                 {categories.map(({ name, id }) => (
@@ -244,7 +237,7 @@ export const EventForm = ({
                 label="Visibility"
                 variant="outlined"
                 as={TextField}
-                error={props.errors.isPublic}
+                error={!!props.errors.isPublic}
                 helperText={props.errors.isPublic ?? ""}
               >
                 {publicPrivate.map(({ name, value }) => (
@@ -261,7 +254,7 @@ export const EventForm = ({
                 label="Title"
                 variant="outlined"
                 as={TextField}
-                error={props.errors.title}
+                error={!!props.errors.title}
                 helperText={props.errors.title ?? ""}
               />
 
@@ -272,7 +265,7 @@ export const EventForm = ({
                 variant="outlined"
                 as={TextField}
                 multiline
-                error={props.errors.description}
+                error={!!props.errors.description}
                 helperText={props.errors.description ?? ""}
               />
 
@@ -307,7 +300,7 @@ export const EventForm = ({
                         `${value}: ${lat}:${lng}`
                       );
                     }}
-                    error={props.errors.location}
+                    error={!!props.errors.location}
                     helperText={props.errors.location ?? ""}
                     options={Results?.map((option) => option.name) || []}
                     renderInput={(params) => (
@@ -362,12 +355,6 @@ export const EventForm = ({
                 <LoadingButton type="submit" variant="contained">
                   {isAddFlow ? "Add" : "Edit"}
                 </LoadingButton>
-
-                {isModal && (
-                  <LoadingButton variant="contained" onClick={onClose}>
-                    cancel
-                  </LoadingButton>
-                )}
               </Stack>
             </Stack>
           </Stack>
