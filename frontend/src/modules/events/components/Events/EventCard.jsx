@@ -8,22 +8,41 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { useTheme } from "@mui/material";
-import { ActionsList } from "./ActionsList";
-import { rdxEventsActions } from "../../rdx/events.rdx";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
-export const EventCard = ({ event, inHomePage, handelSetEventLists }) => {
-  const theme = useTheme();
+import { ActionsList } from "./ActionsList";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useEventHelpers } from "../../hooks/useEventHelper";
+import { LoadingButton } from "@mui/lab";
+
+export const EventCard = ({
+  event,
+  inHomePage,
+  handelSetEventLists,
+  userJoined,
+  onJoinEvent,
+}) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  const { joinEvent, pendingJoinEvent } = useEventHelpers();
+
+  const rdxUser = useSelector((state) => state.user);
 
   const handelEventClick = (e) => {
     if (inHomePage) {
       navigate(`/eventPage/${event._id}`);
     }
   };
+
+  const onUserJoinEvent = async (e) => {
+    e.stopPropagation();
+    const eventJoined = await joinEvent(rdxUser.currentUser.id, event._id);
+
+    if (eventJoined?._id) {
+      onJoinEvent(event, rdxUser.currentUser.id);
+    }
+  };
+
   return (
     <>
       <Card sx={{ width: 350 }} onClick={handelEventClick}>
@@ -52,13 +71,37 @@ export const EventCard = ({ event, inHomePage, handelSetEventLists }) => {
           </CardContent>
         </CardActionArea>
         <CardActions className="cardActions">
-          <Button disableSpacing size="small" color="secondary">
-            {inHomePage ? (
-              "join"
-            ) : (
-              <ActionsList event={event} handelSetEventLists={handelSetEventLists}/>
-            )}
-          </Button>
+          {inHomePage && !userJoined && (
+            <LoadingButton
+              loading={pendingJoinEvent}
+              disableSpacing
+              size="small"
+              color="secondary"
+              onClick={onUserJoinEvent}
+            >
+              join
+            </LoadingButton>
+          )}
+
+          {inHomePage && userJoined && (
+            <LoadingButton
+              loading={pendingJoinEvent}
+              disableSpacing
+              size="small"
+              color="secondary"
+            >
+              cancel
+            </LoadingButton>
+          )}
+
+          {!inHomePage && (
+            <Button disableSpacing size="small" color="secondary">
+              <ActionsList
+                event={event}
+                handelSetEventLists={handelSetEventLists}
+              />
+            </Button>
+          )}
         </CardActions>
       </Card>
     </>
