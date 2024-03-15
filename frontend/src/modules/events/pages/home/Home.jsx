@@ -5,20 +5,28 @@ import { useEffect } from "react";
 import Layout from "../../../landing/Layout";
 import { TopContainer } from "./TopContainer";
 import { useGetEvents } from "../../hooks/useGetEvents";
-
+import FilterForm from './FilterForm';
 export function Home(props) {
   const [eventsList, setEventsList] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState({});
+
   const { isLoading, error, fetchEvents } = useGetEvents();
 
   useEffect(() => {
     (async () => {
-      const data = await fetchEvents();
+      try{
 
-      if (data) {
-        setEventsList(data);
+        const data = await fetchEvents(filteredEvents);
+  
+        if (data) {
+          setEventsList(data);
+        }
+      }
+      catch{
+
       }
     })();
-  }, [fetchEvents]);
+  }, [fetchEvents,filteredEvents]);
 
   const onJoinEvent = (event, userId) => {
     const eventsListClone = [...eventsList];
@@ -33,6 +41,28 @@ export function Home(props) {
     setEventsList(eventsListClone);
   };
 
+  const onCancelJoinEvent=  (event, userId) => {
+    const eventsListClone = [...eventsList];
+    const idx = eventsListClone.findIndex((evt) => event._id === evt._id);
+
+    const updatedEvent = { ...eventsListClone[idx] };
+
+    updatedEvent.attendance =  [...updatedEvent.attendance.filter((id) => id !== userId)];
+
+    eventsListClone.splice(idx, 1, updatedEvent);
+
+    setEventsList(eventsListClone);
+  };
+  
+  const handleFilter = (filters) => {
+    const newFilter = {...filters, title : filteredEvents.title};
+    setFilteredEvents(newFilter);
+  };
+  
+  const handelSearch = (title) => {
+    const newFilter = {...filteredEvents, title}
+    setFilteredEvents(newFilter);
+  };
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -44,13 +74,10 @@ export function Home(props) {
   return (
     <>
       <Layout>
-        <TopContainer />
+        <TopContainer events={eventsList}  handelSearch={handelSearch}/>
+        <FilterForm eventsList={eventsList} onFilter={ handleFilter}/>
         <div className="homeContainer">
-          <Events
-            inHomePage={true}
-            events={eventsList}
-            onJoinEvent={onJoinEvent}
-          />
+          <Events inHomePage={true} events={eventsList} onJoinEvent={onJoinEvent}  onCancelJoinEvent={onCancelJoinEvent}/>
         </div>
       </Layout>
     </>

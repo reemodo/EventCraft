@@ -57,7 +57,7 @@ export const EventCard = ({
     );
 
     if (eventJoined?._id) {
-      // onCancelJoinEvent(event, rdxUser.currentUser.id);
+      onCancelJoinEvent(event, rdxUser.currentUser.id);
     }
   };
 

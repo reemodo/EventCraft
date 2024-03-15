@@ -33,12 +33,13 @@ router.get("/:eventId", async function (req, res) {
 
 router.get("/", async function (req, res) {
   try {
-    const { id, category, startDate, location } = req.query;
+    const { id, category, startDate, location, title } = req.query;
     const event = await eventManager.filterByParams(
-      id,
-      category,
-      startDate,
-      location
+        id,
+        category,
+        startDate,
+        location, 
+        title
     );
     res.send(event);
   } catch (err) {
