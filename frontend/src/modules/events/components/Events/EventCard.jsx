@@ -8,35 +8,71 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { useTheme } from "@mui/material";
-import { ActionsList } from "./ActionsList"
-import { rdxEventsActions } from "../../rdx/events.rdx";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
-export const EventCard = ({ event, inHomePage }) => {
-  const theme = useTheme();
-  const navigate = useNavigate()
-  const dispatch = useDispatch();
-  
-  const handelSelectedEvent=()=>{
-    dispatch(rdxEventsActions.setSelectedEvent(event));
-  }
-  const handelEventClick = (event) => {
+import { ActionsList } from "./ActionsList";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useEventHelpers } from "../../hooks/useEventHelper";
+import { LoadingButton } from "@mui/lab";
+
+export const EventCard = ({
+  event,
+  inHomePage,
+  handelSetEventLists,
+  userJoined,
+  onJoinEvent,
+  onCancelJoinEvent,
+}) => {
+  const navigate = useNavigate();
+
+  const {
+    joinEvent,
+    pendingJoinEvent,
+    cancelJoinedEvent,
+    pendingCancelJoinedEvent,
+  } = useEventHelpers();
+
+  const rdxUser = useSelector((state) => state.user);
+
+  const handelEventClick = (e) => {
     if (inHomePage) {
-      dispatch(rdxEventsActions.setSelectedEvent(event));
-      navigate(`/eventPage`);
-    } 
+      navigate(`/eventPage/${event._id}`);
+    }
   };
+
+  const onUserJoinEvent = async (e) => {
+    e.stopPropagation();
+    const eventJoined = await joinEvent(rdxUser.currentUser.id, event._id);
+
+    if (eventJoined?._id) {
+      onJoinEvent(event, rdxUser.currentUser.id);
+    }
+  };
+
+  const onCancelUserJoinEvent = async (e) => {
+    e.stopPropagation();
+    const eventJoined = await cancelJoinedEvent(
+      rdxUser.currentUser.id,
+      event._id
+    );
+
+    if (eventJoined?._id) {
+      onCancelJoinEvent(event, rdxUser.currentUser.id);
+    }
+  };
+
   return (
     <>
-      <Card sx={{ width: 350 }} onClick={handelEventClick}>
+      <Card sx={{ width: 350 }}>
         <CardActionArea>
           <CardMedia
             component="img"
-            height="140"
-            image="https://img.freepik.com/free-vector/hand-drawn-wedding-invitation_23-2149091987.jpg?size=626&ext=jpg"
+            height="160"
+            sx={{ objectFit: "fill" }}
+            objectFit={"cover"}
+            image={event.cardID?.img}
             alt="green iguana"
+            onClick={handelEventClick}
           />
           <CardContent>
             <Typography gutterBottom variant="h6" component="div">
@@ -54,9 +90,42 @@ export const EventCard = ({ event, inHomePage }) => {
           </CardContent>
         </CardActionArea>
         <CardActions className="cardActions">
-          <Button disableSpacing size="small" color="secondary">
-            {inHomePage ? "join" : <ActionsList handelSelectedEvent={handelSelectedEvent}/>}
-          </Button>
+          {rdxUser.loggedIn && (
+            <>
+              {inHomePage && !userJoined && (
+                <LoadingButton
+                  loading={pendingJoinEvent}
+                  disableSpacing
+                  size="small"
+                  color="secondary"
+                  onClick={onUserJoinEvent}
+                >
+                  join
+                </LoadingButton>
+              )}
+
+              {inHomePage && userJoined && (
+                <LoadingButton
+                  loading={pendingCancelJoinedEvent}
+                  disableSpacing
+                  size="small"
+                  color="secondary"
+                  onClick={onCancelUserJoinEvent}
+                >
+                  cancel
+                </LoadingButton>
+              )}
+
+              {!inHomePage && (
+                <Button disableSpacing size="small" color="secondary">
+                  <ActionsList
+                    event={event}
+                    handelSetEventLists={handelSetEventLists}
+                  />
+                </Button>
+              )}
+            </>
+          )}
         </CardActions>
       </Card>
     </>

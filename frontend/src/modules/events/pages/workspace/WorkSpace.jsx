@@ -29,14 +29,24 @@ export const WorkSpace = (props) => {
   const { isLoading, error, fetchMyEvents } = useGetMyEvents();
 
   useEffect(() => {
-    (async ()=> { 
+    (async () => {
       const data = await fetchMyEvents();
 
       if (data) {
         setEventsList(data);
       }
-    })()
-  }, []);
+    })();
+  }, [fetchMyEvents]);
+
+  const onAddEvent = function(event){
+    const newEvents = [event, ...eventsList]
+    setEventsList(newEvents);
+  }
+
+  const onDeleteEvent = function(eventId){
+    const newEvents = eventsList.filter(event => event._id !== eventId)
+    setEventsList(newEvents);
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -70,15 +80,12 @@ export const WorkSpace = (props) => {
               +
             </Icon>
           </div>
-          <Events
-            inHomePage={false}
-            events={eventsList}
-          />
+          <Events inHomePage={false} events={eventsList} handelSetEventLists={onDeleteEvent}/>
           <EventFormModal
             isOpen={OpenCreateModel}
             onClose={onCloseCreateModel}
             onSubmit={onAddNewEvent}
-            setEventsList={setEventsList}
+            onAddEvent={onAddEvent}
           />
         </div>
       </Layout>

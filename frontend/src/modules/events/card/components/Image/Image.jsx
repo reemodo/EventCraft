@@ -9,7 +9,7 @@ export const Image = ({ item }) => {
         width: `${+item.width}px`,
         height: `${+item.height}px`,
         overflow: "hidden",
-        borderRadius: `${+item.radios}px`,
+        borderRadius: `${+item.borderRadius}px`,
       }}
       src={item.src}
       alt="card image"

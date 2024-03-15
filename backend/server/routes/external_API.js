@@ -47,7 +47,7 @@ router.get("/api/shapes", async (req, res) => {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        "X-Freepik-API-Key": process.env.REACT_APP_FREE_PIK_API_KEY,
+        "X-Freepik-API-Key": process.env.FREE_PIK_API_KEY,
       },
     });
 

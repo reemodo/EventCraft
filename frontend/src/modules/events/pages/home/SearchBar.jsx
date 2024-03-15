@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -51,7 +52,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchBar(props) {
+
+export default function SearchBar({handelSearch}) {
+  const [searchTitle, setSearchTitle]= useState('');
+  
+  const handelSearchInput = (title) => {
+    setSearchTitle(title)
+    handelSearch(title)
+  }
+  
   return (
     <Box sx={{ flexGrow: 10 , backgroundColor: '#d5eed6', paddingLeft: '150px'}}>
           <Search sx={{maxWidth: '610px'}}>
@@ -62,8 +71,10 @@ export default function SearchBar(props) {
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
               width="30px"
+              onChange={(e) => handelSearchInput(e.target.value)}
             />
           </Search>
+    
     </Box>
   );
 }
