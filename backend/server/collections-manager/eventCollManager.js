@@ -6,7 +6,7 @@ const filterAllEventsField = utilitiesFunctions.filterAllEventsField;
 const cloudinaryCollManager = require("./cloudinaryCollManager");
 const Item = require("../../models/Item");
 const mongoose = require("mongoose");
-const { mailerSvc } = require("../mailer/mailer.service");
+//const { mailerSvc } = require("../mailer/mailer.service");
 const User = require("../../models/user");
 
 class eventCollManager {
