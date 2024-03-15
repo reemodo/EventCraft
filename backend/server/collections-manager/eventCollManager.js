@@ -218,7 +218,7 @@ class eventCollManager {
   }
 
   static async getEvent(eventId) {
-    const event = await this.getEventPopulated(ObjectId(eventId));
+    const event = await this.getEventPopulated(new ObjectId(eventId));
 
     return event;
   }
