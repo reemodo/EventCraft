@@ -70,6 +70,8 @@ function App() {
                   path="/editEvent/:id"
                   element={withAuth(EditEventPage)}
                 />
+
+                <Route path="/addEvent" element={withAuth(EditEventPage)} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Box>
