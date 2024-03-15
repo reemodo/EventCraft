@@ -23,14 +23,14 @@ class eventCollManager {
     );
 
     if (attendeeId === -1) {
-      const userDuc = await User.findById(userId);
+      // const userDuc = await User.findById(userId);
       event.attendance.push(userId);
       event.save();
-      await mailerSvc.sendEventEmail({
-        event: event.toObject(),
-        to: userDuc.toObject().email,
-        action: "join",
-      });
+      // await mailerSvc.sendEventEmail({
+      //   event: event.toObject(),
+      //   to: userDuc.toObject().email,
+      //   action: "join",
+      // });
       return event;
     }
 
