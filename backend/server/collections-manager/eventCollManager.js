@@ -5,7 +5,7 @@ const filterAllEventsField = utilitiesFunctions.filterAllEventsField;
 
 const cloudinaryCollManager = require("./cloudinaryCollManager");
 const Item = require("../../models/Item");
-const mongoose = require("mongoose");
+const { ObjectId } = require("mongodb");
 //const { mailerSvc } = require("../mailer/mailer.service");
 const User = require("../../models/user");
 
@@ -91,15 +91,8 @@ class eventCollManager {
       },
 
       {
-        $unwind: "$users",
-      },
-
-      {
-        $lookup: {
-          from: "users",
-          localField: "users._id",
-          foreignField: "_id",
-          as: "user",
+        $addFields: {
+          hasUsers: { $gt: [{ $size: "$users" }, 0] }, // Check if the users array is not empty
         },
       },
 
@@ -115,11 +108,25 @@ class eventCollManager {
           createdAt: 1,
           isPublic: 1,
           attendance: {
-            _id: "$user._id",
-            name: "$user.name",
-            phone: "$user.phone",
-            email: "$user.email",
+            $cond: [
+              { $eq: ["$hasUsers", true] },
+              {
+                $map: {
+                  input: "$users",
+                  as: "user",
+                  in: {
+                    _id: "$$user._id",
+                    name: "$$user.name",
+
+                    phone: "$$user.phone",
+                    email: "$$user.email",
+                  },
+                },
+              },
+              [], // Return empty array if no users
+            ],
           },
+
           cardItems: "$cardItems",
           card: { $first: "$card" },
         },
@@ -191,7 +198,7 @@ class eventCollManager {
 
       await newEvent.save();
 
-      const results = this.getEventPopulated(newEvent.toObject()._id);
+      const results = await this.getEventPopulated(newEvent.toObject()._id);
 
       return results;
     }
@@ -211,9 +218,7 @@ class eventCollManager {
   }
 
   static async getEvent(eventId) {
-    const event = await this.getEventPopulated(
-      new mongoose.Types.ObjectId(eventId)
-    );
+    const event = await this.getEventPopulated(ObjectId(eventId));
 
     return event;
   }
