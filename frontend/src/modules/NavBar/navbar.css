@@ -1,0 +1,44 @@
+
+.navbar {
+  z-index: 1000;
+}
+
+.menuIconButton {
+  margin-right: 36px;
+}
+
+.logoTypography {
+  flex-grow: 1;
+}
+
+.aboutButton,
+.loginButton {
+  color: rgb(255, 252, 252) !important;
+}
+
+.chevronIconButton {
+  margin-left: 8px;
+}
+
+.divider {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+
+.logoImage {
+  height: 65px;
+  background-image: url('logo.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-right: 20px;
+  background-position: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 3px solid #00784A;
+  transition: transform 0.3s ease;
+  justify-content: center;
+}
+
+.logoImage:hover {
+  transform: scale(1.1);
+}
