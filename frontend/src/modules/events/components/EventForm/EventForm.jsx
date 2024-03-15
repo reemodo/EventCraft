@@ -183,7 +183,7 @@ export const EventForm = ({ isAddFlow, model, onAddEvent }) => {
           await img.toBlob((result) => {
             handleEvent({ ...values, img: result });
           });
-        } else handleEvent({ ...values });
+        } else handleEvent({ ...values, img: model.img });
       }}
     >
       {(props) => (
