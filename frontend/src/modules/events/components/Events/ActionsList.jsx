@@ -1,27 +1,23 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
-import { useEventCardHelpers } from '../../card/hooks/useEventCardHelpers';
-import { useDeleteEventMutation } from '../../api/events.api';
+import { useEventCardHelpers } from "../../card/hooks/useEventCardHelpers";
+import { useDeleteEventMutation } from "../../api/events.api";
 
-export function ActionsList({event, handelSetEventLists}){
-  const options = [
-    'View',
-    'Edit Event',
-    'Edit Card',
-    'Delete'
-  ];
+export function ActionsList({ event, handelSetEventLists }) {
+  const options = ["View", "Attendees", "Edit Event", "Edit Card", "Delete"];
   const EventActions = {
-    View : '/eventPage/' +event._id,
-    EditEvent : '/editEvent/' + event._id,
-    EditCard : '/editCard/'+ event.cardID?._id,
-    Delete : '',
+    View: "/eventPage/" + event._id,
+    Attendees: "/event/attendees/" + event._id,
+    EditEvent: "/editEvent/" + event._id,
+    EditCard: "/editCard/" + event.cardID?._id,
+    Delete: "",
   };
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [selectedOption, setSelectedOption] = React.useState('None'); 
-  const {getEventCard} = useEventCardHelpers();
+  const [selectedOption, setSelectedOption] = React.useState("None");
+  const { getEventCard } = useEventCardHelpers();
 
   const [deleteEvent] = useDeleteEventMutation();
   const open = Boolean(anchorEl);
@@ -32,33 +28,32 @@ export function ActionsList({event, handelSetEventLists}){
     setAnchorEl(null);
   };
   const navigate = useNavigate();
-//TODO:  for each option make a handel
+  //TODO:  for each option make a handel
   const handelEventClick = (value) => {
-    if(value === 'Delete'){
-      (async() => {
-        const deletedEvent = await deleteEvent({id:event._id} )
-        if(deleteEvent){
-          handleClose()
-          alert('deleted')
-          handelSetEventLists(event._id)
-        }
-        else{
-          alert('error')
+    if (value === "Delete") {
+      (async () => {
+        const deletedEvent = await deleteEvent({ id: event._id });
+        if (deleteEvent) {
+          handleClose();
+          alert("deleted");
+          handelSetEventLists(event._id);
+        } else {
+          alert("error");
         }
       })();
     }
     if (EventActions[value]) {
-      navigate(EventActions[value] );
-    } 
-  }
+      navigate(EventActions[value]);
+    }
+  };
 
   return (
     <div>
       <Button
         id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
+        aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
+        aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
         ...
@@ -69,7 +64,7 @@ export function ActionsList({event, handelSetEventLists}){
         open={open}
         onClose={handleClose}
         MenuListProps={{
-          'aria-labelledby': 'basic-button',
+          "aria-labelledby": "basic-button",
         }}
       >
         {options.map((option) => (

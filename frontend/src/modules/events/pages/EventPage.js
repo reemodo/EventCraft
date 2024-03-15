@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { CardContent, CardMedia, Typography } from "@mui/material";
 import { MapContainer } from "react-leaflet/MapContainer";
 import { TileLayer } from "react-leaflet/TileLayer";
 import { Marker } from "react-leaflet/Marker";
@@ -10,8 +10,11 @@ import { rdxEventsActions } from "../rdx/events.rdx";
 import { useDispatch } from "react-redux";
 import Layout from "../../landing/Layout";
 import { Icon } from "leaflet";
-import "leaflet/dist/leaflet.css";
+
 import { formatDate } from "../../shared/dayjs.utils";
+
+import "leaflet/dist/leaflet.css";
+
 function EventPage({ imageUrl, lat, lng }) {
   const { id } = useParams();
   const { getEvent, pendingGetEvent } = useEventHelpers();
