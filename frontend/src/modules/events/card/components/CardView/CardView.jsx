@@ -1,10 +1,10 @@
 import React, { forwardRef } from "react";
 
 import { CardListItem } from "../CardListItem/CardListItem";
-import { ItemTypes } from "../CardEdit/CardEdit";
+
 import { Box } from "@mui/material";
 
-export const CardView = forwardRef(({ title, item }, ref) => {
+export const CardView = forwardRef(({ title, item, model }, ref) => {
   return (
     <Box ref={ref}>
       <Box
@@ -17,12 +17,27 @@ export const CardView = forwardRef(({ title, item }, ref) => {
         }}
         overflow={"hidden"}
       >
-        <CardListItem
-          item={{
-            ...item,
-            text: title,
-          }}
-        />
+        {!model && (
+          <CardListItem
+            item={{
+              ...item,
+              text: title,
+            }}
+          />
+        )}
+
+        {!!model && (
+          <>
+            {model.cardItems.map((item) => (
+              <CardListItem
+                item={{
+                  ...item,
+                }}
+                key={item._id}
+              />
+            ))}
+          </>
+        )}
       </Box>
     </Box>
   );
