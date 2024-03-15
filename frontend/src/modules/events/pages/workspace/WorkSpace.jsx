@@ -4,24 +4,19 @@ import "./workSpace.css";
 
 import { Icon } from "@mui/material";
 import { useState } from "react";
-import { EventFormModal } from "../../components/EventFormModal/EventFormModal";
+
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+
 import Layout from "../../../landing/Layout";
 
 import { useGetMyEvents } from "../../hooks/useGetMyEvents";
+import { useNavigate } from "react-router-dom";
 
 export const WorkSpace = (props) => {
-  const [OpenCreateModel, setOpenCreateModel] = useState(false);
+  const navigate = useNavigate();
+
   const onOpenCreateModel = () => {
-    setOpenCreateModel(true);
-  };
-  const onCloseCreateModel = () => {
-    setOpenCreateModel(false);
-  };
-  const onAddNewEvent = () => {
-    setOpenCreateModel(false);
-    alert("we add a new event");
+    navigate("/addEvent");
   };
 
   const [eventsList, setEventsList] = useState([]);
@@ -38,15 +33,15 @@ export const WorkSpace = (props) => {
     })();
   }, [fetchMyEvents]);
 
-  const onAddEvent = function(event){
-    const newEvents = [event, ...eventsList]
+  const onAddEvent = function (event) {
+    const newEvents = [event, ...eventsList];
     setEventsList(newEvents);
-  }
+  };
 
-  const onDeleteEvent = function(eventId){
-    const newEvents = eventsList.filter(event => event._id !== eventId)
+  const onDeleteEvent = function (eventId) {
+    const newEvents = eventsList.filter((event) => event._id !== eventId);
     setEventsList(newEvents);
-  }
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -80,12 +75,10 @@ export const WorkSpace = (props) => {
               +
             </Icon>
           </div>
-          <Events inHomePage={false} events={eventsList} handelSetEventLists={onDeleteEvent}/>
-          <EventFormModal
-            isOpen={OpenCreateModel}
-            onClose={onCloseCreateModel}
-            onSubmit={onAddNewEvent}
-            onAddEvent={onAddEvent}
+          <Events
+            inHomePage={false}
+            events={eventsList}
+            handelSetEventLists={onDeleteEvent}
           />
         </div>
       </Layout>

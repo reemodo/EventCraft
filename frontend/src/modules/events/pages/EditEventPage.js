@@ -20,7 +20,7 @@ function EditEventPage({ props }) {
         const eventData = await getEvent(id);
         if (eventData) {
           setEvent(eventData);
-          dispatch(rdxEventsActions.setSelectedEvent(eventData));
+          // dispatch(rdxEventsActions.setSelectedEvent(eventData));
         }
       }
     })();
@@ -28,7 +28,7 @@ function EditEventPage({ props }) {
 
   return (
     <Layout>
-      <EventForm isModal={false} model={event} />
+      <EventForm model={event} isAddFlow={!id} />
     </Layout>
   );
 }
