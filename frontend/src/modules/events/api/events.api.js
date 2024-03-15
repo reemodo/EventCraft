@@ -6,7 +6,6 @@ export const eventApi = createApi({
   reducerPath: "eventApi",
   baseQuery: getBaseQuery(),
   endpoints: (builder) => ({
-
     getEvent: builder.query({
       query: (id) => ({
         url: `events/${id}`,
@@ -40,6 +39,24 @@ export const eventApi = createApi({
       },
     }),
 
+    joinEvent: builder.mutation({
+      query: ({ userId, eventId }) => {
+        return {
+          url: `events/joinEvent/${eventId}/${userId}`,
+          method: "POST",
+        };
+      },
+    }),
+
+    cancelJoinedEvent: builder.mutation({
+      query: ({ userId, eventId }) => {
+        return {
+          url: `events/cancelJoinedEvent/${eventId}/${userId}`,
+          method: "POST",
+        };
+      },
+    }),
+
     deleteEvent: builder.mutation({
       query: ({ id }) => ({
         url: `events/${id}`,
@@ -48,7 +65,7 @@ export const eventApi = createApi({
     }),
 
     updateEvent: builder.mutation({
-      query: ({formData, id}) => {
+      query: ({ formData, id }) => {
         return {
           url: `events/${id}`,
           method: "PUT",
@@ -67,5 +84,7 @@ export const {
   useGetMyEventsQuery,
   useUpdateEventMutation,
   useLazyGetMyEventsQuery,
-  useLazyGetEventQuery
+  useLazyGetEventQuery,
+  useJoinEventMutation,
+  useCancelJoinedEventMutation,
 } = eventApi;

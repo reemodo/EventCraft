@@ -20,6 +20,19 @@ export function Home(props) {
     })();
   }, [fetchEvents]);
 
+  const onJoinEvent = (event, userId) => {
+    const eventsListClone = [...eventsList];
+    const idx = eventsListClone.findIndex((evt) => event._id === evt._id);
+
+    const updatedEvent = { ...eventsListClone[idx] };
+
+    updatedEvent.attendance = [...updatedEvent.attendance, userId];
+
+    eventsListClone.splice(idx, 1, updatedEvent);
+
+    setEventsList(eventsListClone);
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -33,7 +46,11 @@ export function Home(props) {
       <Layout>
         <TopContainer />
         <div className="homeContainer">
-          <Events inHomePage={true} events={eventsList} />
+          <Events
+            inHomePage={true}
+            events={eventsList}
+            onJoinEvent={onJoinEvent}
+          />
         </div>
       </Layout>
     </>
