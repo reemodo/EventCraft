@@ -147,12 +147,12 @@ class eventCollManager {
     return event;
   }
 
-  static async filterByParams(id, category, startDate, location) {
+  static async filterByParams(id, category, startDate, location, title) {
     const filteredFields = filterAllEventsField(
-      startDate,
-      undefined,
+      {startDate,
       location,
-      category
+      category, 
+      title}
     );
     filteredFields.userId = { $ne: id };
     const events = await Event.find(filteredFields)
