@@ -22,8 +22,12 @@ function EventPage({ imageUrl, lat, lng }) {
     iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
     iconSize: [38, 38],
   });
-  const position = [lat, lng];
   const [event, setEvent] = useState();
+
+  const position = [
+    event?.location.split(":")[1] || lat,
+    event?.location.split(":")[2] || lng,
+  ];
 
   const dispatch = useDispatch();
 
@@ -72,23 +76,28 @@ function EventPage({ imageUrl, lat, lng }) {
             {formatDate(event.endDate)}
           </Typography>
           <Typography variant="body1" color="text.secondary" gutterBottom>
-            <strong>Location:</strong> {event.location}
+            <strong>Location:</strong>
           </Typography>
-        </CardContent>
 
-        <MapContainer
-          center={position}
-          zoom={17}
-          style={{ width: 1000, height: 300, margin: "auto" }}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <Marker position={position} icon={customIcon}>
-            <Popup>Hello I'm Here!</Popup>
-          </Marker>
-        </MapContainer>
+          <MapContainer
+            center={position}
+            zoom={17}
+            style={{
+              width: 1000,
+              height: 300,
+              margin: "auto",
+              marginBottom: 10,
+            }}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <Marker position={position} icon={customIcon}>
+              <Popup>Hello I'm Here!</Popup>
+            </Marker>
+          </MapContainer>
+        </CardContent>
       </Layout>
     </>
   );

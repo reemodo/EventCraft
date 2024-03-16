@@ -6,18 +6,20 @@ import { TileLayer } from "react-leaflet/TileLayer";
 import { LocationMarker } from "../LocationMarker/LocationMarker";
 import { MapPlaceholder } from "../MapPlaceholder/MapPlaceholder";
 
-export const Map = ({ icon, position, setPosition }) => {
+export const Map = ({ icon, position, setPosition, model }) => {
   useEffect(() => {
     (async () => {
-      await navigator.permissions.query({ name: "geolocation" });
-      navigator.geolocation.getCurrentPosition((position) => {
-        setPosition({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
+      if (!model) {
+        await navigator.permissions.query({ name: "geolocation" });
+        navigator.geolocation.getCurrentPosition((position) => {
+          setPosition({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
         });
-      });
+      }
     })();
-  }, [setPosition]);
+  }, [model, setPosition]);
 
   return (
     <MapContainer
