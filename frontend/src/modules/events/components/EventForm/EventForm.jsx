@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 
-import { Divider, MenuItem, Stack, TextField } from "@mui/material";
+import { Box, Divider, MenuItem, Stack, TextField } from "@mui/material";
 
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LoadingButton } from "@mui/lab";
@@ -24,6 +24,7 @@ import { exportAsCanvas } from "../../../shared/utils";
 import { ItemTypes } from "../../card/components/CardEdit/CardEdit";
 import { eventFormData } from "../../event.utils";
 import { Map } from "../../../shared/components/Map/Map";
+import { CardListItem } from "../../card/components/CardListItem/CardListItem";
 
 const validationSchema = Yup.object({
   category: Yup.string().required("category is required"),
@@ -133,13 +134,12 @@ export const EventForm = ({ isAddFlow, model, onAddEvent }) => {
           navigate("/workSpace");
         }
       } else {
-        const formData = eventFormData({
-          ...formValues,
-          card: model.card,
-          userId: user.currentUser.id,
-        });
         const eventData = await updateEvent({
-          formData: formData,
+          formData: {
+            ...formValues,
+            card: model.card,
+            userId: user.currentUser.id,
+          },
           id: model._id,
         });
         if (eventData?.data?.success) {
@@ -183,7 +183,7 @@ export const EventForm = ({ isAddFlow, model, onAddEvent }) => {
           img.toBlob((result) => {
             handleEvent({ ...values, img: result });
           });
-        } else handleEvent({ ...values, img: model.img });
+        } else handleEvent({ ...values, img: model?.card?.img });
       }}
     >
       {(props) => (
@@ -194,12 +194,16 @@ export const EventForm = ({ isAddFlow, model, onAddEvent }) => {
             justifyContent={"space-around"}
           >
             <Stack>
-              <CardView
-                ref={exportRef}
-                title={props.values.title}
-                item={initCardItem}
-                model={model}
-              />
+              <Box
+                sx={{ boxShadow: "rgba(17, 12, 46, 0.08) 0px 48px 100px 0px" }}
+              >
+                <CardView
+                  ref={exportRef}
+                  title={props.values.title}
+                  item={initCardItem}
+                  model={model}
+                />
+              </Box>
 
               <Map
                 icon={customIcon}
