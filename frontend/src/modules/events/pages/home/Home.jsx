@@ -5,14 +5,11 @@ import { useEffect } from "react";
 import Layout from "../../../landing/Layout";
 import { TopContainer } from "./TopContainer";
 import { useGetEvents } from "../../hooks/useGetEvents";
-<<<<<<< HEAD
 import FilterForm from './FilterForm';
 import SearchBar from "./SearchBar";
 import { OurServicesList } from "./OurServicesList";
 import { Typography } from "@mui/material";
-=======
-import FilterForm from "./FilterForm";
->>>>>>> develop
+
 
 export function Home(props) {
   const [eventsList, setEventsList] = useState([]);
