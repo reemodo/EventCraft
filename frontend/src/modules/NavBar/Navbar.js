@@ -157,9 +157,7 @@ const Navbar = () => {
             {rdxUser.loggedIn && (
               <Button
                 color="inherit"
-                style={{
-                  color: theme.palette.secondary.main,
-                }}
+                className="loginButton"
                 onClick={onLogout}
               >
                 logout
