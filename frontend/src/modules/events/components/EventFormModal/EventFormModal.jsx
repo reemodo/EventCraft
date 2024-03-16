@@ -1,17 +1,10 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 
-import { Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 
 import { EventForm } from "../EventForm/EventForm";
-import { CardView } from "../../card/components/CardView/CardView";
-import { exportAsImage } from "../../../shared/utils";
 
-export const EventFormModal = ({
-  isOpen,
-  onClose,
-  onSubmit,
-  onAddEvent,
-}) => {
+export const EventFormModal = ({ isOpen, onClose, onSubmit, onAddEvent }) => {
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <DialogTitle>Event</DialogTitle>

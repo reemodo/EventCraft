@@ -3,7 +3,12 @@ import React from "react";
 import { EventCard } from "./EventCard";
 import { useSelector } from "react-redux";
 
-export const EventCategoryList = ({ title, events, onJoinEvent, onCancelJoinEvent }) => {
+export const EventCategoryList = ({
+  title,
+  events,
+  onJoinEvent,
+  onCancelJoinEvent,
+}) => {
   const rdxUser = useSelector((state) => state.user);
 
   return (
@@ -25,7 +30,11 @@ export const EventCategoryList = ({ title, events, onJoinEvent, onCancelJoinEven
               <EventCard
                 event={event}
                 inHomePage
-                userJoined={event.attendance.includes(rdxUser.currentUser.id)}
+                userJoined={
+                  !!event.attendance?.find(
+                    (user) => user._id === rdxUser.currentUser.id
+                  )
+                }
                 onJoinEvent={onJoinEvent}
                 onCancelJoinEvent={onCancelJoinEvent}
               />

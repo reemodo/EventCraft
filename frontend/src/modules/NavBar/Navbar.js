@@ -17,16 +17,18 @@ import CssBaseline from "@mui/material/CssBaseline";
 import List from "@mui/material/List";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Divider from "@mui/material/Divider";
+
+import "./navbar.css";
 import { EventCardListItems, MainListItemsMenu } from "../landing/Dashbord";
 import { useSelector } from "react-redux";
 import { useInit } from "../shared/hooks/useInit/useInit";
-
 import { useAuthHelpers } from "../auth/hooks/useAuthHelpers/useAuthHelpers";
 
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
+  backgroundColor: "#00784A", // Adding the desired color
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
@@ -75,7 +77,6 @@ const Navbar = () => {
   useInit();
 
   const { logout } = useAuthHelpers();
-
   const [openAuthModal, setOpenAuthModal] = useState(false);
 
   const onLogin = () => {
@@ -102,32 +103,26 @@ const Navbar = () => {
       <Box sx={{ flexGrow: 1 }}>
         <CssBaseline />
 
-        <AppBar position="absolute" open={rdxUser.loggedIn ? open : false}>
-          <Toolbar
-            sx={{
-              pr: "24px", // keep right padding when drawer closed
-            }}
-          >
-            {rdxUser.loggedIn && (
+        <AppBar position="absolute" open={open}>
+          <Toolbar>
+            {rdxEvents.isEditingEventCard && (
               <IconButton
                 edge="start"
                 color="secondary"
                 aria-label="open drawer"
                 onClick={toggleDrawer}
-                sx={{
-                  marginRight: "36px",
-                  ...(open && { display: "none" }),
-                }}
+                className="menuIconButton"
               >
                 <MenuIcon />
               </IconButton>
             )}
+
             <Typography
               component="h1"
               variant="h6"
               color="inherit"
               noWrap
-              sx={{ flexGrow: 1 }}
+              className="logoTypography"
             >
               <Link
                 to="/"
@@ -136,7 +131,7 @@ const Navbar = () => {
                   textDecoration: "none",
                 }}
               >
-                EVENTCRAFT
+                <div className="logoImage"></div>
               </Link>
             </Typography>
             <IconButton color="inherit">
@@ -147,21 +142,14 @@ const Navbar = () => {
 
             {/* <Button
               color="inherit"
-              style={{
-                color: theme.palette.secondary.main,
-              }}
+              className="aboutButton"
               onClick={onLogin}
             >
               About us
             </Button> */}
+
             {!rdxUser.loggedIn && (
-              <Button
-                color="inherit"
-                style={{
-                  color: theme.palette.secondary.main,
-                }}
-                onClick={onLogin}
-              >
+              <Button color="inherit" className="loginButton" onClick={onLogin}>
                 Login
               </Button>
             )}
@@ -169,9 +157,7 @@ const Navbar = () => {
             {rdxUser.loggedIn && (
               <Button
                 color="inherit"
-                style={{
-                  color: theme.palette.secondary.main,
-                }}
+                className="loginButton"
                 onClick={onLogout}
               >
                 logout
@@ -179,35 +165,24 @@ const Navbar = () => {
             )}
           </Toolbar>
         </AppBar>
+        <Drawer variant="permanent" open={open}>
+          <Toolbar>
+            <IconButton onClick={toggleDrawer} className="chevronIconButton">
+              <ChevronLeftIcon />
+            </IconButton>
+          </Toolbar>
+          <Divider />
+          <List component="nav">
+            <MainListItemsMenu />
 
-        {rdxUser.loggedIn && (
-          <Drawer variant="permanent" open={open}>
-            <Toolbar
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                px: [1],
-              }}
-            >
-              <IconButton onClick={toggleDrawer}>
-                <ChevronLeftIcon />
-              </IconButton>
-            </Toolbar>
-            <Divider />
-            <List component="nav">
-              <MainListItemsMenu />
-
-              {rdxEvents.isEditingEventCard && (
-                <>
-                  <Divider sx={{ my: 1 }} />
-                  <EventCardListItems />
-                </>
-              )}
-            </List>
-          </Drawer>
-        )}
-
+            {rdxEvents.isEditingEventCard && (
+              <>
+                <Divider sx={{ my: 1 }} />
+                <EventCardListItems />
+              </>
+            )}
+          </List>
+        </Drawer>
         <AuthModal isOpen={openAuthModal} onClose={onCloseLogin} />
       </Box>
     </nav>

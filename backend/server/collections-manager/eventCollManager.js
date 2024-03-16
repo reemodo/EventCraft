@@ -5,8 +5,8 @@ const filterAllEventsField = utilitiesFunctions.filterAllEventsField;
 
 const cloudinaryCollManager = require("./cloudinaryCollManager");
 const Item = require("../../models/Item");
-const mongoose = require("mongoose");
-const { mailerSvc } = require("../mailer/mailer.service");
+const { ObjectId } = require("mongodb");
+//const { mailerSvc } = require("../mailer/mailer.service");
 const User = require("../../models/user");
 
 class eventCollManager {
@@ -80,6 +80,22 @@ class eventCollManager {
           as: "cardItems",
         },
       },
+
+      {
+        $lookup: {
+          from: "users",
+          localField: "attendance",
+          foreignField: "_id",
+          as: "users",
+        },
+      },
+
+      {
+        $addFields: {
+          hasUsers: { $gt: [{ $size: "$users" }, 0] }, // Check if the users array is not empty
+        },
+      },
+
       {
         $project: {
           _id: 1,
@@ -91,6 +107,26 @@ class eventCollManager {
           category: 1,
           createdAt: 1,
           isPublic: 1,
+          attendance: {
+            $cond: [
+              { $eq: ["$hasUsers", true] },
+              {
+                $map: {
+                  input: "$users",
+                  as: "user",
+                  in: {
+                    _id: "$$user._id",
+                    name: "$$user.name",
+
+                    phone: "$$user.phone",
+                    email: "$$user.email",
+                  },
+                },
+              },
+              [], // Return empty array if no users
+            ],
+          },
+
           cardItems: "$cardItems",
           card: { $first: "$card" },
         },
@@ -162,7 +198,7 @@ class eventCollManager {
 
       await newEvent.save();
 
-      const results = this.getEventPopulated(newEvent.toObject()._id);
+      const results = await this.getEventPopulated(newEvent.toObject()._id);
 
       return results;
     }
@@ -182,9 +218,7 @@ class eventCollManager {
   }
 
   static async getEvent(eventId) {
-    const event = await this.getEventPopulated(
-      new mongoose.Types.ObjectId(eventId)
-    );
+    const event = await this.getEventPopulated(new ObjectId(eventId));
 
     return event;
   }
@@ -193,8 +227,8 @@ class eventCollManager {
     const filteredFields = filterAllEventsField({
       startDate,
       location,
-      category, 
-      title
+      category,
+      title,
     });
     filteredFields.userId = { $ne: id };
     const events = await Event.find(filteredFields)
@@ -226,28 +260,13 @@ class eventCollManager {
       return { success: false, error: "Event not found" };
     }
   }
-  static async updateEventFields(
-    eventId,
-    startDate,
-    endDate,
-    category,
-    location,
-    description,
-    title,
-    isPublic
-  ) {
-    const updateFields = filterAllEventsField(
-      startDate,
-      endDate,
-      location,
-      category,
-      description,
-      title,
-      isPublic
-    );
+  static async updateEventFields(data) {
+    const { eventId, ...rest } = data;
     const updatedEvent = await Event.findByIdAndUpdate(
       eventId,
-      { $set: updateFields },
+      {
+        $set: rest,
+      },
       { new: true }
     );
     if (updatedEvent) {

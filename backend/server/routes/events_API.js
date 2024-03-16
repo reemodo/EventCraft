@@ -35,11 +35,11 @@ router.get("/", async function (req, res) {
   try {
     const { id, category, startDate, location, title } = req.query;
     const event = await eventManager.filterByParams(
-        id,
-        category,
-        startDate,
-        location, 
-        title
+      id,
+      category,
+      startDate,
+      location,
+      title
     );
     res.send(event);
   } catch (err) {
@@ -155,17 +155,11 @@ router.post(
 router.put("/:eventId", Utilities.authenticateToken, async function (req, res) {
   try {
     const eventId = req.params.eventId;
-    const { startDate, endDate, category, location, description, title } =
-      req.body;
-    const updatedEvent = await eventCollManager.updateEventFields(
+
+    const updatedEvent = await eventCollManager.updateEventFields({
+      ...req.body,
       eventId,
-      startDate,
-      endDate,
-      category,
-      location,
-      description,
-      title
-    );
+    });
     res.status(200).send(updatedEvent);
   } catch (err) {
     console.error(err);
