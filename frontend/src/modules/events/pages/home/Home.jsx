@@ -6,6 +6,10 @@ import Layout from "../../../landing/Layout";
 import { TopContainer } from "./TopContainer";
 import { useGetEvents } from "../../hooks/useGetEvents";
 import FilterForm from './FilterForm';
+import SearchBar from "./SearchBar";
+import { OurServicesList } from "./OurServicesList";
+import { Typography } from "@mui/material";
+
 export function Home(props) {
   const [eventsList, setEventsList] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState({});
@@ -73,9 +77,16 @@ export function Home(props) {
 
   return (
     <>
+      <TopContainer events={eventsList}  handelSearch={handelSearch}/>
       <Layout>
-        <TopContainer events={eventsList}  handelSearch={handelSearch}/>
+        <OurServicesList/>
+        <Typography variant="h3">
+          Join Great Events
+        </Typography>
+        <div className="searchContainer">
+        <SearchBar handelSearch={handelSearch}/>
         <FilterForm eventsList={eventsList} onFilter={ handleFilter}/>
+        </div>
         <div className="homeContainer">
           <Events inHomePage={true} events={eventsList} onJoinEvent={onJoinEvent}  onCancelJoinEvent={onCancelJoinEvent}/>
         </div>
