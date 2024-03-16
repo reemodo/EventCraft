@@ -79,12 +79,13 @@ export function Home(props) {
       <TopContainer events={eventsList}  handelSearch={handelSearch}/>
       <Layout>
         <OurServicesList/>
+        <div className="joinHeader">
         <Typography variant="h3">
           Join Great Events
         </Typography>
         <div className="searchContainer">
         <SearchBar handelSearch={handelSearch}/>
-        <FilterForm eventsList={eventsList} onFilter={ handleFilter}/>
+        </div>
         </div>
         <div className="homeContainer">
           <Events

@@ -28,7 +28,7 @@ const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
-  backgroundColor: "#00784A", // Adding the desired color
+  backgroundColor: '#fdfdfd', // Adding the desired color
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
@@ -99,12 +99,13 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
+<nav className="">
       <Box sx={{ flexGrow: 1 }}>
         <CssBaseline />
 
         <AppBar position="absolute" open={open}>
-          <Toolbar>
+          <Toolbar xs={{display:'flex'}}>
+            <Box sx={{ display: 'flex', alignItems: 'center'}}>
             {rdxEvents.isEditingEventCard && (
               <IconButton
                 edge="start"
@@ -127,18 +128,18 @@ const Navbar = () => {
               <Link
                 to="/"
                 style={{
-                  color: "black",
+                  color: "#AAC22B",
                   textDecoration: "none",
                 }}
               >
-                <div className="logoImage"></div>
+                <div className="logoImage"></ div>
               </Link>
               
             </Typography>
             <Typography
               component="h1"
               variant="h6"
-              color="inherit"
+              color="#AAC22B"
               noWrap
               className="logoTypography"
             >
@@ -152,6 +153,10 @@ const Navbar = () => {
                 workspace
               </Link>
             </Typography>
+         
+       </Box>
+       <Box sx={{ display: 'flex', alignItems: 'center',     right: 0,
+    position: 'absolute'}}>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
@@ -181,6 +186,7 @@ const Navbar = () => {
                 logout
               </Button>
             )}
+            </Box>
           </Toolbar>
         </AppBar>
         {rdxEvents.isEditingEventCard && (
@@ -204,7 +210,7 @@ const Navbar = () => {
          )}
         <AuthModal isOpen={openAuthModal} onClose={onCloseLogin} />
       </Box>
-    </nav>
+  </nav>
   );
 };
 

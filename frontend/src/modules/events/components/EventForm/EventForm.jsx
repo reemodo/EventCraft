@@ -62,7 +62,7 @@ const publicPrivate = [
 ];
 
 const categories = [
-  { name: "Wadding", id: "wadding" },
+  { name: "Wedding", id: "wedding" },
   { name: "Party", id: "party" },
   { name: "Sport", id: "sport" },
 ];

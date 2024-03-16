@@ -39,7 +39,7 @@ export function Events({
 
   return (
     <>
-      <div className="categoryContainer">
+      <div >
         {groupedEvents[JOINED_CATEGORY]?.length > 0 && (
           <EventCategoryList
             title={JOINED_CATEGORY}
