@@ -27,16 +27,17 @@
 
 
 .logoImage {
+
   height: 65px;
   background-image: url('logo.jpg');
   background-size: contain;
   background-repeat: no-repeat;
   margin-right: 20px;
-  background-position: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border: 3px solid #00784A;
+  border: 3px solid  rgba(126, 126, 126, 0.354);
   transition: transform 0.3s ease;
-  justify-content: center;
+
+  justify-content: left;
 }
 
 .logoImage:hover {
