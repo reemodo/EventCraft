@@ -9,7 +9,7 @@ const initFormValues = {
   password: "",
 };
 
-const validationSchema = Yup.object({
+const validationSchema = Yup.object().shape({
   email: Yup.string().email("email is invalid").required("email is required"),
   password: Yup.string().required("password is required"),
 });
@@ -44,10 +44,8 @@ export const LoginForm = ({ onClose, isModal, onLogin, loading }) => {
     <Formik
       initialValues={initFormValues}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
-        console.log(values);
-        onLogin(values);
-      }}
+      onSubmit={onLogin}
+      validateOnChange={false}
     >
       {(props) => (
         <Form className={classes.loginForm}>
@@ -59,7 +57,8 @@ export const LoginForm = ({ onClose, isModal, onLogin, loading }) => {
                 type="email"
                 label="Email"
                 variant="outlined"
-                as={TextField}className={classes.inputField}
+                as={TextField}
+                className={classes.inputField}
                 error={!!props.errors.email}
                 helperText={props.errors.email ?? ""}
               />

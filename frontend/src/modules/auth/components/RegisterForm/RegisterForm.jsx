@@ -38,6 +38,7 @@ export const RegisterForm = ({ onClose, isModal, onRegister, loading }) => {
         console.log(values);
         onRegister(values);
       }}
+      validateOnChange={false}
     >
       {(props) => (
         <Form>
