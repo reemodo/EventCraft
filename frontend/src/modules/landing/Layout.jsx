@@ -7,14 +7,10 @@ const Layout = ({ children }) => {
       <Box
         component="main"
         sx={{
-          width: "-webkit-fill-available",
+        
           flexGrow: 1,
-          backgroundImage: `url(${path})`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          width: '100%',
-          height: '100vh',
+       
+          
         }}
       >
         <Toolbar />
