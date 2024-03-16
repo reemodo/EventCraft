@@ -19,7 +19,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Divider from "@mui/material/Divider";
 
 import "./navbar.css";
-import { EventCardListItems, MainListItemsMenu } from "../landing/Dashbord";
+import { EventCardListItems } from "../landing/Dashbord";
 import { useSelector } from "react-redux";
 import { useInit } from "../shared/hooks/useInit/useInit";
 import { useAuthHelpers } from "../auth/hooks/useAuthHelpers/useAuthHelpers";
@@ -91,7 +91,7 @@ const Navbar = () => {
     setOpenAuthModal(false);
   };
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -132,6 +132,23 @@ const Navbar = () => {
                 <div className="logoImage"></div>
               </Link>
             </Typography>
+            <Typography
+              component="h1"
+              variant="h6"
+              color="inherit"
+              noWrap
+              className="logoTypography"
+            >
+              <Link
+                to="/workspace"
+                style={{
+                  color: "black",
+                  textDecoration: "none",
+                }}
+              >
+                workspace
+              </Link>
+            </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
@@ -163,24 +180,21 @@ const Navbar = () => {
             )}
           </Toolbar>
         </AppBar>
-        <Drawer variant="permanent" open={open}>
-          <Toolbar>
-            <IconButton onClick={toggleDrawer} className="chevronIconButton">
-              <ChevronLeftIcon />
-            </IconButton>
-          </Toolbar>
-          <Divider />
-          <List component="nav">
-            <MainListItemsMenu />
-
-            {rdxEvents.isEditingEventCard && (
+        {rdxEvents.isEditingEventCard && (
+          <Drawer variant="permanent" open={open}>
+            <Toolbar>
+              <IconButton onClick={toggleDrawer} className="chevronIconButton">
+                <ChevronLeftIcon />
+              </IconButton>
+            </Toolbar>
+            <Divider />
+            <List component="nav">
               <>
-                <Divider sx={{ my: 1 }} />
                 <EventCardListItems />
               </>
-            )}
-          </List>
-        </Drawer>
+            </List>
+          </Drawer>
+        )}
         <AuthModal isOpen={openAuthModal} onClose={onCloseLogin} />
       </Box>
     </nav>

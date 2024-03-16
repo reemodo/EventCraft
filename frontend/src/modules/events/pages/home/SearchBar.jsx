@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import FilterForm from './FilterForm';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -44,10 +45,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
+      width: '30ch',
     },
   },
 }));
@@ -62,8 +60,8 @@ export default function SearchBar({handelSearch}) {
   }
   
   return (
-    <Box sx={{ flexGrow: 10 , backgroundColor: '#d5eed6', paddingLeft: '150px'}}>
-          <Search sx={{maxWidth: '610px'}}>
+    <Box sx={{ flexGrow: 10 , paddingLeft: '', flexDirection:'row', display:'flex',  gap:'30%'}}>
+          <Search sx={{maxWidth: '510px', display:'flex'}}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -72,8 +70,9 @@ export default function SearchBar({handelSearch}) {
               inputProps={{ 'aria-label': 'search' }}
               width="30px"
               onChange={(e) => handelSearchInput(e.target.value)}
-            />
+              />
           </Search>
+          <FilterForm/>
     
     </Box>
   );
