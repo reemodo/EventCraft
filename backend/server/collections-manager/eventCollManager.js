@@ -1,3 +1,5 @@
+const { ObjectId } = require("mongodb");
+
 const Event = require("../../models/event");
 const Card = require("../../models/card");
 const utilitiesFunctions = require("../../utility");
@@ -5,9 +7,8 @@ const filterAllEventsField = utilitiesFunctions.filterAllEventsField;
 
 const cloudinaryCollManager = require("./cloudinaryCollManager");
 const Item = require("../../models/Item");
-const { ObjectId } = require("mongodb");
-//const { mailerSvc } = require("../mailer/mailer.service");
-const User = require("../../models/user");
+
+const { orderEventsByLocation } = require("../utilities/utility");
 
 class eventCollManager {
   static async getEvents() {
@@ -223,7 +224,14 @@ class eventCollManager {
     return event;
   }
 
-  static async filterByParams(id, category, startDate, location, title) {
+  static async filterByParams(
+    id,
+    category,
+    startDate,
+    location,
+    title,
+    userPosition
+  ) {
     const filteredFields = filterAllEventsField({
       startDate,
       location,
@@ -238,7 +246,9 @@ class eventCollManager {
       .populate("cardID")
       .populate("attendance", "name");
 
-    return events;
+    const orderedEvents = orderEventsByLocation(events, userPosition);
+
+    return orderedEvents;
   }
   static async findJoinedEvents(userId) {
     const joinedEvents = await Event.find({ attendance: userId });

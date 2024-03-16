@@ -6,6 +6,7 @@ import Layout from "../../../landing/Layout";
 import { TopContainer } from "./TopContainer";
 import { useGetEvents } from "../../hooks/useGetEvents";
 import FilterForm from "./FilterForm";
+import { useGeolocation } from "../../../shared/hooks/useGeolocation/useGeolocation";
 
 export function Home(props) {
   const [eventsList, setEventsList] = useState([]);
@@ -13,17 +14,24 @@ export function Home(props) {
 
   const { isLoading, error, fetchEvents } = useGetEvents();
 
+  const { currentPosition } = useGeolocation({
+    disable: false,
+  });
+
   useEffect(() => {
     (async () => {
       try {
-        const data = await fetchEvents(filteredEvents);
+        const data = await fetchEvents({
+          ...filteredEvents,
+          userPosition: currentPosition,
+        });
 
         if (data) {
           setEventsList(data);
         }
       } catch {}
     })();
-  }, [fetchEvents, filteredEvents]);
+  }, [currentPosition, fetchEvents, filteredEvents]);
 
   const onJoinEvent = (event, userId) => {
     const eventsListClone = [...eventsList];

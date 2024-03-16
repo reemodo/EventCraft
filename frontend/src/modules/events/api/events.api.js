@@ -22,8 +22,9 @@ export const eventApi = createApi({
           category: filters?.category,
           startDate: filters?.date,
           location: filters?.location,
-          title: filters?.title
-        }
+          title: filters?.title,
+          userPosition: JSON.stringify(filters?.userPosition),
+        },
       }),
     }),
 
