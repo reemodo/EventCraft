@@ -262,46 +262,47 @@ export const CardEdit = () => {
           >
             update card image
           </LoadingButton>
+          <Box sx={{ boxShadow: "rgba(17, 12, 46, 0.15) 0px 48px 100px 0px" }}>
+            <Box ref={exportRef}>
+              <Box
+                ref={combinedRef}
+                sx={{
+                  position: "relative",
+                  width: "500px",
+                  height: "300px",
 
-          <Box ref={exportRef}>
-            <Box
-              ref={combinedRef}
-              sx={{
-                position: "relative",
-                width: "500px",
-                height: "300px",
-                boxShadow: "rgba(17, 12, 46, 0.15) 0px 48px 100px 0px",
-                background: card?.backgroundColor || "",
-                ...parseCssStyles(card?.cssStyle || ""),
-              }}
-              overflow={"hidden"}
-            >
-              {items?.map((item, idx) => (
-                <CardItem
-                  key={item.uuid}
-                  item={{ ...item, zIndex: item.zIndex ? item.zIndex : idx }}
-                  card={card}
-                  text={
-                    selectedCardItemRef.current
-                      ? selectedCardItemRef.current.text
-                      : ""
-                  }
-                  size={{
-                    width: selectedCardItemRef.current
-                      ? selectedCardItemRef.current.width
-                      : item.width,
-                    height: selectedCardItemRef.current
-                      ? selectedCardItemRef.current.height
-                      : item.height,
-                  }}
-                  onDrop={onDrop}
-                  onResize={onResize}
-                  onTextChange={onTextChange}
-                  selectedCardItem={selectedCardItem}
-                  onClick={onClick}
-                  onDeleteItem={onDeleteItem}
-                />
-              ))}
+                  background: card?.backgroundColor || "white",
+                  ...parseCssStyles(card?.cssStyle || ""),
+                }}
+                overflow={"hidden"}
+              >
+                {items?.map((item, idx) => (
+                  <CardItem
+                    key={item.uuid}
+                    item={{ ...item, zIndex: item.zIndex ? item.zIndex : idx }}
+                    card={card}
+                    text={
+                      selectedCardItemRef.current
+                        ? selectedCardItemRef.current.text
+                        : ""
+                    }
+                    size={{
+                      width: selectedCardItemRef.current
+                        ? selectedCardItemRef.current.width
+                        : item.width,
+                      height: selectedCardItemRef.current
+                        ? selectedCardItemRef.current.height
+                        : item.height,
+                    }}
+                    onDrop={onDrop}
+                    onResize={onResize}
+                    onTextChange={onTextChange}
+                    selectedCardItem={selectedCardItem}
+                    onClick={onClick}
+                    onDeleteItem={onDeleteItem}
+                  />
+                ))}
+              </Box>
             </Box>
           </Box>
         </Stack>
