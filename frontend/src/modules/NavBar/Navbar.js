@@ -93,7 +93,7 @@ const Navbar = () => {
 
   const theme = useTheme();
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -117,7 +117,7 @@ const Navbar = () => {
               </IconButton>
             )}
 
-            <Typography
+<Typography
               component="h1"
               variant="h6"
               color="inherit"
@@ -132,6 +132,24 @@ const Navbar = () => {
                 }}
               >
                 <div className="logoImage"></div>
+              </Link>
+              
+            </Typography>
+            <Typography
+              component="h1"
+              variant="h6"
+              color="inherit"
+              noWrap
+              className="logoTypography"
+            >
+              <Link
+                to="/workspace"
+                style={{
+                  color: "black",
+                  textDecoration: "none",
+                }}
+              >
+                workspace
               </Link>
             </Typography>
             <IconButton color="inherit">
@@ -165,6 +183,7 @@ const Navbar = () => {
             )}
           </Toolbar>
         </AppBar>
+        {rdxEvents.isEditingEventCard && (
         <Drawer variant="permanent" open={open}>
           <Toolbar>
             <IconButton onClick={toggleDrawer} className="chevronIconButton">
@@ -173,16 +192,16 @@ const Navbar = () => {
           </Toolbar>
           <Divider />
           <List component="nav">
-            <MainListItemsMenu />
+           
 
-            {rdxEvents.isEditingEventCard && (
+         
               <>
-                <Divider sx={{ my: 1 }} />
                 <EventCardListItems />
               </>
-            )}
+           
           </List>
         </Drawer>
+         )}
         <AuthModal isOpen={openAuthModal} onClose={onCloseLogin} />
       </Box>
     </nav>
