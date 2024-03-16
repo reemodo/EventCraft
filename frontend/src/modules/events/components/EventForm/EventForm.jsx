@@ -1,6 +1,14 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 
-import { Box, Divider, MenuItem, Stack, TextField } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Divider,
+  MenuItem,
+  Stack,
+  TextField,
+} from "@mui/material";
 
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LoadingButton } from "@mui/lab";
@@ -31,7 +39,7 @@ const validationSchema = Yup.object({
   isPublic: Yup.string().required("visibility is required"),
   title: Yup.string().required("title is required"),
   description: Yup.string().nullable(),
-  location: Yup.string().nullable(),
+  location: Yup.string().required("location is required"),
   startDate: Yup.string().required("start date is required"),
   endDate: Yup.string().required("end date is required"),
 });
@@ -59,7 +67,7 @@ const categories = [
   { name: "Sport", id: "sport" },
 ];
 
-export const EventForm = ({ isAddFlow, model, onAddEvent }) => {
+export const EventForm = ({ isAddFlow, model }) => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
 
@@ -69,14 +77,12 @@ export const EventForm = ({ isAddFlow, model, onAddEvent }) => {
   const exportRef = useRef(null);
   const formikRef = useRef(null);
 
-  const [locationState, setLocationState] = useState(
-    model?.location
-      ? [
-          +model?.location.split(":")[1] || 32.81781057069659,
-          +model?.location.split(":")[2] || 35.00259862330999,
-        ]
-      : [32.81781057069659, 35.00259862330999]
-  );
+  const [locationState, setLocationState] = useState();
+
+  const position = [
+    model?.location.split(":")[1] ?? 32.81781057069659,
+    model?.location.split(":")[2] ?? 35.00259862330999,
+  ];
 
   const onSaveCard = async () => {
     if (exportRef.current) {
@@ -130,7 +136,6 @@ export const EventForm = ({ isAddFlow, model, onAddEvent }) => {
           userId: user.currentUser.id,
         });
         if (eventData.data[0] && eventData.data[0]._id) {
-          onAddEvent(eventData.data[0]);
           navigate("/workSpace");
         }
       } else {
@@ -153,7 +158,12 @@ export const EventForm = ({ isAddFlow, model, onAddEvent }) => {
 
   const onChangeMapMarker = useCallback((data) => {
     setLocationState(data);
-    formikRef.current.setFieldValue("location", `:${data.lat}:${data.lng}`);
+    formikRef.current?.setFieldValue(
+      "location",
+      `${formikRef.current?.values.location.split(":")[0]}:${data.lat}:${
+        data.lng
+      }`
+    );
   }, []);
 
   const initFormValues = useMemo(() => {
@@ -164,7 +174,7 @@ export const EventForm = ({ isAddFlow, model, onAddEvent }) => {
       category: model?.category || "",
       title: model?.title || "",
       description: model?.description || "",
-      location: model?.location ? model?.location.split(":")[0] : "",
+      location: model?.location || "",
       isPublic: model?.isPublic || false,
       startDate,
       endDate,
@@ -180,10 +190,10 @@ export const EventForm = ({ isAddFlow, model, onAddEvent }) => {
       onSubmit={async (values) => {
         if (isAddFlow) {
           const img = await onSaveCard();
-          img.toBlob((result) => {
-            handleEvent({ ...values, img: result });
+          img.toBlob(async (result) => {
+            await handleEvent({ ...values, img: result });
           });
-        } else handleEvent({ ...values, img: model?.card?.img });
+        } else await handleEvent({ ...values, img: model?.card?.img });
       }}
     >
       {(props) => (
@@ -193,7 +203,7 @@ export const EventForm = ({ isAddFlow, model, onAddEvent }) => {
             width={"100%"}
             justifyContent={"space-around"}
           >
-            <Stack>
+            <Stack gap={5}>
               <Box
                 sx={{ boxShadow: "rgba(17, 12, 46, 0.08) 0px 48px 100px 0px" }}
               >
@@ -207,161 +217,172 @@ export const EventForm = ({ isAddFlow, model, onAddEvent }) => {
 
               <Map
                 icon={customIcon}
-                position={locationState}
+                position={locationState || position}
                 setPosition={onChangeMapMarker}
-                model={model}
+                isAddFlow={isAddFlow}
               />
             </Stack>
 
             <Divider sx={{ mt: 2, mb: 2 }} />
-
-            <Stack sx={{ gap: 2, pt: 2 }}>
-              {/* category */}
-              <Field
-                name="category"
-                select
-                type="text"
-                label="Category"
-                variant="outlined"
-                as={TextField}
-                error={!!props.errors.category}
-                helperText={props.errors.category ?? ""}
-              >
-                {categories.map(({ name, id }) => (
-                  <MenuItem key={name} value={String(id)}>
-                    {name}
-                  </MenuItem>
-                ))}
-              </Field>
-
-              {/* isPublic */}
-              <Field
-                name="isPublic"
-                select
-                type="text"
-                label="Visibility"
-                variant="outlined"
-                as={TextField}
-                error={!!props.errors.isPublic}
-                helperText={props.errors.isPublic ?? ""}
-              >
-                {publicPrivate.map(({ name, value }) => (
-                  <MenuItem key={name} value={value}>
-                    {name}
-                  </MenuItem>
-                ))}
-              </Field>
-
-              {/* title */}
-              <Field
-                name="title"
-                type="text"
-                label="Title"
-                variant="outlined"
-                as={TextField}
-                error={!!props.errors.title}
-                helperText={props.errors.title ?? ""}
-              />
-
-              {/* description */}
-              <Field
-                name="description"
-                label="Description"
-                variant="outlined"
-                as={TextField}
-                multiline
-                error={!!props.errors.description}
-                helperText={props.errors.description ?? ""}
-              />
-
-              {/* location */}
-
-              <Field name="location">
-                {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-                  meta,
-                }) => (
-                  <Autocomplete
-                    name="location"
-                    freeSolo
+            <Card>
+              <CardContent>
+                <Stack sx={{ gap: 2, pt: 2 }}>
+                  {/* category */}
+                  <Field
+                    name="category"
+                    select
                     type="text"
-                    label="location"
+                    label="Category"
                     variant="outlined"
-                    value={field.value.split(":")[0] || "custom"}
-                    onChange={(e, value) => {
-                      const location = Results.find(
-                        (loc) => loc.name === value
-                      );
-                      console.log("🚀 ~ location:", location);
+                    as={TextField}
+                    error={!!props.errors.category}
+                    helperText={props.errors.category ?? ""}
+                  >
+                    {categories.map(({ name, id }) => (
+                      <MenuItem key={name} value={String(id)}>
+                        {name}
+                      </MenuItem>
+                    ))}
+                  </Field>
 
-                      const lat = location?.geocodePoints[0].coordinates[0];
-                      const lng = location?.geocodePoints[0].coordinates[1];
-                      if (lng && lat) {
-                        setLocationState({ lng, lat });
-                      }
-                      props.setFieldValue(
-                        "location",
-                        `${value}: ${lat}:${lng}`
-                      );
-                    }}
-                    error={!!props.errors.location}
-                    helperText={props.errors.location ?? ""}
-                    options={Results?.map((option) => option.name) || []}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        onChange={(e) => handleChange(e.target.value)}
+                  {/* isPublic */}
+                  <Field
+                    name="isPublic"
+                    select
+                    type="text"
+                    label="Visibility"
+                    variant="outlined"
+                    as={TextField}
+                    error={!!props.errors.isPublic}
+                    helperText={props.errors.isPublic ?? ""}
+                  >
+                    {publicPrivate.map(({ name, value }) => (
+                      <MenuItem key={name} value={value}>
+                        {name}
+                      </MenuItem>
+                    ))}
+                  </Field>
+
+                  {/* title */}
+                  <Field
+                    name="title"
+                    type="text"
+                    label="Title"
+                    variant="outlined"
+                    as={TextField}
+                    error={!!props.errors.title}
+                    helperText={props.errors.title ?? ""}
+                  />
+
+                  {/* description */}
+                  <Field
+                    name="description"
+                    label="Description"
+                    variant="outlined"
+                    as={TextField}
+                    multiline
+                    error={!!props.errors.description}
+                    helperText={props.errors.description ?? ""}
+                  />
+
+                  {/* location */}
+
+                  <Field name="location">
+                    {({
+                      field, // { name, value, onChange, onBlur }
+                      form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                      meta,
+                    }) => (
+                      <Autocomplete
+                        name="location"
+                        freeSolo
+                        type="text"
                         label="location"
+                        variant="outlined"
+                        value={field.value.split(":")[0]}
+                        onChange={(e, value) => {
+                          const location = Results.find(
+                            (loc) => loc.name === value
+                          );
+                          console.log("🚀 ~ location:", value);
+
+                          const lat = location?.geocodePoints[0].coordinates[0];
+                          const lng = location?.geocodePoints[0].coordinates[1];
+                          if (lng && lat) {
+                            setLocationState({ lng, lat });
+                          }
+                          if (value && lat && lng) {
+                            props.setFieldValue(
+                              "location",
+                              `${value}:${lat}:${lng}`
+                            );
+                          } else {
+                            props.setFieldValue("location", ``);
+                          }
+                        }}
+                        error={!!props.errors.location}
+                        helperText={props.errors.location ?? ""}
+                        options={Results?.map((option) => option.name) || []}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            onChange={(e) => handleChange(e.target.value)}
+                            label="location"
+                          />
+                        )}
                       />
                     )}
+                  </Field>
+
+                  {/* start date */}
+                  <DateTimePicker
+                    name="startDate"
+                    label="Start Date"
+                    value={props.values.startDate} // Pass the value directly to the DateTimePicker
+                    onChange={(value) => {
+                      props.setFieldValue("startDate", value);
+                    }}
+                    renderInput={(props) => <TextField {...props} />} // Render input
+                    views={["year", "month", "day", "hours", "minutes"]}
+                    slotProps={{
+                      textField: {
+                        helperText: props.errors.startDate ?? "",
+                        error: !!props.errors.startDate,
+                      },
+                    }}
                   />
-                )}
-              </Field>
 
-              {/* start date */}
-              <DateTimePicker
-                name="startDate"
-                label="Start Date"
-                value={props.values.startDate} // Pass the value directly to the DateTimePicker
-                onChange={(value) => {
-                  props.setFieldValue("startDate", value);
-                }}
-                renderInput={(props) => <TextField {...props} />} // Render input
-                views={["year", "month", "day", "hours", "minutes"]}
-                slotProps={{
-                  textField: {
-                    helperText: props.errors.startDate ?? "",
-                    error: !!props.errors.startDate,
-                  },
-                }}
-              />
+                  {/* end date */}
+                  <DateTimePicker
+                    name="endDate"
+                    label="End Date"
+                    value={props.values.endDate} // Pass the value directly to the DateTimePicker
+                    onChange={(value) => {
+                      props.setFieldValue("endDate", value);
+                    }}
+                    renderInput={(props) => <TextField {...props} />} // Render input
+                    views={["year", "month", "day", "hours", "minutes"]}
+                    slotProps={{
+                      textField: {
+                        helperText: props.errors.endDate ?? "",
+                        error: !!props.errors.endDate,
+                      },
+                    }}
+                  />
 
-              {/* end date */}
-              <DateTimePicker
-                name="endDate"
-                label="End Date"
-                value={props.values.endDate} // Pass the value directly to the DateTimePicker
-                onChange={(value) => {
-                  props.setFieldValue("endDate", value);
-                }}
-                renderInput={(props) => <TextField {...props} />} // Render input
-                views={["year", "month", "day", "hours", "minutes"]}
-                slotProps={{
-                  textField: {
-                    helperText: props.errors.endDate ?? "",
-                    error: !!props.errors.endDate,
-                  },
-                }}
-              />
-
-              {/* submit btn */}
-              <Stack justifyContent={"center"} direction={"row"} spacing={2}>
-                <LoadingButton type="submit" variant="contained">
-                  {isAddFlow ? "Add" : "Edit"}
-                </LoadingButton>
-              </Stack>
-            </Stack>
+                  {/* submit btn */}
+                  <Stack
+                    justifyContent={"center"}
+                    direction={"row"}
+                    spacing={2}
+                  >
+                    <LoadingButton type="submit" variant="contained">
+                      {isAddFlow ? "Add" : "Edit"}
+                    </LoadingButton>
+                  </Stack>
+                </Stack>
+              </CardContent>
+            </Card>
           </Stack>
         </Form>
       )}

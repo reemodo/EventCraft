@@ -6,9 +6,6 @@ export function LocationMarker({ position, setPosition, icon }) {
 
   const map = useMapEvents({
     click() {
-      map.locate();
-    },
-    locationfound(e) {
       map.flyTo(position, map.getZoom());
     },
   });
@@ -17,6 +14,7 @@ export function LocationMarker({ position, setPosition, icon }) {
     () => ({
       dragend() {
         const marker = markerRef.current;
+
         if (marker != null) {
           setPosition(marker.getLatLng());
         }

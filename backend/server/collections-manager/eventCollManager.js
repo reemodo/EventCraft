@@ -260,28 +260,13 @@ class eventCollManager {
       return { success: false, error: "Event not found" };
     }
   }
-  static async updateEventFields(
-    eventId,
-    startDate,
-    endDate,
-    category,
-    location,
-    description,
-    title,
-    isPublic
-  ) {
-    const updateFields = filterAllEventsField(
-      startDate,
-      endDate,
-      location,
-      category,
-      description,
-      title,
-      isPublic
-    );
+  static async updateEventFields(data) {
+    const { eventId, ...rest } = data;
     const updatedEvent = await Event.findByIdAndUpdate(
       eventId,
-      { $set: updateFields },
+      {
+        $set: rest,
+      },
       { new: true }
     );
     if (updatedEvent) {

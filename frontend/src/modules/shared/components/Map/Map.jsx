@@ -6,10 +6,10 @@ import { TileLayer } from "react-leaflet/TileLayer";
 import { LocationMarker } from "../LocationMarker/LocationMarker";
 import { MapPlaceholder } from "../MapPlaceholder/MapPlaceholder";
 
-export const Map = ({ icon, position, setPosition, model }) => {
+export const Map = ({ icon, position, setPosition, isAddFlow }) => {
   useEffect(() => {
     (async () => {
-      if (!model) {
+      if (isAddFlow) {
         await navigator.permissions.query({ name: "geolocation" });
         navigator.geolocation.getCurrentPosition((position) => {
           setPosition({
@@ -19,7 +19,7 @@ export const Map = ({ icon, position, setPosition, model }) => {
         });
       }
     })();
-  }, [model, setPosition]);
+  }, [isAddFlow, setPosition]);
 
   return (
     <MapContainer
