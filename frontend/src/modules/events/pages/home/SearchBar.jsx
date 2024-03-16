@@ -60,7 +60,7 @@ export default function SearchBar({handelSearch}) {
   }
   
   return (
-    <Box sx={{ flexGrow: 10 , paddingLeft: '', flexDirection:'row', display:'flex',  gap:'30%'}}>
+    <Box sx={{ flexGrow: 10 , paddingLeft: '', flexDirection:'row', display:'flex'}}>
           <Search sx={{maxWidth: '510px', display:'flex'}}>
             <SearchIconWrapper>
               <SearchIcon />

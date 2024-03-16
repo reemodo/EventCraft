@@ -31,7 +31,7 @@ function App() {
         contrastText: "#000",
       },
       secondary: {
-        main: "#4caf50",
+        main: "#aac22b",
         contrastText: "#fff",
       },
       text: { main: "#fff" },

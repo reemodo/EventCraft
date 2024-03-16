@@ -1,6 +1,10 @@
 
 .navbar {
   z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 3px solid  rgba(126, 126, 126, 0.354);
+  background-color: white;
+  padding-left: 50px;
 }
 
 .menuIconButton {
@@ -13,7 +17,7 @@
 
 .aboutButton,
 .loginButton {
-  color: rgb(255, 252, 252) !important;
+  color:"#aac22b" !important;
 }
 
 .chevronIconButton {
@@ -27,17 +31,16 @@
 
 
 .logoImage {
-
-  height: 65px;
-  background-image: url('logo.jpg');
+  background-image: url('EVENT.gif');
   background-size: contain;
   background-repeat: no-repeat;
-  margin-right: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border: 3px solid  rgba(126, 126, 126, 0.354);
+  margin-right: 50px;
   transition: transform 0.3s ease;
-
   justify-content: left;
+  display: inline-flex;
+  width: 100px;
+  height: 100px;
+
 }
 
 .logoImage:hover {
