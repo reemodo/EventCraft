@@ -63,7 +63,7 @@ export const useEventHelpers = () => {
         setPendingCancelJoinedEvent(false);
       }
     },
-    [joinEventApi]
+    [cancelJoinEventApi]
   );
 
   return {

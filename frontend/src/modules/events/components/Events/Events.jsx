@@ -13,14 +13,16 @@ export function Events({
   editModel,
   handelSetEventLists,
   onJoinEvent,
-  onCancelJoinEvent
+  onCancelJoinEvent,
 }) {
   const rdxUser = useSelector((state) => state.user);
 
   const groupedEvents = events.length
     ? events?.reduce((event, obj) => {
         const { category, ...rest } = obj;
-        if (obj.attendance?.includes(rdxUser.currentUser.id)) {
+        if (
+          !!obj.attendance?.find((user) => user._id === rdxUser.currentUser.id)
+        ) {
           if (!event[JOINED_CATEGORY]) {
             event[JOINED_CATEGORY] = [rest];
           } else {

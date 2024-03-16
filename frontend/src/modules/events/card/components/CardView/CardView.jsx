@@ -1,27 +1,40 @@
 import React, { forwardRef } from "react";
 
 import { CardListItem } from "../CardListItem/CardListItem";
-import { ItemTypes } from "../CardEdit/CardEdit";
+
 import { Box } from "@mui/material";
 
-export const CardView = forwardRef(({ title, item }, ref) => {
+export const CardView = forwardRef(({ title, item, model }, ref) => {
+  const list = !!model
+    ? model.cardItems
+    : [
+        {
+          ...item,
+          text: title,
+        },
+      ];
+
   return (
-    <Box ref={ref}>
-      <Box
-        sx={{
-          position: "relative",
-          width: "500px",
-          height: "300px",
-          border: "1px solid #000",
-        }}
-        overflow={"hidden"}
-      >
-        <CardListItem
-          item={{
-            ...item,
-            text: title,
-          }}
-        />
+    <Box
+      sx={{
+        position: "relative",
+        width: "500px",
+        height: "300px",
+        backgroundColor: "white",
+        mt: 2,
+      }}
+      overflow={"hidden"}
+      ref={ref}
+    >
+      <Box sx={{ width: "100%", height: "100%" }}>
+        {list.map((item) => (
+          <CardListItem
+            item={{
+              ...item,
+            }}
+            key={item._id}
+          />
+        ))}
       </Box>
     </Box>
   );
