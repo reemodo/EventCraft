@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 
 import { MapContainer } from "react-leaflet/MapContainer";
 import { TileLayer } from "react-leaflet/TileLayer";
@@ -7,19 +7,39 @@ import { LocationMarker } from "../LocationMarker/LocationMarker";
 import { MapPlaceholder } from "../MapPlaceholder/MapPlaceholder";
 
 export const Map = ({ icon, position, setPosition, isAddFlow }) => {
+  const getCurrentPosition = useCallback(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setPosition({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+    });
+  }, [setPosition]);
+
+  const requestPermission = useCallback(async () => {
+    const permissionStatus = await navigator.permissions.query({
+      name: "geolocation",
+    });
+
+    if (permissionStatus.state === "granted") {
+      getCurrentPosition();
+    }
+    return permissionStatus;
+  }, [getCurrentPosition]);
+
   useEffect(() => {
     (async () => {
-      if (isAddFlow) {
-        await navigator.permissions.query({ name: "geolocation" });
-        navigator.geolocation.getCurrentPosition((position) => {
-          setPosition({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        });
+      if ("geolocation" in navigator) {
+        if (isAddFlow) {
+          const permissionStatus = await requestPermission();
+
+          if (permissionStatus.state === "prompt") {
+            await requestPermission();
+          }
+        }
       }
     })();
-  }, [isAddFlow, setPosition]);
+  }, [isAddFlow, requestPermission, setPosition]);
 
   return (
     <MapContainer

@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
+
 import Toolbar from "@mui/material/Toolbar";
 import { AuthModal } from "../auth/components/AuthModal/AuthModal";
 import IconButton from "@mui/material/IconButton";
@@ -90,8 +90,6 @@ const Navbar = () => {
   const onCloseLogin = () => {
     setOpenAuthModal(false);
   };
-
-  const theme = useTheme();
 
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {

@@ -30,9 +30,10 @@ import { useNavigate } from "react-router-dom";
 import { CardView } from "../../card/components/CardView/CardView";
 import { exportAsCanvas } from "../../../shared/utils";
 import { ItemTypes } from "../../card/components/CardEdit/CardEdit";
-import { eventFormData } from "../../event.utils";
+
 import { Map } from "../../../shared/components/Map/Map";
-import { CardListItem } from "../../card/components/CardListItem/CardListItem";
+
+import { useGeolocation } from "../../../shared/hooks/useGeolocation/useGeolocation";
 
 const validationSchema = Yup.object({
   category: Yup.string().required("category is required"),
@@ -71,13 +72,15 @@ export const EventForm = ({ isAddFlow, model }) => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
 
-  const [addEvent, error] = useAddEventMutation();
+  const [addEvent] = useAddEventMutation();
   const [updateEvent] = useUpdateEventMutation();
 
   const exportRef = useRef(null);
   const formikRef = useRef(null);
 
-  const [locationState, setLocationState] = useState();
+  const { currentPosition, setCurrentPosition } = useGeolocation({
+    disable: !isAddFlow,
+  });
 
   const position = [
     model?.location.split(":")[1] ?? 32.81781057069659,
@@ -156,15 +159,18 @@ export const EventForm = ({ isAddFlow, model }) => {
     }
   };
 
-  const onChangeMapMarker = useCallback((data) => {
-    setLocationState(data);
-    formikRef.current?.setFieldValue(
-      "location",
-      `${formikRef.current?.values.location.split(":")[0]}:${data.lat}:${
-        data.lng
-      }`
-    );
-  }, []);
+  const onChangeMapMarker = useCallback(
+    (data) => {
+      setCurrentPosition(data);
+      formikRef.current?.setFieldValue(
+        "location",
+        `${formikRef.current?.values.location.split(":")[0]}:${data.lat}:${
+          data.lng
+        }`
+      );
+    },
+    [setCurrentPosition]
+  );
 
   const initFormValues = useMemo(() => {
     const startDate = model?.startDate ? dayjs(model.startDate) : null;
@@ -217,7 +223,7 @@ export const EventForm = ({ isAddFlow, model }) => {
 
               <Map
                 icon={customIcon}
-                position={locationState || position}
+                position={currentPosition || position}
                 setPosition={onChangeMapMarker}
                 isAddFlow={isAddFlow}
               />
@@ -309,7 +315,7 @@ export const EventForm = ({ isAddFlow, model }) => {
                           const lat = location?.geocodePoints[0].coordinates[0];
                           const lng = location?.geocodePoints[0].coordinates[1];
                           if (lng && lat) {
-                            setLocationState({ lng, lat });
+                            setCurrentPosition({ lng, lat });
                           }
                           if (value && lat && lng) {
                             props.setFieldValue(
