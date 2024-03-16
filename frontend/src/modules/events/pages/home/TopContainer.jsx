@@ -5,11 +5,13 @@ export function TopContainer({}) {
     <>
 
   {/* Video player */}
-  <div className="container">
-  <div style={{ maxWidth:'100%', paddingTop:'65px'}}>
+  <div className="container">    
+  <div style={{ maxWidth:'100%', paddingTop:' 70px',
+    textAlign:'center',
+    fontSize: '40px'}}>
  
   <ReactPlayer
-    url={require("./IconsSource/basicVideo2.mp4")}
+    url={require("./IconsSource/basicVideo.mp4")}
     playing
     loop
     muted
@@ -17,7 +19,10 @@ export function TopContainer({}) {
     height="100%"
     style={{ position: "", top: 0, left: 0 }}
   />
+Precision in Planning,
+Excellence in Execution
   </div>
+
     </div>
     </>
   );

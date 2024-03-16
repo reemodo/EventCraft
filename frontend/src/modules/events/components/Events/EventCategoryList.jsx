@@ -13,7 +13,8 @@ export const EventCategoryList = ({
 
   return (
     <>
-      <Typography variant="h4" gutterBottom color="">
+    <div className="categoryContainer">
+      <Typography variant="h4" gutterBottom color="" margin= "20px" >
         {title.charAt(0).toUpperCase() + title.substring(1)}
       </Typography>
 
@@ -22,11 +23,11 @@ export const EventCategoryList = ({
         sx={{ overflow: "scroll" }}
         mb={10}
         container
-        spacing={3}
+        spacing={3} 
       >
         {events?.map((event) => {
           return (
-            <Grid item key={event._id} xs={12} sm={6} md={5} spacing={3}>
+            <Grid item key={event._id} xs={12} sm={6} md={5} spacing={3}  >
               <EventCard
                 event={event}
                 inHomePage
@@ -42,6 +43,7 @@ export const EventCategoryList = ({
           );
         })}
       </Stack>
+      </div>
     </>
   );
 };
