@@ -45,7 +45,7 @@ function App() {
             <Box>
               <Navbar />
             </Box>
-            <Box sx={{ flex: 1 }}>
+            <Box sx={{ flex: 1, backgroundColor:'#8080801f'}}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route

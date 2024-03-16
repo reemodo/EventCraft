@@ -1,33 +1,24 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
-import SearchBar from "./SearchBar";
-export function TopContainer({handelSearch}) {
+import ReactPlayer from "react-player";// Import your GIF file
+export function TopContainer({}) {
   return (
     <>
-      <Box
-        sx={{
-          flexGrow: 1,
-          height: "50vh",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Typography
-          component="h1"
-          variant="h3"
-          color="inherit"
-          sx={{
-            textAlign: "center",
-            flexGrow: 1,
-            height: "30vh",
-            backgroundColor: "#d5eed6",
-            paddingTop: "15%",
-          }}
-        >
-          Mange your events with EventCraft
-        </Typography>
-        <SearchBar handelSearch={handelSearch}/>
-      </Box>
+
+  {/* Video player */}
+  <div className="container">
+  <div style={{ maxWidth:'100%', paddingTop:'65px'}}>
+ 
+  <ReactPlayer
+    url={require("./IconsSource/basicVideo2.mp4")}
+    playing
+    loop
+    muted
+    width="100%"
+    height="100%"
+    style={{ position: "", top: 0, left: 0 }}
+  />
+  </div>
+    </div>
     </>
   );
 }

@@ -6,6 +6,9 @@ import Layout from "../../../landing/Layout";
 import { TopContainer } from "./TopContainer";
 import { useGetEvents } from "../../hooks/useGetEvents";
 import FilterForm from "./FilterForm";
+import SearchBar from "./SearchBar";
+import { OurServicesList } from "./OurServicesList";
+import { Typography } from "@mui/material";
 import { useGeolocation } from "../../../shared/hooks/useGeolocation/useGeolocation";
 
 export function Home(props) {
@@ -80,9 +83,14 @@ export function Home(props) {
 
   return (
     <>
+      <TopContainer events={eventsList} handelSearch={handelSearch} />
       <Layout>
-        <TopContainer events={eventsList} handelSearch={handelSearch} />
-        <FilterForm eventsList={eventsList} onFilter={handleFilter} />
+        <OurServicesList />
+        <Typography variant="h3">Join Great Events</Typography>
+        <div className="searchContainer">
+          <SearchBar handelSearch={handelSearch} />
+          <FilterForm eventsList={eventsList} onFilter={handleFilter} />
+        </div>
         <div className="homeContainer">
           <Events
             inHomePage={true}
