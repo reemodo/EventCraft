@@ -209,6 +209,7 @@ export const EventForm = ({ isAddFlow, model, onAddEvent }) => {
                 icon={customIcon}
                 position={locationState}
                 setPosition={onChangeMapMarker}
+                model={model}
               />
             </Stack>
 
