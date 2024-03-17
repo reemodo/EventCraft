@@ -8,10 +8,11 @@ const Layout = ({ children }) => {
         component="main"
         sx={{
           flexGrow: 1,
+          mt:10
         }}
       >
      
-        <Container maxWidth="lg" sx={{ mt:5 }}>
+        <Container maxWidth="lg" sx={{ mt:5, minWidth:' -webkit-fill-available' }}>
           {children}
         </Container>
       </Box>

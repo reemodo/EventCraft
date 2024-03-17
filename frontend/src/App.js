@@ -81,10 +81,10 @@ function App() {
                 <Route path="/addEvent" element={withAuth(EditEventPage)} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
+             <Footer /> {/* Render Footer component here */}
             </Box>
           </Router>
         </Stack>
-        <Footer /> {/* Render Footer component here */}
       </ThemeProvider>
     </LocalizationProvider>
   );

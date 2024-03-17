@@ -60,8 +60,8 @@ export default function SearchBar({handelSearch, handleFilter, events}) {
   }
   
   return (
-    <Box sx={{ flexGrow: 10 , paddingLeft: '', flexDirection:'row', display:'flex', justifyContent:'center'}}>
-          <Search sx={{maxWidth: '510px', display:'flex'}}>
+    <Box sx={{}}>
+          <Search sx={{maxWidth: '510px', display:'flex', }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -72,7 +72,7 @@ export default function SearchBar({handelSearch, handleFilter, events}) {
               onChange={(e) => handelSearchInput(e.target.value)}
               />
           </Search>
-          <FilterForm onFilter={handleFilter}  eventsList={events} />
+      
     
     </Box>
   );
