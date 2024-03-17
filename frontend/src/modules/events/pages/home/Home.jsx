@@ -85,14 +85,14 @@ export function Home(props) {
     <>
       <TopContainer events={eventsList} handelSearch={handelSearch} />
       <Layout>
-        <OurServicesList/>
+        <div className="joinContainer">
         <div className="joinHeader">
         <Typography variant="h3">
           Join Great Events
         </Typography>
-        <div className="searchContainer">
-        <SearchBar handelSearch={handelSearch}/>
         </div>
+        <div className="searchContainer">
+        <SearchBar handelSearch={handelSearch} handleFilter={handleFilter}  events={eventsList} />
         </div>
         <div className="homeContainer">
           <Events
@@ -102,6 +102,8 @@ export function Home(props) {
             onCancelJoinEvent={onCancelJoinEvent}
           />
         </div>
+        </div>
+        <OurServicesList/>
       </Layout>
     </>
   );

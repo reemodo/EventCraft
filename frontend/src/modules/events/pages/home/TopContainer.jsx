@@ -6,9 +6,9 @@ export function TopContainer({}) {
 
   {/* Video player */}
   <div className="container">    
-  <div style={{ maxWidth:'100%', paddingTop:' 70px',
+  <div style={{ maxWidth:'70%', paddingTop:' 70px',
     textAlign:'center',
-    fontSize: '40px'}}>
+    fontSize: '2.1em'}}>
  
   <ReactPlayer
     url={require("./IconsSource/basicVideo.mp4")}
