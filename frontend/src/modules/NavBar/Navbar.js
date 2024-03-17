@@ -87,6 +87,7 @@ const Navbar = () => {
 
   const onLogout = () => {
     logout();
+    navigate("/");
   };
 
   const onCloseLogin = () => {

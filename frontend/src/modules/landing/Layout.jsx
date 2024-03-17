@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Container, Toolbar } from "@mui/material";
-const path = "../../images/baseImg.jpg";
+
 const Layout = ({ children }) => {
   return (
     <>

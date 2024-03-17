@@ -194,6 +194,7 @@ export const EventForm = ({ isAddFlow, model }) => {
       validationSchema={validationSchema}
       enableReinitialize
       validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={async (values) => {
         if (isAddFlow) {
           const img = await onSaveCard();
