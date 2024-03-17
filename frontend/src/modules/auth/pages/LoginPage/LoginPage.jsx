@@ -24,7 +24,7 @@ export const LoginPage = () => {
       >
         <Card sx={{ width: "fit-content" }}>
           <CardContent>
-            <Typography variant="h3" sx={{ pb: 2 }}>
+            <Typography variant="h3" sx={{ pb: 2 }} align="center">
               Login
             </Typography>
 

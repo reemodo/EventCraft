@@ -23,7 +23,7 @@ export const RegisterPage = () => {
       >
         <Card sx={{ width: "fit-content" }}>
           <CardContent>
-            <Typography variant="h2" sx={{ pb: 2 }}>
+            <Typography variant="h2" sx={{ pb: 2 }} align="center">
               Sign up
             </Typography>
 
