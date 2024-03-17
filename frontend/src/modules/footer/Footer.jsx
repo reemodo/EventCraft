@@ -5,7 +5,8 @@ import "./footer.css";
 
 const Footer = () => {
   return (
-    <MDBFooter bgColor='#f8f9fa' className='text-center text-lg-center'>
+    <div className='footer'>
+    <MDBFooter bgColor='#f8f9fa' className='text-center text-lg-center footer'>
       <div className='text-center p-3 footer-container'>
         <div className="footer-content">
           <div className="d-flex justify-content-center align-items-center">
@@ -22,6 +23,7 @@ const Footer = () => {
         </div>
       </div>
     </MDBFooter>
+    </div>
   );
 }
 

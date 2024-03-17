@@ -125,15 +125,23 @@ const Navbar = () => {
                 color="inherit"
                 noWrap
                 className="logoTypography"
+                fontFamily= "Quintessential"
+                fontWeight={900}
               >
                 <Link
                   to="/"
                   style={{
                     color: "#AAC22B",
                     textDecoration: "none",
+                    marginLeft: "1%",
+                    
+                    display: 'flex',
+                   alignItems: 'center'
                   }}
+                 
                 >
-                  <div className="logoImage"></div>
+                  <div  className="logoImage"></div>
+                 <span>EVENT CRAFT</span> 
                 </Link>
               </Typography>
               {rdxUser.loggedIn && (
@@ -143,6 +151,8 @@ const Navbar = () => {
                   color="#AAC22B"
                   noWrap
                   className="logoTypography"
+                  fontFamily= "Quintessential"
+                  fontWeight={700}
                 >
                   <Link
                     to="/workspace"
@@ -160,7 +170,7 @@ const Navbar = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                right: 0,
+                right: '0.5%',
                 position: "absolute",
               }}
             >

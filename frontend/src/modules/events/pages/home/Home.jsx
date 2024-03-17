@@ -8,7 +8,7 @@ import { useGetEvents } from "../../hooks/useGetEvents";
 import FilterForm from "./FilterForm";
 import SearchBar from "./SearchBar";
 import { OurServicesList } from "./OurServicesList";
-import { Typography } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import { useGeolocation } from "../../../shared/hooks/useGeolocation/useGeolocation";
 
 export function Home(props) {
@@ -73,6 +73,7 @@ export function Home(props) {
     const newFilter = { ...filteredEvents, title };
     setFilteredEvents(newFilter);
   };
+ 
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -87,13 +88,14 @@ export function Home(props) {
       <Layout>
         <div className="joinContainer">
         <div className="joinHeader">
-        <Typography variant="h3">
+        <Typography variant="h3"           fontFamily= "Quintessential">
           Join Great Events
         </Typography>
         </div>
-        <div className="searchContainer">
+        <Box className="searchContainer" sx={{justifyContent: 'space-around', flexGrow: 10 , paddingLeft: '', flexDirection:'row', display:'flex'}}>
         <SearchBar handelSearch={handelSearch} handleFilter={handleFilter}  events={eventsList} />
-        </div>
+        <FilterForm onFilter={handleFilter}  eventsList={eventsList} />
+        </Box>
         <div className="homeContainer">
           <Events
             inHomePage={true}
