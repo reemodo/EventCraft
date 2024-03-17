@@ -13,12 +13,10 @@ export const parseCssStyles = (cssString) => {
     }, {});
 };
 
-const downloadImage = (blob, fileName) => {
+const downloadImage = (url, fileName) => {
   const fakeLink = window.document.createElement("a");
-  fakeLink.style = "display:none;";
-  fakeLink.download = fileName;
 
-  fakeLink.href = blob;
+  fakeLink.href = url;
 
   document.body.appendChild(fakeLink);
   fakeLink.click();
