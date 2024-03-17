@@ -11,8 +11,6 @@ import { rdxUserActions } from "../../../users/rdx/users.rdx";
 export const useAuthHelpers = () => {
   const dispatch = useDispatch();
 
-  const rdxCurrentUser = useSelector((state) => state.user);
-
   const [onLogin] = useLoginMutation();
   const [onRegister] = useRegisterMutation();
 
@@ -64,6 +62,7 @@ export const useAuthHelpers = () => {
 
   const logout = useCallback(() => {
     localStorageSvc.remove(LOCAL_STORAGE_KEYS.USER);
+
     dispatch(rdxUserActions.logout());
   }, [dispatch]);
 

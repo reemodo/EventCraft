@@ -23,6 +23,8 @@ import { CardEdit } from "./modules/events/card/components/CardEdit/CardEdit";
 import "./App.css";
 import EditEventPage from "./modules/events/pages/EditEventPage";
 import { EventAttendeesPage } from "./modules/events/pages/EventAttendeesPage/EventAttendeesPage";
+import { LoginPage } from "./modules/auth/pages/LoginPage/LoginPage";
+import { RegisterPage } from "./modules/auth/pages/RegisterPage/RegisterPage";
 
 import Footer from './modules/footer/Footer';
 
@@ -48,9 +50,11 @@ function App() {
             <Box>
               <Navbar />
             </Box>
-            <Box sx={{ flex: 1, backgroundColor:'#8080801f'}}>
+            <Box sx={{ flex: 1, backgroundColor: "#8080801f" }}>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
                 <Route
                   path="/eventPage/:id"
                   element={

@@ -160,16 +160,39 @@ export const EventForm = ({ isAddFlow, model }) => {
   };
 
   const onChangeMapMarker = useCallback(
-    (data) => {
+    async (data) => {
+      const location = await (
+        await fetch(
+          `https://geocode.maps.co/reverse?lat=${data.lat}&lon=${data.lng}&api_key=${process.env.REACT_APP_FREE_GEO_API_KEY}`
+        )
+      ).json();
+
       setCurrentPosition(data);
       formikRef.current?.setFieldValue(
         "location",
-        `${formikRef.current?.values.location.split(":")[0]}:${data.lat}:${
-          data.lng
-        }`
+        `${location["display_name"]}:${data.lat}:${data.lng}`
       );
     },
     [setCurrentPosition]
+  );
+
+  const onChangeLocation = useCallback(
+    (e, value) => {
+      const location = Results.find((loc) => loc.name === value);
+
+      const lat = location?.geocodePoints[0].coordinates[0];
+      const lng = location?.geocodePoints[0].coordinates[1];
+
+      if (lng && lat) {
+        setCurrentPosition({ lng, lat });
+      }
+      if (value && lat && lng) {
+        formikRef.current.setFieldValue("location", `${value}:${lat}:${lng}`);
+      } else {
+        formikRef.current.setFieldValue("location", ``);
+      }
+    },
+    [Results, setCurrentPosition]
   );
 
   const initFormValues = useMemo(() => {
@@ -194,6 +217,7 @@ export const EventForm = ({ isAddFlow, model }) => {
       validationSchema={validationSchema}
       enableReinitialize
       validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={async (values) => {
         if (isAddFlow) {
           const img = await onSaveCard();
@@ -307,26 +331,7 @@ export const EventForm = ({ isAddFlow, model }) => {
                         label="location"
                         variant="outlined"
                         value={field.value.split(":")[0]}
-                        onChange={(e, value) => {
-                          const location = Results.find(
-                            (loc) => loc.name === value
-                          );
-                          console.log("🚀 ~ location:", value);
-
-                          const lat = location?.geocodePoints[0].coordinates[0];
-                          const lng = location?.geocodePoints[0].coordinates[1];
-                          if (lng && lat) {
-                            setCurrentPosition({ lng, lat });
-                          }
-                          if (value && lat && lng) {
-                            props.setFieldValue(
-                              "location",
-                              `${value}:${lat}:${lng}`
-                            );
-                          } else {
-                            props.setFieldValue("location", ``);
-                          }
-                        }}
+                        onChange={onChangeLocation}
                         error={!!props.errors.location}
                         helperText={props.errors.location ?? ""}
                         options={Results?.map((option) => option.name) || []}
