@@ -14,8 +14,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required("password is required"),
 });
 
-
-const styles = {
+const useStyles = (theme) => ({
   loginForm: {
     width: "100%",
     maxWidth: "400px",
