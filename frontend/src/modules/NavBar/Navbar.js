@@ -135,23 +135,25 @@ const Navbar = () => {
                   <div className="logoImage"></div>
                 </Link>
               </Typography>
-              <Typography
-                component="h1"
-                variant="h6"
-                color="#AAC22B"
-                noWrap
-                className="logoTypography"
-              >
-                <Link
-                  to="/workspace"
-                  style={{
-                    color: "black",
-                    textDecoration: "none",
-                  }}
+              {rdxUser.loggedIn && (
+                <Typography
+                  component="h1"
+                  variant="h6"
+                  color="#AAC22B"
+                  noWrap
+                  className="logoTypography"
                 >
-                  workspace
-                </Link>
-              </Typography>
+                  <Link
+                    to="/workspace"
+                    style={{
+                      color: "black",
+                      textDecoration: "none",
+                    }}
+                  >
+                    workspace
+                  </Link>
+                </Typography>
+              )}
             </Box>
             <Box
               sx={{
