@@ -10,8 +10,8 @@ const Layout = ({ children }) => {
           flexGrow: 1,
         }}
       >
-        <Toolbar />
-        <Container maxWidth="lg" sx={{ mt: 10 }}>
+     
+        <Container maxWidth="lg" sx={{ mt:5 }}>
           {children}
         </Container>
       </Box>
