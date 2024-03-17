@@ -1,3 +1,4 @@
+import React from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -22,6 +23,8 @@ import { CardEdit } from "./modules/events/card/components/CardEdit/CardEdit";
 import "./App.css";
 import EditEventPage from "./modules/events/pages/EditEventPage";
 import { EventAttendeesPage } from "./modules/events/pages/EventAttendeesPage/EventAttendeesPage";
+
+import Footer from './modules/footer/Footer';
 
 function App() {
   const theme = createTheme({
@@ -77,6 +80,7 @@ function App() {
             </Box>
           </Router>
         </Stack>
+        <Footer /> {/* Render Footer component here */}
       </ThemeProvider>
     </LocalizationProvider>
   );
