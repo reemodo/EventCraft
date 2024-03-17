@@ -163,11 +163,9 @@ export const EventForm = ({ isAddFlow, model }) => {
     async (data) => {
       const location = await (
         await fetch(
-          `https://geocode.maps.co/reverse?lat=${data.lat}&lon=${data.lng}&api_key=${process.env.REACT_APP_FEE_GEO_API_KEY}`
+          `https://geocode.maps.co/reverse?lat=${data.lat}&lon=${data.lng}&api_key=${process.env.REACT_APP_FREE_GEO_API_KEY}`
         )
       ).json();
-
-      console.log(location);
 
       setCurrentPosition(data);
       formikRef.current?.setFieldValue(
