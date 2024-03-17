@@ -14,7 +14,75 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required("password is required"),
 });
 
-const useStyles = (theme) => ({
+export const LoginForm = ({ onClose, isModal, onLogin, loading }) => {
+  return (
+    <Formik
+      initialValues={initFormValues}
+      validationSchema={validationSchema}
+      onSubmit={onLogin}
+      validateOnChange={false}
+    >
+      {(props) => (
+        <Form style={styles.loginForm}>
+          <Stack spacing={4} alignItems={"center"}>
+            <Box>
+              {/* email */}
+              <Field
+                name="email"
+                type="email"
+                label="Email"
+                variant="outlined"
+                as={TextField}
+                style={styles.inputField}
+                error={!!props.errors.email}
+                helperText={props.errors.email ?? ""}
+              />
+            </Box>
+            <Box>
+              {/* password */}
+              <Field
+                name="password"
+                type="password"
+                label="password"
+                as={TextField}
+                variant="outlined"
+                style={styles.inputField}
+                error={!!props.errors.password}
+                helperText={props.errors.password ?? ""}
+              />
+            </Box>
+
+            {/* submit btn */}
+            <Stack direction={"row"} spacing={2}>
+              <LoadingButton
+                type="submit"
+                variant="contained"
+                loading={loading}
+                color={"secondary"}
+                style={styles.submitBtn}
+              >
+                login
+              </LoadingButton>
+
+              {isModal && (
+                <LoadingButton
+                  color={"secondary"}
+                  variant="outlined"
+                  onClick={onClose}
+                  style={styles.cancelBtn}
+                >
+                  cancel
+                </LoadingButton>
+              )}
+            </Stack>
+          </Stack>
+        </Form>
+      )}
+    </Formik>
+  );
+};
+
+const styles = {
   loginForm: {
     width: "100%",
     maxWidth: "400px",
@@ -35,74 +103,4 @@ const useStyles = (theme) => ({
   cancelBtn: {
     width: "100%",
   },
-});
-
-export const LoginForm = ({ onClose, isModal, onLogin, loading }) => {
-  const classes = useStyles();
-
-  return (
-    <Formik
-      initialValues={initFormValues}
-      validationSchema={validationSchema}
-      onSubmit={onLogin}
-      validateOnChange={false}
-    >
-      {(props) => (
-        <Form className={classes.loginForm}>
-          <Stack spacing={4} alignItems={"center"}>
-            <Box>
-              {/* email */}
-              <Field
-                name="email"
-                type="email"
-                label="Email"
-                variant="outlined"
-                as={TextField}
-                className={classes.inputField}
-                error={!!props.errors.email}
-                helperText={props.errors.email ?? ""}
-              />
-            </Box>
-            <Box>
-              {/* password */}
-              <Field
-                name="password"
-                type="password"
-                label="password"
-                as={TextField}
-                variant="outlined"
-                className={classes.inputField}
-                error={!!props.errors.password}
-                helperText={props.errors.password ?? ""}
-              />
-            </Box>
-
-            {/* submit btn */}
-            <Stack direction={"row"} spacing={2}>
-              <LoadingButton
-                type="submit"
-                variant="contained"
-                loading={loading}
-                color={"secondary"}
-                className={classes.submitBtn}
-              >
-                login
-              </LoadingButton>
-
-              {isModal && (
-                <LoadingButton
-                  color={"secondary"}
-                  variant="outlined"
-                  onClick={onClose}
-                  className={classes.cancelBtn}
-                >
-                  cancel
-                </LoadingButton>
-              )}
-            </Stack>
-          </Stack>
-        </Form>
-      )}
-    </Formik>
-  );
 };
