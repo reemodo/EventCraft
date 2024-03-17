@@ -103,4 +103,75 @@ const styles = {
   cancelBtn: {
     width: "100%",
   },
+});
+
+export const LoginForm = ({ onClose, isModal, onLogin, loading }) => {
+  const classes = useStyles();
+
+  return (
+    <Formik
+      initialValues={initFormValues}
+      validationSchema={validationSchema}
+      onSubmit={onLogin}
+      validateOnChange={false}
+      validateOnBlur={false}
+    >
+      {(props) => (
+        <Form className={classes.loginForm}>
+          <Stack spacing={4} alignItems={"center"}>
+            <Box>
+              {/* email */}
+              <Field
+                name="email"
+                type="email"
+                label="Email"
+                variant="outlined"
+                as={TextField}
+                className={classes.inputField}
+                error={!!props.errors.email}
+                helperText={props.errors.email ?? ""}
+              />
+            </Box>
+            <Box>
+              {/* password */}
+              <Field
+                name="password"
+                type="password"
+                label="password"
+                as={TextField}
+                variant="outlined"
+                className={classes.inputField}
+                error={!!props.errors.password}
+                helperText={props.errors.password ?? ""}
+              />
+            </Box>
+
+            {/* submit btn */}
+            <Stack direction={"row"} spacing={2}>
+              <LoadingButton
+                type="submit"
+                variant="contained"
+                loading={loading}
+                color={"secondary"}
+                className={classes.submitBtn}
+              >
+                login
+              </LoadingButton>
+
+              {isModal && (
+                <LoadingButton
+                  color={"secondary"}
+                  variant="outlined"
+                  onClick={onClose}
+                  className={classes.cancelBtn}
+                >
+                  cancel
+                </LoadingButton>
+              )}
+            </Stack>
+          </Stack>
+        </Form>
+      )}
+    </Formik>
+  );
 };

@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Marker, useMapEvents } from "react-leaflet";
 
 export function LocationMarker({ position, setPosition, icon }) {
@@ -9,6 +9,10 @@ export function LocationMarker({ position, setPosition, icon }) {
       map.flyTo(position, map.getZoom());
     },
   });
+
+  useEffect(() => {
+    map.flyTo(position, map.getZoom());
+  }, [map, position]);
 
   const eventHandlers = useMemo(
     () => ({
