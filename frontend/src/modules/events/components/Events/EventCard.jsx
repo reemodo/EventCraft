@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEventHelpers } from "../../hooks/useEventHelper";
 import { LoadingButton } from "@mui/lab";
-
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import CustomSnackbar from '../../../shared/components/CustomSnackbar/CustomSnackbar';
 
 
@@ -47,9 +47,9 @@ export const EventCard = ({
   };
 
   const handelEventClick = (e) => {
-    if (inHomePage) {
+
       navigate(`/eventPage/${event._id}`);
-    }
+    
   };
 
   const onUserJoinEvent = async (e) => {
@@ -80,7 +80,7 @@ export const EventCard = ({
       console.log('Image URL:', imageUrl); // Log the image URL to verify correctness
   
       const message = `
-      
+
       Location: ${location}
               
       Text: ${text}
@@ -163,7 +163,7 @@ export const EventCard = ({
 
               {!inHomePage && (
                 <>
-                   <button onClick={handleWhatsAppShare}>Share on WhatsApp</button>
+                 <WhatsAppIcon color="secondary" onClick={handleWhatsAppShare}/>
                 <Button disableSpacing size="small" color="secondary">
                   <ActionsList
                     event={event}
@@ -177,6 +177,7 @@ export const EventCard = ({
         </CardActions>
       </Card>
       <CustomSnackbar
+        color="warning"
         open={openSnackbar}
         handleClose={handleCloseSnackbar}
         message="Please log in to join the event."
