@@ -183,8 +183,8 @@ const Input = ({ item, props, onChange, cardItem }) => {
           helperText={props.errors[item.name] ?? ""}
           sx={{ minWidth: 100 }}
           onChange={(e) => {
-            props.setFieldValue(item.name, e.target.value);
-            onChange(cardItem, item.name, e.target.value);
+            props.setFieldValue(item.name, e.target.value || "");
+            onChange(cardItem, item.name, e.target.value || "");
           }}
         />
       )}
