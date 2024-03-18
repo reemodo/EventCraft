@@ -60,7 +60,7 @@ function EventPage({ imageUrl, lat, lng }) {
         alt="Event"
       />
       <div className="text-container">
-      <CardContent sx={{ flex: "1" }}>
+      <CardContent >
         <h1 className="event-title" >
           {event.title}
         </h1>
@@ -71,7 +71,7 @@ function EventPage({ imageUrl, lat, lng }) {
         </Typography>
         <Typography align="center" variant="h5" color="text.secondary" className="event-date">
           <strong >Start Date:</strong> {formatDate(event.startDate)}
-  
+          <br/>
           <strong xs={{ paddingRight: 50 }}>End Date:</strong>{" "} {formatDate(event.endDate)}
         </Typography>
         <Typography align="center" variant="h5" color="text.secondary" className="event-location">
