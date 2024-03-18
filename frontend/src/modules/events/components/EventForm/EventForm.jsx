@@ -52,11 +52,22 @@ const validationSchema = Yup.object({
 
 const initCardItem = {
   type: ItemTypes.TEXT,
-  left: 0,
-  top: 0,
+  left: 20,
+  top: 90 ,
   position: "absolute",
   text: "",
-  fontSize: 50,
+  fontSize: 40,
+  decoration: "",
+  style: "",
+  color: "",
+};
+const initCardItem2 = {
+  type: ItemTypes.TEXT,
+  left: 20,
+  top: 190 ,
+  position: "absolute",
+  text: "",
+  fontSize: 20,
   decoration: "",
   style: "",
   color: "",
@@ -83,7 +94,6 @@ const bgCategoryImages = {
   sport:
     "https://images.unsplash.com/photo-1556056504-5c7696c4c28d?q=80&w=1876&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 };
-
 const publicPrivate = [
   { name: "Public", value: true },
   { name: "Private", value: false },
@@ -160,6 +170,7 @@ export const EventForm = ({ isAddFlow, model }) => {
           ...formValues,
           card: {
             items: [
+              { ...initCardItem2, text: formValues.description },
               { ...initCardItem, text: formValues.title },
               {
                 ...initBgImageCardItem,
@@ -273,6 +284,8 @@ export const EventForm = ({ isAddFlow, model }) => {
                   ref={exportRef}
                   title={props.values.title}
                   item={initCardItem}
+                  descTitle={props.values.description}
+                  descItem={initCardItem2}
                   bgItem={initBgImageCardItem}
                   model={model}
                   bgUrl={bgCategoryImages[props.values.category]}
@@ -347,6 +360,7 @@ export const EventForm = ({ isAddFlow, model }) => {
                     multiline
                     error={!!props.errors.description}
                     helperText={props.errors.description ?? ""}
+                    item={initCardItem2}
                   />
 
                   {/* location */}

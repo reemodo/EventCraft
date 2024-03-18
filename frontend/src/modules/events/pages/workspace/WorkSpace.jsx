@@ -60,15 +60,7 @@ export const WorkSpace = (props) => {
     <>
       <Layout>
         <Stack m={5}>
-          <Typography
-            fontFamily={"Lora"}
-            fontWeight={900}
-            component="h1"
-            mb={3}
-            m={5}
-            variant="h6"
-            alignSelf={"center"}
-          >
+          <Typography fontSize={'3vw'} fontFamily={'Lora'} fontWeight={900} component="h1" mb={3} m={5} variant="h6" alignSelf={'center'}>
             Which event you will manage today
           </Typography>
           <div className="iconContainer">
@@ -88,6 +80,8 @@ export const WorkSpace = (props) => {
                 minWidth: "fit-content",
                 minHeight: "fit-content",
               }}
+              variant="contained"
+              className="addButton"
             >
               Add Event
             </Button>
