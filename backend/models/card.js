@@ -8,8 +8,14 @@ const CardSchema = new Schema(
     img: String,
     cardItems: [{ type: mongoose.Schema.Types.ObjectId, ref: "item" }],
 
-    backgroundColor: String,
-    cssStyle: String,
+    backgroundColor: {
+      type: String,
+      default: "",
+    },
+    cssStyle: {
+      type: String,
+      default: "",
+    },
     imgPublicId: String,
   },
   { timestamps: true }
