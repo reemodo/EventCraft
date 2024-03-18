@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
-const ItemSchema = mongoose.model("ItemSchema", require("../../models/Item"));
+
 const Card = require("../../models/card");
 const { findUpdatedItemFields } = require("../../utility");
 const { updateCardFields } = require("./cardCollManager");
+const Item = require("../../models/Item");
 
 class itemCollManager {
   static async getItems(cardId) {
@@ -32,11 +33,12 @@ class itemCollManager {
       if (!card) {
         return { success: false, error: "Card not found" };
       }
-      const lastItemId = await itemCollManager.findTheLastItem(cardId);
-      const newItem = new ItemSchema({ _id: lastItemId, ...newItemData });
+      const newItem = new Item({ ...newItemData, cardId });
+      newItem.save();
       card.cardItems.push(newItem);
+
       await card.save();
-      return { success: true, message: "Item saved successfully" };
+      return newItem;
     } catch (error) {
       return { success: false, error: error.message };
     }
@@ -48,18 +50,20 @@ class itemCollManager {
     else return card[0].cardItems.length;
   }
 
-  static async editItemPosition(cardId, itemId, newPosition) {
+  static async editItemPosition(itemId, newPosition) {
     try {
-      const updateFields = findUpdatedItemFields(newPosition);
-      const updatedCard = await Card.findOneAndUpdate(
-        { _id: cardId, "cardItems._id": itemId },
-        { $set: updateFields },
-        { new: true }
+      const updatedItem = await Item.findByIdAndUpdate(
+        itemId,
+        new Item(newPosition),
+        {
+          new: true,
+        }
       );
-      if (!updatedCard) {
+
+      if (!updatedItem) {
         return { success: false, error: "Card or Item not found" };
       }
-      return { success: true, message: "Item position updated successfully" };
+      return updatedItem;
     } catch (error) {
       return { success: false, error: error.message };
     }

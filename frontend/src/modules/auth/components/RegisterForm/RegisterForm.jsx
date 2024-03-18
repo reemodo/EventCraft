@@ -38,6 +38,8 @@ export const RegisterForm = ({ onClose, isModal, onRegister, loading }) => {
         console.log(values);
         onRegister(values);
       }}
+      validateOnChange={false}
+      validateOnBlur={false}
     >
       {(props) => (
         <Form>
@@ -120,7 +122,7 @@ export const RegisterForm = ({ onClose, isModal, onRegister, loading }) => {
                 loading={loading}
                 color="secondary"
               >
-                Register
+                Sign up
               </LoadingButton>
 
               {isModal && (

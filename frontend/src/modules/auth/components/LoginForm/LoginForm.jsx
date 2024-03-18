@@ -1,9 +1,6 @@
 import React from "react";
-
 import { LoadingButton } from "@mui/lab";
-
 import { Formik, Form, Field } from "formik";
-
 import * as Yup from "yup";
 import { Box, Stack, TextField } from "@mui/material";
 
@@ -12,23 +9,47 @@ const initFormValues = {
   password: "",
 };
 
-const validationSchema = Yup.object({
+const validationSchema = Yup.object().shape({
   email: Yup.string().email("email is invalid").required("email is required"),
   password: Yup.string().required("password is required"),
 });
 
+const useStyles = (theme) => ({
+  loginForm: {
+    width: "100%",
+    maxWidth: "400px",
+    margin: "0 auto",
+    padding: "20px",
+    backgroundColor: "#fff",
+    borderRadius: "4px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+  },
+  inputField: {
+    width: "100%",
+    marginBottom: "20px",
+  },
+  submitBtn: {
+    width: "100%",
+    marginBottom: "10px",
+  },
+  cancelBtn: {
+    width: "100%",
+  },
+});
+
 export const LoginForm = ({ onClose, isModal, onLogin, loading }) => {
+  const classes = useStyles();
+
   return (
     <Formik
       initialValues={initFormValues}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
-        console.log(values);
-        onLogin(values);
-      }}
+      onSubmit={onLogin}
+      validateOnChange={false}
+      validateOnBlur={false}
     >
       {(props) => (
-        <Form>
+        <Form className={classes.loginForm}>
           <Stack spacing={4} alignItems={"center"}>
             <Box>
               {/* email */}
@@ -38,6 +59,7 @@ export const LoginForm = ({ onClose, isModal, onLogin, loading }) => {
                 label="Email"
                 variant="outlined"
                 as={TextField}
+                className={classes.inputField}
                 error={!!props.errors.email}
                 helperText={props.errors.email ?? ""}
               />
@@ -50,6 +72,7 @@ export const LoginForm = ({ onClose, isModal, onLogin, loading }) => {
                 label="password"
                 as={TextField}
                 variant="outlined"
+                className={classes.inputField}
                 error={!!props.errors.password}
                 helperText={props.errors.password ?? ""}
               />
@@ -62,6 +85,7 @@ export const LoginForm = ({ onClose, isModal, onLogin, loading }) => {
                 variant="contained"
                 loading={loading}
                 color={"secondary"}
+                className={classes.submitBtn}
               >
                 login
               </LoadingButton>
@@ -71,6 +95,7 @@ export const LoginForm = ({ onClose, isModal, onLogin, loading }) => {
                   color={"secondary"}
                   variant="outlined"
                   onClick={onClose}
+                  className={classes.cancelBtn}
                 >
                   cancel
                 </LoadingButton>
