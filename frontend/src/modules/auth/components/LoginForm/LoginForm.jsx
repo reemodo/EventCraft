@@ -37,6 +37,7 @@ const useStyles = (theme) => ({
   },
 });
 
+// LoginForm component
 export const LoginForm = ({ onClose, isModal, onLogin, loading }) => {
   const classes = useStyles();
 
@@ -50,8 +51,8 @@ export const LoginForm = ({ onClose, isModal, onLogin, loading }) => {
     >
       {(props) => (
         <Form className={classes.loginForm}>
-          <Stack spacing={4} alignItems={"center"}>
-            <Box>
+          <Stack spacing={0} alignItems={"center"}>
+            <Box sx={{ width: '400px' }}>
               {/* email */}
               <Field
                 name="email"
@@ -62,44 +63,39 @@ export const LoginForm = ({ onClose, isModal, onLogin, loading }) => {
                 className={classes.inputField}
                 error={!!props.errors.email}
                 helperText={props.errors.email ?? ""}
+                sx={{ width: '100%', height: '100px' }}
               />
             </Box>
-            <Box>
+            <Box sx={{ width: '400px' }}>
               {/* password */}
               <Field
                 name="password"
                 type="password"
-                label="password"
+                label="Password"
                 as={TextField}
                 variant="outlined"
                 className={classes.inputField}
                 error={!!props.errors.password}
                 helperText={props.errors.password ?? ""}
+                sx={{ width: '100%', height: '50px' }}
               />
             </Box>
 
             {/* submit btn */}
-            <Stack direction={"row"} spacing={2}>
+            <Stack direction={"row"} spacing={2}  sx={{marginTop: "20px"}}>
               <LoadingButton
                 type="submit"
                 variant="contained"
                 loading={loading}
                 color={"secondary"}
                 className={classes.submitBtn}
+               
+                
               >
-                login
+                Sign In
               </LoadingButton>
 
-              {isModal && (
-                <LoadingButton
-                  color={"secondary"}
-                  variant="outlined"
-                  onClick={onClose}
-                  className={classes.cancelBtn}
-                >
-                  cancel
-                </LoadingButton>
-              )}
+
             </Stack>
           </Stack>
         </Form>
