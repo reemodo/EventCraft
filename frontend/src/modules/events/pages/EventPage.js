@@ -47,16 +47,18 @@ function EventPage({ imageUrl, lat, lng }) {
 
   return (
     <Layout>
+      <div className="event-page-container">
       <CardMedia
         component="img"
         className="event-image"
         image={event.card.img}
         alt="Event"
       />
+      <div className="text-container">
       <CardContent>
-        <Typography variant="h2" component="div" className="event-title" gutterBottom>
+        <h1 className="event-title" >
           {event.title}
-        </Typography>
+        </h1>
         <Typography align="center" variant="h5" color="text.secondary" className="event-description">
           <strong>Additional Information:</strong>
           <br />
@@ -71,7 +73,9 @@ function EventPage({ imageUrl, lat, lng }) {
           <strong>Location:</strong>
         </Typography>
 
-        <div className="map-container">
+      </CardContent>
+      </div>
+      <div className="map-container">
           <MapContainer
             center={position}
             zoom={18}
@@ -86,7 +90,7 @@ function EventPage({ imageUrl, lat, lng }) {
             </Marker>
           </MapContainer>
         </div>
-      </CardContent>
+      </div>
     </Layout>
   );
 }
