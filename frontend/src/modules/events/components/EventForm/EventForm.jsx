@@ -60,6 +60,7 @@ const initCardItem = {
   decoration: "",
   style: "",
   color: "",
+  zIndex: 3,
 };
 const initCardItem2 = {
   type: ItemTypes.TEXT,

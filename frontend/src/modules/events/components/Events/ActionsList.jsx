@@ -9,7 +9,6 @@ import { useDeleteEventMutation } from "../../api/events.api";
 export function ActionsList({ event, handelSetEventLists }) {
   const options = ["View", "Attendees", "Edit Event", "Edit Card", "Delete"];
   const EventActions = {
-    View: "/eventPage/" + event._id,
     Attendees: "/event/attendees/" + event._id,
     EditEvent: "/editEvent/" + event._id,
     EditCard: "/editCard/" + event.cardID?._id,
