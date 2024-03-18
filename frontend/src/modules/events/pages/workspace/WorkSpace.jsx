@@ -2,7 +2,13 @@ import React from "react";
 import { Events } from "../../components/Events/Events";
 import "./workSpace.css";
 
-import { Button, Icon, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 
 import { useEffect } from "react";
@@ -57,10 +63,10 @@ export const WorkSpace = (props) => {
           <Typography fontSize={'3vw'} fontFamily={'Lora'} fontWeight={900} component="h1" mb={3} m={5} variant="h6" alignSelf={'center'}>
             Which event you will manage today
           </Typography>
-          <div className="iconContainer" >
-          <SearchBar handelSearch={handelSearch} />
+          <div className="iconContainer">
+            <SearchBar handelSearch={handelSearch} />
             <Button
-            onClick={onOpenCreateModel}
+              onClick={onOpenCreateModel}
               sx={{
                 color: "secondary.contrastText",
                 backgroundColor: "secondary.main",
@@ -71,8 +77,8 @@ export const WorkSpace = (props) => {
                 borderRight: "var(--Grid-borderWidth) solid",
                 borderBottom: "var(--Grid-borderWidth) solid",
                 borderColor: "secondary.main",
-                minWidth: 'fit-content',
-                minHeight:'fit-content',
+                minWidth: "fit-content",
+                minHeight: "fit-content",
               }}
               variant="contained"
               className="addButton"
@@ -80,11 +86,18 @@ export const WorkSpace = (props) => {
               Add Event
             </Button>
           </div>
-          <Events
-            inHomePage={false}
-            events={eventsList}
-            handelSetEventLists={onDeleteEvent}
-          />
+          {!isLoading && (
+            <Events
+              inHomePage={false}
+              events={eventsList}
+              handelSetEventLists={onDeleteEvent}
+            />
+          )}
+          {isLoading && (
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <CircularProgress color="secondary" />
+            </Box>
+          )}
         </Stack>
       </Layout>
     </>

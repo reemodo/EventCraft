@@ -134,24 +134,21 @@ export const EventForm = ({ isAddFlow, model }) => {
     iconSize: [38, 38],
   });
 
+  const timeoutRef = useRef(null);
+
   const fetchData = (value) => {
+    const url = `https://geocode.maps.co/search?q=${value}&api_key=${process.env.REACT_APP_FREE_GEO_API_KEY}`;
     if (value) {
-      fetch(
-        `https://dev.virtualearth.net/REST/v1/Locations?q=${value}&key=At9eDSmuRlIFv8AYYWu-9AZxH3oxgpF_bpeQbKiwKrxOmYr9Coxwk-qGJRW_3FL4`
-      )
-        .then((response) => response.json())
-        .then((json) => {
-          const results = json.resourceSets[0].resources.filter((user) => {
-            return (
-              value &&
-              user &&
-              user.name &&
-              user.name.toLowerCase().includes(value)
-            );
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        fetch(url)
+          .then((response) => response.json())
+          .then((results) => {
+            console.log(results);
+
+            setResults(results);
           });
-          console.log(results);
-          setResults(results);
-        });
+      }, 500);
     }
   };
 
@@ -218,10 +215,10 @@ export const EventForm = ({ isAddFlow, model }) => {
 
   const onChangeLocation = useCallback(
     (e, value) => {
-      const location = Results.find((loc) => loc.name === value);
+      const location = Results.find((loc) => loc.display_name === value);
 
-      const lat = location?.geocodePoints[0].coordinates[0];
-      const lng = location?.geocodePoints[0].coordinates[1];
+      const lat = location?.lat;
+      const lng = location?.lon;
 
       if (lng && lat) {
         setCurrentPosition({ lng, lat });
@@ -379,7 +376,9 @@ export const EventForm = ({ isAddFlow, model }) => {
                         onChange={onChangeLocation}
                         error={!!props.errors.location}
                         helperText={props.errors.location ?? ""}
-                        options={Results?.map((option) => option.name) || []}
+                        options={
+                          Results?.map((option) => option.display_name) || []
+                        }
                         renderInput={(params) => (
                           <TextField
                             {...params}
