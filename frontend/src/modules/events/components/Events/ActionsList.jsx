@@ -48,13 +48,14 @@ export function ActionsList({ event, handelSetEventLists }) {
   };
 
   return (
-    <div>
+    <>
       <Button
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
+        sx={{    color: '#222',fontSize: 'x-large;'}}
       >
         ...
       </Button>
@@ -77,6 +78,6 @@ export function ActionsList({ event, handelSetEventLists }) {
           </MenuItem>
         ))}
       </Menu>
-    </div>
+    </>
   );
 }

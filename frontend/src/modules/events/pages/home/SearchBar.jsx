@@ -51,7 +51,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-export default function SearchBar({handelSearch}) {
+export default function SearchBar({handelSearch, handleFilter, events}) {
   const [searchTitle, setSearchTitle]= useState('');
   
   const handelSearchInput = (title) => {
@@ -60,8 +60,8 @@ export default function SearchBar({handelSearch}) {
   }
   
   return (
-    <Box sx={{ flexGrow: 10 , paddingLeft: '', flexDirection:'row', display:'flex'}}>
-          <Search sx={{maxWidth: '510px', display:'flex'}}>
+    <Box sx={{}}>
+          <Search sx={{maxWidth: '510px', display:'flex', }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -72,7 +72,7 @@ export default function SearchBar({handelSearch}) {
               onChange={(e) => handelSearchInput(e.target.value)}
               />
           </Search>
-          <FilterForm/>
+      
     
     </Box>
   );

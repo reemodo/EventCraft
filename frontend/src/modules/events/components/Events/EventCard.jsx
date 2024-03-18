@@ -63,7 +63,7 @@ export const EventCard = ({
 
   return (
     <>
-      <Card sx={{ width: 350 }}>
+      <Card sx={{     width: '18em;',height: '20em;' }}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -74,7 +74,7 @@ export const EventCard = ({
             alt="green iguana"
             onClick={handelEventClick}
           />
-          <CardContent>
+          <CardContent sx={{height:'100px'}}>
             <Typography gutterBottom variant="h6" component="div">
               {event.title.charAt(0).toUpperCase() + event.title.substring(1)}
             </Typography>
@@ -82,7 +82,7 @@ export const EventCard = ({
               {event.description}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {event.location}
+              {event?.location?.split(':')[0]}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {event.date}

@@ -8,7 +8,7 @@ const useExtractLocations = (events) => {
       const locationsSet = new Set();
       events.forEach(event => {
         if(event != "")
-          locationsSet.add(event.location);
+          locationsSet.add(event.location.split(':')[0]);
       });
       return Array.from(locationsSet);
     };
