@@ -11,7 +11,7 @@ export function OurServicesList(props) {
 
     return (
         <>
-        <Grid container spacing={2} justifyContent="center" marginBottom='100px' boxShadow={3} borderRadius={10} p={10} backgroundColor='white'>
+        <Grid container spacing={2} justifyContent="center" marginBottom='100px' marginTop='100px' boxShadow={3} borderRadius={10} p={10} backgroundColor='white'>
       <Grid item xs={12}>
         <Typography variant="h4" align="center" gutterBottom>
           Our Services

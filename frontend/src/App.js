@@ -1,3 +1,4 @@
+import React from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -24,6 +25,8 @@ import EditEventPage from "./modules/events/pages/EditEventPage";
 import { EventAttendeesPage } from "./modules/events/pages/EventAttendeesPage/EventAttendeesPage";
 import { LoginPage } from "./modules/auth/pages/LoginPage/LoginPage";
 import { RegisterPage } from "./modules/auth/pages/RegisterPage/RegisterPage";
+
+import Footer from './modules/footer/Footer';
 
 function App() {
   const theme = createTheme({
@@ -78,6 +81,7 @@ function App() {
                 <Route path="/addEvent" element={withAuth(EditEventPage)} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
+             <Footer /> {/* Render Footer component here */}
             </Box>
           </Router>
         </Stack>

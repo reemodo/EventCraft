@@ -9,7 +9,8 @@ const filterAllEventsField = function (filterParams) {
     filter.endDate = filterParams.endDate;
   }
   if (filterParams.location) {
-    filter.location = filterParams.location;
+    const regexPattern = new RegExp(`^${filterParams.location}`, 'i');
+    filter.location = { $regex: regexPattern}
   }
   if (filterParams.category) {
     filter.category = filterParams.category;

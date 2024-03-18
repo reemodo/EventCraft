@@ -8,8 +8,8 @@
 .iconContainer{
     display: flex;
     align-items: flex-end;
-    justify-content: end;
-    position: fixed;
+    justify-content: space-between;
+    margin: 7%;
     right: 3%; 
     top: 20%;
     transition: right 0.3s ease; 
