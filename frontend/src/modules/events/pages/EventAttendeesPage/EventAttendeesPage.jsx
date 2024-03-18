@@ -4,7 +4,7 @@ import { useEventHelpers } from "../../hooks/useEventHelper";
 import { useParams } from "react-router-dom";
 import { EventAttendanceTable } from "../../components/EventAttendanceTable/EventAttendanceTable";
 import Layout from "../../../landing/Layout";
-import { Card } from "@mui/material";
+import { Button, Card } from "@mui/material";
 
 export const EventAttendeesPage = () => {
   const { id } = useParams();
@@ -13,6 +13,7 @@ export const EventAttendeesPage = () => {
   const [event, setEvent] = useState();
 
   const dispatch = useDispatch();
+
 
   useEffect(() => {
     (async () => {
@@ -39,6 +40,7 @@ export const EventAttendeesPage = () => {
           />
         )}
       </Card>
+      <Button onClick={handelEmail}>hello</Button>
     </Layout>
   );
 };
