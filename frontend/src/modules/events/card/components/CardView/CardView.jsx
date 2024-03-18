@@ -4,7 +4,7 @@ import { CardListItem } from "../CardListItem/CardListItem";
 
 import { Box } from "@mui/material";
 
-export const CardView = forwardRef(({ title, item, model }, ref) => {
+export const CardView = forwardRef(({ title, item, model, bgItem, bgUrl }, ref) => {
   const list = !!model
     ? model.cardItems
     : [
