@@ -2,7 +2,13 @@ import React from "react";
 import { Events } from "../../components/Events/Events";
 import "./workSpace.css";
 
-import { Icon } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 
 import { useEffect } from "react";
@@ -11,10 +17,11 @@ import Layout from "../../../landing/Layout";
 
 import { useGetMyEvents } from "../../hooks/useGetMyEvents";
 import { useNavigate } from "react-router-dom";
+import SearchBar from "../home/SearchBar";
 
 export const WorkSpace = (props) => {
   const navigate = useNavigate();
-
+  const [filteredEvents, setFilteredEvents] = useState({});
   const onOpenCreateModel = () => {
     navigate("/addEvent");
   };
@@ -33,16 +40,14 @@ export const WorkSpace = (props) => {
     })();
   }, [fetchMyEvents]);
 
-  const onAddEvent = function (event) {
-    const newEvents = [event, ...eventsList];
-    setEventsList(newEvents);
-  };
-
   const onDeleteEvent = function (eventId) {
     const newEvents = eventsList.filter((event) => event._id !== eventId);
     setEventsList(newEvents);
   };
-
+  const handelSearch = (title) => {
+    const newFilter = { ...filteredEvents, title };
+    setFilteredEvents(newFilter);
+  };
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -54,9 +59,14 @@ export const WorkSpace = (props) => {
   return (
     <>
       <Layout>
-        <div className="homeContainer">
-          <div className="iconContainer" onClick={onOpenCreateModel}>
-            <Icon
+        <Stack m={5}>
+          <Typography fontSize={'3vw'} fontFamily={'Lora'} fontWeight={900} component="h1" mb={3} m={5} variant="h6" alignSelf={'center'}>
+            Which event you will manage today
+          </Typography>
+          <div className="iconContainer">
+            <SearchBar handelSearch={handelSearch} />
+            <Button
+              onClick={onOpenCreateModel}
               sx={{
                 color: "secondary.contrastText",
                 backgroundColor: "secondary.main",
@@ -67,20 +77,28 @@ export const WorkSpace = (props) => {
                 borderRight: "var(--Grid-borderWidth) solid",
                 borderBottom: "var(--Grid-borderWidth) solid",
                 borderColor: "secondary.main",
-                width: 50,
-                height: 50,
-                fontSize: "2.3rem",
+                minWidth: "fit-content",
+                minHeight: "fit-content",
               }}
+              variant="contained"
+              className="addButton"
             >
-              +
-            </Icon>
+              Add Event
+            </Button>
           </div>
-          <Events
-            inHomePage={false}
-            events={eventsList}
-            handelSetEventLists={onDeleteEvent}
-          />
-        </div>
+          {!isLoading && (
+            <Events
+              inHomePage={false}
+              events={eventsList}
+              handelSetEventLists={onDeleteEvent}
+            />
+          )}
+          {isLoading && (
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <CircularProgress color="secondary" />
+            </Box>
+          )}
+        </Stack>
       </Layout>
     </>
   );

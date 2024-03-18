@@ -14,16 +14,17 @@ export const EventCategoryList = ({
   return (
     <>
     <div className="categoryContainer">
-      <Typography variant="h4" gutterBottom color="" margin= "20px" >
+      <Typography variant="h4" gutterBottom color="" margin= "20px" mb="30px">
         {title.charAt(0).toUpperCase() + title.substring(1)}
       </Typography>
 
       <Stack
         direction={"row"}
         sx={{ overflow: "scroll" }}
-        mb={10}
+       
         container
         spacing={3} 
+        mb={0}
       >
         {events?.map((event) => {
           return (

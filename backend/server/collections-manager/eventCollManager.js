@@ -239,6 +239,7 @@ class eventCollManager {
       title,
     });
     filteredFields.userId = { $ne: id };
+    filteredFields.isPublic = true;
     const events = await Event.find(filteredFields)
       .sort({
         startDate: 1,

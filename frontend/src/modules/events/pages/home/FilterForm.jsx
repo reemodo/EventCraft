@@ -7,6 +7,8 @@ import {
   MenuItem,
   Grid,
   Box,
+  InputLabel,
+  FormControl
 } from '@mui/material';
 import FilterIcon from '@mui/icons-material/FilterList';
 import useExtractLocations from './hooks/useExtractLocations';
@@ -20,7 +22,7 @@ const FilterForm = ({ eventsList, onFilter }) => {
   const [date, setDate] = useState('');
 
   const locations = useExtractLocations(eventsList);
-  const categories= useExtractCategories(eventsList)
+  const categories= useExtractCategories(eventsList);
 
   const handleFilterToggle = () => {
     setIsOpen(!isOpen);
@@ -46,7 +48,7 @@ const FilterForm = ({ eventsList, onFilter }) => {
   };
 
   return (
-    <Grid container alignItems="center" >
+    <Grid container alignItems="center" width='10%'>
       <Grid item>
         <IconButton onClick={handleFilterToggle}>
           <FilterIcon />
@@ -55,17 +57,29 @@ const FilterForm = ({ eventsList, onFilter }) => {
       {isOpen && (
         <Grid item>
           <form>
-            <Box p={2}>
+            <Box p={2}>  
+            <FormControl  variant="standard" sx={{ m: 1, minWidth: 120 }}>
+
+            <InputLabel id="demo-simple-select-label">Location</InputLabel>
               <Select
+                labelId="demo-simple-select-label"
+         
                 value={location}
-                onChange={handleLocationChange}
+                onChange={handleLocationChange}  
+              
               >
                 <MenuItem value="">All</MenuItem>
                 {locations.map((location) => (
                   <MenuItem key={location} value={location}>{location}</MenuItem>
                 ))}
               </Select>
-              <Select
+              </FormControl>
+              <FormControl  variant="standard" sx={{ m: 1, minWidth: 120 }}>
+
+<InputLabel id="categoryLabel">Category</InputLabel>
+  <Select
+    labelId="categoryLabel"
+  
                 value={category}
                 onChange={handleCategoryChange}
               >
@@ -74,6 +88,7 @@ const FilterForm = ({ eventsList, onFilter }) => {
                   <MenuItem key={category} value={category}>{category}</MenuItem>
                 ))}
               </Select>
+              </FormControl>
               <TextField
                 id="date"
                 label="Date"

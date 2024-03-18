@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Toolbar from "@mui/material/Toolbar";
 import { AuthModal } from "../auth/components/AuthModal/AuthModal";
@@ -28,7 +28,7 @@ const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
-  backgroundColor: '#fdfdfd', // Adding the desired color
+  backgroundColor: "#fdfdfd", // Adding the desired color
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
@@ -76,15 +76,18 @@ const Navbar = () => {
 
   useInit();
 
+  const navigate = useNavigate();
+
   const { logout } = useAuthHelpers();
   const [openAuthModal, setOpenAuthModal] = useState(false);
 
   const onLogin = () => {
-    setOpenAuthModal(true);
+    navigate("login");
   };
 
   const onLogout = () => {
     logout();
+    navigate("/");
   };
 
   const onCloseLogin = () => {
@@ -97,70 +100,89 @@ const Navbar = () => {
   };
 
   return (
-<nav className="">
+    <nav className="">
       <Box sx={{ flexGrow: 1 }}>
         <CssBaseline />
 
         <AppBar position="absolute" open={open}>
-          <Toolbar xs={{display:'flex'}}>
-            <Box sx={{ display: 'flex', alignItems: 'center'}}>
-            {rdxEvents.isEditingEventCard && (
-              <IconButton
-                edge="start"
-                color="secondary"
-                aria-label="open drawer"
-                onClick={toggleDrawer}
-                className="menuIconButton"
+          <Toolbar xs={{ display: "flex" }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              {rdxEvents.isEditingEventCard && (
+                <IconButton
+                  edge="start"
+                  color="secondary"
+                  aria-label="open drawer"
+                  onClick={toggleDrawer}
+                  className="menuIconButton"
+                >
+                  <MenuIcon />
+                </IconButton>
+              )}
+
+              <Typography
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
+                className="logoTypography"
+                fontFamily= "Quintessential"
+                fontWeight={900}
+                fontSize={'calc(12px + 1vw)'}
               >
-                <MenuIcon />
+                <Link
+                  to="/"
+                  style={{
+                    color: "#AAC22B",
+                    textDecoration: "none",
+                    marginLeft: "1%",
+                    
+                    display: 'flex',
+                   alignItems: 'center'
+                  }}
+                 
+                >
+                  <div  className="logoImage"></div>
+                 <span>EVENT CRAFT</span> 
+                </Link>
+              </Typography>
+              {rdxUser.loggedIn && (
+                <Typography
+                  component="h1"
+                  variant="h6"
+                  color="#AAC22B"
+                  noWrap
+                  className="logoTypography"
+                  fontFamily= "Quintessential"
+                  fontWeight={700}
+                  fontSize={'calc(12px + 0.9vw)'}
+                >
+                  <Link
+                    to="/workspace"
+                    style={{
+                      color: "black",
+                      textDecoration: "none",
+                    }}
+                  >
+                    workspace
+                  </Link>
+                </Typography>
+              )}
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                right: '0.5%',
+                position: "absolute",
+              }}
+            >
+              <IconButton color="inherit">
+                <Badge badgeContent={4} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
               </IconButton>
-            )}
 
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className="logoTypography"
-            >
-              <Link
-                to="/"
-                style={{
-                  color: "#AAC22B",
-                  textDecoration: "none",
-                }}
-              >
-                <div className="logoImage"></ div>
-              </Link>
-            </Typography>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="#AAC22B"
-              noWrap
-              className="logoTypography"
-            >
-              <Link
-                to="/workspace"
-                style={{
-                  color: "black",
-                  textDecoration: "none",
-                }}
-              >
-                workspace
-              </Link>
-            </Typography>
-         
-       </Box>
-       <Box sx={{ display: 'flex', alignItems: 'center',     right: 0,
-    position: 'absolute'}}>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-
-            {/* <Button
+              {/* <Button
               color="inherit"
               className="aboutButton"
               onClick={onLogin}
@@ -168,21 +190,27 @@ const Navbar = () => {
               About us
             </Button> */}
 
-            {!rdxUser.loggedIn && (
-              <Button color="inherit" className="loginButton" onClick={onLogin}>
-                Login
-              </Button>
-            )}
+              {!rdxUser.loggedIn && (
+                <Button
+                  color="inherit"
+                  className="loginButton"
+                  onClick={onLogin}
+                  fontSize={'calc(12px + 1vw)'}
+                >
+                  Login
+                </Button>
+              )}
 
-            {rdxUser.loggedIn && (
-              <Button
-                color="inherit"
-                className="loginButton"
-                onClick={onLogout}
-              >
-                logout
-              </Button>
-            )}
+              {rdxUser.loggedIn && (
+                <Button
+                  color="inherit"
+                  className="loginButton"
+                  onClick={onLogout}
+                  fontSize={'calc(12px + 1vw)'}
+                >
+                  logout
+                </Button>
+              )}
             </Box>
           </Toolbar>
         </AppBar>
@@ -203,7 +231,7 @@ const Navbar = () => {
         )}
         <AuthModal isOpen={openAuthModal} onClose={onCloseLogin} />
       </Box>
-  </nav>
+    </nav>
   );
 };
 

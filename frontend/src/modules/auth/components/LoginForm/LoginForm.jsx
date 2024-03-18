@@ -46,6 +46,7 @@ export const LoginForm = ({ onClose, isModal, onLogin, loading }) => {
       validationSchema={validationSchema}
       onSubmit={onLogin}
       validateOnChange={false}
+      validateOnBlur={false}
     >
       {(props) => (
         <Form className={classes.loginForm}>

@@ -9,7 +9,6 @@ import { useDeleteEventMutation } from "../../api/events.api";
 export function ActionsList({ event, handelSetEventLists }) {
   const options = ["View", "Attendees", "Edit Event", "Edit Card", "Delete"];
   const EventActions = {
-    View: "/eventPage/" + event._id,
     Attendees: "/event/attendees/" + event._id,
     EditEvent: "/editEvent/" + event._id,
     EditCard: "/editCard/" + event.cardID?._id,
@@ -48,13 +47,14 @@ export function ActionsList({ event, handelSetEventLists }) {
   };
 
   return (
-    <div>
+    <>
       <Button
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
+        sx={{    color: '#222',fontSize: 'x-large;'}}
       >
         ...
       </Button>
@@ -77,6 +77,6 @@ export function ActionsList({ event, handelSetEventLists }) {
           </MenuItem>
         ))}
       </Menu>
-    </div>
+    </>
   );
 }
