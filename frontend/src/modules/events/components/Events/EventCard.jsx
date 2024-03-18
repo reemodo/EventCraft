@@ -38,7 +38,6 @@ export const EventCard = ({
   } = useEventHelpers();
 
   const rdxUser = useSelector((state) => state.user);
-  const [Url, setUrl] = useState("");
   const downloadQR = () => {
     const canvas = document.getElementById("123456");
     const pngUrl = canvas
@@ -46,7 +45,7 @@ export const EventCard = ({
       .replace("image/png", "image/octet-stream");
     let downloadLink = document.createElement("a");
     downloadLink.href = pngUrl;
-    downloadLink.download = "123456.png";
+    downloadLink.download = "qrCode.png";
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -170,8 +169,8 @@ export const EventCard = ({
                 <>
                   <QRCode
                     id="123456"
-                    value="http://localhost:3000/eventPage/_id"
-                    size={35}
+                    value={`http://localhost:3000/eventPage/${event._id}`}
+                    size={45}
                     level={"H"}
                     includeMargin={true}
                     onClick={downloadQR}
