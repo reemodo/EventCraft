@@ -34,6 +34,11 @@ import { ItemTypes } from "../../card/components/CardEdit/CardEdit";
 import { Map } from "../../../shared/components/Map/Map";
 
 import { useGeolocation } from "../../../shared/hooks/useGeolocation/useGeolocation";
+import {
+  getEventLocationLat,
+  getEventLocationLng,
+  getEventLocationTitle,
+} from "../../event.utils";
 
 const validationSchema = Yup.object({
   category: Yup.string().required("category is required"),
@@ -106,8 +111,8 @@ export const EventForm = ({ isAddFlow, model }) => {
   });
 
   const position = [
-    model?.location.split(":")[1] ?? 32.81781057069659,
-    model?.location.split(":")[2] ?? 35.00259862330999,
+    getEventLocationLat(model?.location) ?? 32.81781057069659,
+    getEventLocationLng(model?.location) ?? 35.00259862330999,
   ];
 
   const onSaveCard = async () => {
@@ -358,7 +363,7 @@ export const EventForm = ({ isAddFlow, model }) => {
                         type="text"
                         label="location"
                         variant="outlined"
-                        value={field.value.split(":")[0]}
+                        value={getEventLocationTitle(field.value)}
                         onChange={onChangeLocation}
                         error={!!props.errors.location}
                         helperText={props.errors.location ?? ""}
