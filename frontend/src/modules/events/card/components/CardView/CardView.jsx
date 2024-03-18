@@ -9,9 +9,13 @@ export const CardView = forwardRef(({ title, item, model }, ref) => {
     ? model.cardItems
     : [
         {
-          ...item,
-          text: title,
+          ...item[0],
+          text: title[0],
         },
+        {
+          ...item[1],
+          text: title[1],
+        }
       ];
 
   return (

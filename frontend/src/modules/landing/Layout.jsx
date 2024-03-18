@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          mt:10
+          mt:9
         }}
       >
      

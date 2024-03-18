@@ -47,16 +47,26 @@ const validationSchema = Yup.object({
 
 const initCardItem = {
   type: ItemTypes.TEXT,
-  left: 0,
-  top: 0,
+  left: 180,
+  top: 20,
   position: "absolute",
   text: "",
-  fontSize: 50,
+  fontSize: 40,
   decoration: "",
   style: "",
   color: "",
 };
-
+const initCardItem2 = {
+  type: ItemTypes.TEXT,
+  left: 20,
+  top: 90 ,
+  position: "absolute",
+  text: "",
+  fontSize: 20,
+  decoration: "",
+  style: "",
+  color: "",
+};
 const publicPrivate = [
   { name: "Public", value: true },
   { name: "Private", value: false },
@@ -134,7 +144,7 @@ export const EventForm = ({ isAddFlow, model }) => {
         const eventData = await addEvent({
           ...formValues,
           card: {
-            items: [{ ...initCardItem, text: formValues.title }],
+            items: [{ ...initCardItem, text: formValues.title },{...initCardItem2, text: formValues.description}],
           },
           userId: user.currentUser.id,
         });
@@ -240,8 +250,8 @@ export const EventForm = ({ isAddFlow, model }) => {
               >
                 <CardView
                   ref={exportRef}
-                  title={props.values.title}
-                  item={initCardItem}
+                  title={[props.values.title,props.values.description ]}
+                  item={[initCardItem, initCardItem2]}
                   model={model}
                 />
               </Box>
@@ -314,6 +324,7 @@ export const EventForm = ({ isAddFlow, model }) => {
                     multiline
                     error={!!props.errors.description}
                     helperText={props.errors.description ?? ""}
+                    item={initCardItem2}
                   />
 
                   {/* location */}

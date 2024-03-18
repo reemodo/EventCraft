@@ -127,6 +127,7 @@ const Navbar = () => {
                 className="logoTypography"
                 fontFamily= "Quintessential"
                 fontWeight={900}
+                fontSize={'calc(12px + 1vw)'}
               >
                 <Link
                   to="/"
@@ -153,6 +154,7 @@ const Navbar = () => {
                   className="logoTypography"
                   fontFamily= "Quintessential"
                   fontWeight={700}
+                  fontSize={'calc(12px + 0.9vw)'}
                 >
                   <Link
                     to="/workspace"
@@ -193,6 +195,7 @@ const Navbar = () => {
                   color="inherit"
                   className="loginButton"
                   onClick={onLogin}
+                  fontSize={'calc(12px + 1vw)'}
                 >
                   Login
                 </Button>
@@ -203,6 +206,7 @@ const Navbar = () => {
                   color="inherit"
                   className="loginButton"
                   onClick={onLogout}
+                  fontSize={'calc(12px + 1vw)'}
                 >
                   logout
                 </Button>
