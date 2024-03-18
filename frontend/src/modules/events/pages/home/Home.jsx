@@ -8,7 +8,7 @@ import { useGetEvents } from "../../hooks/useGetEvents";
 import FilterForm from "./FilterForm";
 import SearchBar from "./SearchBar";
 import { OurServicesList } from "./OurServicesList";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, CircularProgress } from "@mui/material";
 import { useGeolocation } from "../../../shared/hooks/useGeolocation/useGeolocation";
 
 export function Home(props) {
@@ -73,7 +73,7 @@ export function Home(props) {
     const newFilter = { ...filteredEvents, title };
     setFilteredEvents(newFilter);
   };
- 
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -87,25 +87,45 @@ export function Home(props) {
       <TopContainer events={eventsList} handelSearch={handelSearch} />
       <Layout>
         <div className="joinContainer">
-        <div className="joinHeader">
-        <Typography variant="h3"           fontFamily= "Quintessential">
-          Join Great Events
-        </Typography>
+          <div className="joinHeader">
+            <Typography variant="h3" fontFamily="Quintessential">
+              Join Great Events
+            </Typography>
+          </div>
+          <Box
+            className="searchContainer"
+            sx={{
+              justifyContent: "space-around",
+              flexGrow: 10,
+              paddingLeft: "",
+              flexDirection: "row",
+              display: "flex",
+            }}
+          >
+            <SearchBar
+              handelSearch={handelSearch}
+              handleFilter={handleFilter}
+              events={eventsList}
+            />
+            <FilterForm onFilter={handleFilter} eventsList={eventsList} />
+          </Box>
+          <div className="homeContainer">
+            {!isLoading && (
+              <Events
+                inHomePage={true}
+                events={eventsList}
+                onJoinEvent={onJoinEvent}
+                onCancelJoinEvent={onCancelJoinEvent}
+              />
+            )}
+            {isLoading && (
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <CircularProgress color="secondary" />
+              </Box>
+            )}
+          </div>
         </div>
-        <Box className="searchContainer" sx={{justifyContent: 'space-around', flexGrow: 10 , paddingLeft: '', flexDirection:'row', display:'flex'}}>
-        <SearchBar handelSearch={handelSearch} handleFilter={handleFilter}  events={eventsList} />
-        <FilterForm onFilter={handleFilter}  eventsList={eventsList} />
-        </Box>
-        <div className="homeContainer">
-          <Events
-            inHomePage={true}
-            events={eventsList}
-            onJoinEvent={onJoinEvent}
-            onCancelJoinEvent={onCancelJoinEvent}
-          />
-        </div>
-        </div>
-        <OurServicesList/>
+        <OurServicesList />
       </Layout>
     </>
   );
