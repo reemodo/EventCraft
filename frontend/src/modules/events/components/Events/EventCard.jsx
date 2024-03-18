@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardActionArea,
@@ -14,9 +14,9 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEventHelpers } from "../../hooks/useEventHelper";
 import { LoadingButton } from "@mui/lab";
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import CustomSnackbar from '../../../shared/components/CustomSnackbar/CustomSnackbar';
-
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import CustomSnackbar from "../../../shared/components/CustomSnackbar/CustomSnackbar";
+import QRCode from "qrcode.react";
 
 export const EventCard = ({
   event,
@@ -38,18 +38,28 @@ export const EventCard = ({
   } = useEventHelpers();
 
   const rdxUser = useSelector((state) => state.user);
-
+  const [Url, setUrl] = useState("");
+  const downloadQR = () => {
+    const canvas = document.getElementById("123456");
+    const pngUrl = canvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    let downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = "123456.png";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  };
   const handleCloseSnackbar = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpenSnackbar(false);
   };
 
   const handelEventClick = (e) => {
-
-      navigate(`/eventPage/${event._id}`);
-    
+    navigate(`/eventPage/${event._id}`);
   };
 
   const onUserJoinEvent = async (e) => {
@@ -60,26 +70,23 @@ export const EventCard = ({
       if (eventJoined?._id) {
         onJoinEvent(event, rdxUser.currentUser.id);
       }
-    }
-    else {
+    } else {
       setOpenSnackbar(true);
     }
   };
- 
-    
-  
-    const handleWhatsAppShare = () => {
-      const imageUrl = event.cardID?.img;
-    const location = event.location.split(':')[0];
+
+  const handleWhatsAppShare = () => {
+    const imageUrl = event.cardID?.img;
+    const location = event.location.split(":")[0];
     const text = event.title;
-    const currentDate = new Date().toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
+    const currentDate = new Date().toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
-      console.log('Image URL:', imageUrl); // Log the image URL to verify correctness
-  
-      const message = `
+    console.log("Image URL:", imageUrl); // Log the image URL to verify correctness
+
+    const message = `
 
       Location: ${location}
               
@@ -89,11 +96,10 @@ export const EventCard = ({
               
       Event Poster: ${imageUrl}
       `;
-      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, '_blank');
-    };
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+  };
 
-  
   const onCancelUserJoinEvent = async (e) => {
     e.stopPropagation();
     const eventJoined = await cancelJoinedEvent(
@@ -108,7 +114,7 @@ export const EventCard = ({
 
   return (
     <>
-      <Card sx={{ width: '18em;', height: '20em;' }}>
+      <Card sx={{ width: "18em;", height: "20em;" }}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -119,7 +125,7 @@ export const EventCard = ({
             alt="green iguana"
             onClick={handelEventClick}
           />
-          <CardContent sx={{ height: '100px' }}>
+          <CardContent sx={{ height: "100px" }}>
             <Typography gutterBottom variant="h6" component="div">
               {event.title.charAt(0).toUpperCase() + event.title.substring(1)}
             </Typography>
@@ -127,7 +133,7 @@ export const EventCard = ({
               {event.description}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {event?.location?.split(':')[0]}
+              {event?.location?.split(":")[0]}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {event.date}
@@ -148,7 +154,6 @@ export const EventCard = ({
           )}
           {rdxUser.loggedIn && (
             <>
-
               {inHomePage && userJoined && (
                 <LoadingButton
                   loading={pendingCancelJoinedEvent}
@@ -163,13 +168,24 @@ export const EventCard = ({
 
               {!inHomePage && (
                 <>
-                 <WhatsAppIcon color="secondary" onClick={handleWhatsAppShare}/>
-                <Button disableSpacing size="small" color="secondary">
-                  <ActionsList
-                    event={event}
-                    handelSetEventLists={handelSetEventLists}
+                  <QRCode
+                    id="123456"
+                    value="http://localhost:3000/eventPage/_id"
+                    size={35}
+                    level={"H"}
+                    includeMargin={true}
+                    onClick={downloadQR}
                   />
-                </Button>
+                  <WhatsAppIcon
+                    color="secondary"
+                    onClick={handleWhatsAppShare}
+                  />
+                  <Button disableSpacing size="small" color="secondary">
+                    <ActionsList
+                      event={event}
+                      handelSetEventLists={handelSetEventLists}
+                    />
+                  </Button>
                 </>
               )}
             </>
