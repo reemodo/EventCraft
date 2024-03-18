@@ -8,10 +8,15 @@
 .iconContainer{
     display: flex;
     align-items: flex-end;
-    justify-content: space-between;
-    margin: 7%;
+    justify-content: center;
     right: 3%; 
     top: 20%;
     transition: right 0.3s ease; 
     transform: translateY(-50%);
+    /* padding-left: 10%;
+    padding-right: 10%; */
+    margin: 4%;
+}
+.addButton{
+background-color: '#92a91d' ! ;
 }

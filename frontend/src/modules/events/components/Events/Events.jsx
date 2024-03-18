@@ -68,6 +68,7 @@ export function Events({
           flexDirection: 'row',
           flexWrap: 'wrap;',
           gap: '5em;',
+          justifyContent: 'center;',
           flexBasis: 'fit-content' }}>
             {events.map((event, index) => (
               <Grid item key={index} xs={12} sm={6} md={5}>

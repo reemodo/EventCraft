@@ -5,10 +5,10 @@ export function TopContainer({}) {
     <>
 
   {/* Video player */}
-  <div className="container">    
-  <div style={{ maxWidth:'75%', paddingTop:' 20px',
+  <div className="container component">    
+  <div style={{ maxWidth:'60%',maxHeight:'60%', paddingTop:' 20px',
     textAlign:'center',
-    fontSize: '2em',          fontFamily: "Quintessential"}}>
+    fontSize: '3vw',          fontFamily: "Quintessential"}}>
  
   <ReactPlayer
     url={require("./IconsSource/basicVideo.mp4")}
