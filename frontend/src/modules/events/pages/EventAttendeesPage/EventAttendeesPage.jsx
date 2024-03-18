@@ -40,7 +40,7 @@ export const EventAttendeesPage = () => {
           />
         )}
       </Card>
-      <Button onClick={handelEmail}>hello</Button>
+      <Button>hello</Button>
     </Layout>
   );
 };
