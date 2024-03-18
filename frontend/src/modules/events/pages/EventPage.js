@@ -14,6 +14,11 @@ import { Icon } from "leaflet";
 import { formatDate } from "../../shared/dayjs.utils";
 
 import "leaflet/dist/leaflet.css";
+import {
+  getEventLocationLat,
+  getEventLocationLng,
+  getEventLocationTitle,
+} from "../event.utils";
 
 function EventPage({ imageUrl, lat, lng }) {
   const { id } = useParams();
@@ -25,8 +30,8 @@ function EventPage({ imageUrl, lat, lng }) {
   const [event, setEvent] = useState();
 
   const position = [
-    event?.location.split(":")[1] || lat,
-    event?.location.split(":")[2] || lng,
+    getEventLocationLat(event?.location) || lat,
+    getEventLocationLng(event?.location) || lng,
   ];
 
   const dispatch = useDispatch();
@@ -77,6 +82,7 @@ function EventPage({ imageUrl, lat, lng }) {
           </Typography>
           <Typography variant="body1" color="text.secondary" gutterBottom>
             <strong>Location:</strong>
+            {getEventLocationTitle(event?.location)}
           </Typography>
 
           <MapContainer
