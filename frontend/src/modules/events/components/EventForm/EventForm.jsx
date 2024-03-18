@@ -47,8 +47,8 @@ const validationSchema = Yup.object({
 
 const initCardItem = {
   type: ItemTypes.TEXT,
-  left: 180,
-  top: 20,
+  left: 20,
+  top: 90 ,
   position: "absolute",
   text: "",
   fontSize: 40,
@@ -59,7 +59,7 @@ const initCardItem = {
 const initCardItem2 = {
   type: ItemTypes.TEXT,
   left: 20,
-  top: 90 ,
+  top: 190 ,
   position: "absolute",
   text: "",
   fontSize: 20,
@@ -168,6 +168,7 @@ export const EventForm = ({ isAddFlow, model }) => {
           ...formValues,
           card: {
             items: [
+              { ...initCardItem2, text: formValues.description },
               { ...initCardItem, text: formValues.title },
               {
                 ...initBgImageCardItem,
@@ -281,6 +282,8 @@ export const EventForm = ({ isAddFlow, model }) => {
                   ref={exportRef}
                   title={props.values.title}
                   item={initCardItem}
+                  descTitle={props.values.description}
+                  descItem={initCardItem2}
                   bgItem={initBgImageCardItem}
                   model={model}
                   bgUrl={bgCategoryImages[props.values.category]}

@@ -4,23 +4,22 @@ import { CardListItem } from "../CardListItem/CardListItem";
 
 import { Box } from "@mui/material";
 
-export const CardView = forwardRef(({ title, item, model, bgItem, bgUrl }, ref) => {
+export const CardView = forwardRef(({ title, item,descTitle,descItem, model, bgItem, bgUrl }, ref) => {
   const list = !!model
     ? model.cardItems
     : [
         {
-          ...item[0],
-          text: title[0],
+          ...item,
+          text: title,
         },
         {
-          ...item[1],
-          text: title[1],
+          ...descItem,
+          text: descTitle,
         }
       ];
-
-    const listWithBgImag =
+      const listWithBgImag =
       !model && bgUrl ? [...list, { ...bgItem, src: bgUrl }] : list;
-
+    
     return (
       <Box
         sx={{
