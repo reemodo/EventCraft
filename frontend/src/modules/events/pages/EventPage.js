@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { CardContent, CardMedia, Typography } from "@mui/material";
-import { MapContainer } from "react-leaflet/MapContainer";
-import { TileLayer } from "react-leaflet/TileLayer";
-import { Marker } from "react-leaflet/Marker";
-import { Popup } from "react-leaflet/Popup";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useParams } from "react-router-dom";
 import { useEventHelpers } from "../hooks/useEventHelper";
 import { rdxEventsActions } from "../rdx/events.rdx";
 import { useDispatch } from "react-redux";
 import Layout from "../../landing/Layout";
 import { Icon } from "leaflet";
-
 import { formatDate } from "../../shared/dayjs.utils";
-
 import "leaflet/dist/leaflet.css";
+import "./EventPage.css"; // Import your CSS file for additional styling
+import { alignProperty } from "@mui/material/styles/cssUtils";
 import {
   getEventLocationLat,
   getEventLocationLng,
@@ -47,53 +44,48 @@ function EventPage({ imageUrl, lat, lng }) {
       }
     })();
   }, [id, getEvent, dispatch]);
+
   if (pendingGetEvent) return <div>Loading...</div>;
   if (!event || event.length === 0) {
     return <div>empty</div>;
   }
-  return (
-    <>
-      <Layout>
-        <CardMedia
-          component="img"
-          sx={{
-            width: "100vh",
-            objectFit: "cover",
-            height: "550px",
-            margin: "auto",
-          }}
-          image={event.card.img}
-          alt="Event"
-        />
-        <CardContent sx={{ flex: "1" }}>
-          <Typography variant="h5" component="div" gutterBottom>
-            {event.title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            <strong>Additional Information:</strong>
-            <br />
-            {event.description}
-          </Typography>
-          <Typography variant="body1" color="text.secondary" gutterBottom>
-            <strong>startDate:</strong> {formatDate(event.startDate)}
-            <br />
-            <strong xs={{ paddingRight: 50 }}>EndDate:</strong>{" "}
-            {formatDate(event.endDate)}
-          </Typography>
-          <Typography variant="body1" color="text.secondary" gutterBottom>
-            <strong>Location:</strong>
-            {getEventLocationTitle(event?.location)}
-          </Typography>
 
+  return (
+    <Layout>
+      <div className="event-page-container">
+      <CardMedia
+        component="img"
+        className="event-image"
+        image={event.card.img}
+        alt="Event"
+      />
+      <div className="text-container">
+      <CardContent >
+        <h1 className="event-title" >
+          {event.title}
+        </h1>
+        <Typography align="center" variant="h5" color="text.secondary" className="event-description">
+          <strong>Additional Information:</strong>
+          <br />
+          {event.description}
+        </Typography>
+        <Typography align="center" variant="h5" color="text.secondary" className="event-date">
+          <strong >Start Date:</strong> {formatDate(event.startDate)}
+          <br/>
+          <strong xs={{ paddingRight: 50 }}>End Date:</strong>{" "} {formatDate(event.endDate)}
+        </Typography>
+        <Typography align="center" variant="h5" color="text.secondary" className="event-location">
+          <strong>Location:</strong>
+          {getEventLocationTitle(event?.location)}
+        </Typography>
+
+      </CardContent>
+      </div>
+      <div className="map-container">
           <MapContainer
             center={position}
-            zoom={17}
-            style={{
-              width: 1000,
-              height: 300,
-              margin: "auto",
-              marginBottom: 10,
-            }}
+            zoom={18}
+            className="map"
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -103,9 +95,9 @@ function EventPage({ imageUrl, lat, lng }) {
               <Popup>Hello I'm Here!</Popup>
             </Marker>
           </MapContainer>
-        </CardContent>
-      </Layout>
-    </>
+        </div>
+      </div>
+    </Layout>
   );
 }
 
