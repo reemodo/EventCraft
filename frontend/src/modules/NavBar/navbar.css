@@ -34,13 +34,11 @@
   background-image: url('EVENT.gif');
   background-size: contain;
   background-repeat: no-repeat;
-  margin-right: 50px;
   transition: transform 0.3s ease;
   justify-content: left;
   display: inline-flex;
-  width: 100px;
-  height: 100px;
-
+  width: 4vw;
+  height:  4vw;
 }
 
 .logoImage:hover {

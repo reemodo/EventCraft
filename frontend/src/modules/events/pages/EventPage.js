@@ -11,6 +11,11 @@ import { formatDate } from "../../shared/dayjs.utils";
 import "leaflet/dist/leaflet.css";
 import "./EventPage.css"; // Import your CSS file for additional styling
 import { alignProperty } from "@mui/material/styles/cssUtils";
+import {
+  getEventLocationLat,
+  getEventLocationLng,
+  getEventLocationTitle,
+} from "../event.utils";
 
 function EventPage({ imageUrl, lat, lng }) {
   const { id } = useParams();
@@ -22,8 +27,8 @@ function EventPage({ imageUrl, lat, lng }) {
   const [event, setEvent] = useState();
 
   const position = [
-    event?.location.split(":")[1] || lat,
-    event?.location.split(":")[2] || lng,
+    getEventLocationLat(event?.location) || lat,
+    getEventLocationLng(event?.location) || lng,
   ];
 
   const dispatch = useDispatch();
@@ -55,7 +60,7 @@ function EventPage({ imageUrl, lat, lng }) {
         alt="Event"
       />
       <div className="text-container">
-      <CardContent>
+      <CardContent sx={{ flex: "1" }}>
         <h1 className="event-title" >
           {event.title}
         </h1>
@@ -67,10 +72,11 @@ function EventPage({ imageUrl, lat, lng }) {
         <Typography align="center" variant="h5" color="text.secondary" className="event-date">
           <strong >Start Date:</strong> {formatDate(event.startDate)}
   
-          <strong >  End Date:</strong> {formatDate(event.endDate)}
+          <strong xs={{ paddingRight: 50 }}>End Date:</strong>{" "} {formatDate(event.endDate)}
         </Typography>
         <Typography align="center" variant="h5" color="text.secondary" className="event-location">
           <strong>Location:</strong>
+          {getEventLocationTitle(event?.location)}
         </Typography>
 
       </CardContent>

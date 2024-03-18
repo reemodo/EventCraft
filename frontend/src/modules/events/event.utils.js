@@ -13,3 +13,14 @@ export const eventFormData = (data) => {
 
   return formData;
 };
+
+export const getEventLocationTitle = (location) => {
+  return location?.split(":")[0];
+};
+export const getEventLocationLat = (location) => {
+  return location?.split(":")[1];
+};
+
+export const getEventLocationLng = (location) => {
+  return location?.split(":")[2];
+};

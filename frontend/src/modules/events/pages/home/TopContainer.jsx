@@ -5,10 +5,10 @@ export function TopContainer({}) {
     <>
 
   {/* Video player */}
-  <div className="container">    
-  <div style={{ maxWidth:'100%', paddingTop:' 70px',
+  <div className="container component">    
+  <div style={{ maxWidth:'60%',maxHeight:'60%', paddingTop:' 20px',
     textAlign:'center',
-    fontSize: '40px'}}>
+    fontSize: '3vw',          fontFamily: "Quintessential"}}>
  
   <ReactPlayer
     url={require("./IconsSource/basicVideo.mp4")}
@@ -19,8 +19,7 @@ export function TopContainer({}) {
     height="100%"
     style={{ position: "", top: 0, left: 0 }}
   />
-Precision in Planning,
-Excellence in Execution
+ Crafting and managing memorable events with precision and creativity
   </div>
 
     </div>

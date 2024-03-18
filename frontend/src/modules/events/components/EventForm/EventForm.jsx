@@ -34,6 +34,11 @@ import { ItemTypes } from "../../card/components/CardEdit/CardEdit";
 import { Map } from "../../../shared/components/Map/Map";
 
 import { useGeolocation } from "../../../shared/hooks/useGeolocation/useGeolocation";
+import {
+  getEventLocationLat,
+  getEventLocationLng,
+  getEventLocationTitle,
+} from "../../event.utils";
 
 const validationSchema = Yup.object({
   category: Yup.string().required("category is required"),
@@ -47,16 +52,49 @@ const validationSchema = Yup.object({
 
 const initCardItem = {
   type: ItemTypes.TEXT,
-  left: 0,
-  top: 0,
+  left: 20,
+  top: 90 ,
   position: "absolute",
   text: "",
-  fontSize: 50,
+  fontSize: 40,
   decoration: "",
   style: "",
   color: "",
+  zIndex: 3,
+};
+const initCardItem2 = {
+  type: ItemTypes.TEXT,
+  left: 20,
+  top: 190 ,
+  position: "absolute",
+  text: "",
+  fontSize: 20,
+  decoration: "",
+  style: "",
+  color: "",
+  zIndex: 1,
 };
 
+const initBgImageCardItem = {
+  type: ItemTypes.IMAGE,
+  left: 0,
+  top: 0,
+  position: "absolute",
+  style: "",
+  color: "",
+  width: "500",
+  height: "300",
+  zIndex: 0,
+};
+
+const bgCategoryImages = {
+  wedding:
+    "https://images.unsplash.com/photo-1518554581070-c6049f9d28d8?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  party:
+    "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  sport:
+    "https://images.unsplash.com/photo-1556056504-5c7696c4c28d?q=80&w=1876&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+};
 const publicPrivate = [
   { name: "Public", value: true },
   { name: "Private", value: false },
@@ -72,8 +110,9 @@ export const EventForm = ({ isAddFlow, model }) => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
 
-  const [addEvent] = useAddEventMutation();
-  const [updateEvent] = useUpdateEventMutation();
+  const [addEvent, { isLoading: pendingAddEvent }] = useAddEventMutation();
+  const [updateEvent, { isLoading: pendingEditEvent }] =
+    useUpdateEventMutation();
 
   const exportRef = useRef(null);
   const formikRef = useRef(null);
@@ -83,8 +122,8 @@ export const EventForm = ({ isAddFlow, model }) => {
   });
 
   const position = [
-    model?.location.split(":")[1] ?? 32.81781057069659,
-    model?.location.split(":")[2] ?? 35.00259862330999,
+    getEventLocationLat(model?.location) ?? 32.81781057069659,
+    getEventLocationLng(model?.location) ?? 35.00259862330999,
   ];
 
   const onSaveCard = async () => {
@@ -101,24 +140,21 @@ export const EventForm = ({ isAddFlow, model }) => {
     iconSize: [38, 38],
   });
 
+  const timeoutRef = useRef(null);
+
   const fetchData = (value) => {
+    const url = `https://geocode.maps.co/search?q=${value}&api_key=${process.env.REACT_APP_FREE_GEO_API_KEY}`;
     if (value) {
-      fetch(
-        `https://dev.virtualearth.net/REST/v1/Locations?q=${value}&key=At9eDSmuRlIFv8AYYWu-9AZxH3oxgpF_bpeQbKiwKrxOmYr9Coxwk-qGJRW_3FL4`
-      )
-        .then((response) => response.json())
-        .then((json) => {
-          const results = json.resourceSets[0].resources.filter((user) => {
-            return (
-              value &&
-              user &&
-              user.name &&
-              user.name.toLowerCase().includes(value)
-            );
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        fetch(url)
+          .then((response) => response.json())
+          .then((results) => {
+            console.log(results);
+
+            setResults(results);
           });
-          console.log(results);
-          setResults(results);
-        });
+      }, 500);
     }
   };
 
@@ -134,7 +170,14 @@ export const EventForm = ({ isAddFlow, model }) => {
         const eventData = await addEvent({
           ...formValues,
           card: {
-            items: [{ ...initCardItem, text: formValues.title }],
+            items: [
+              { ...initCardItem2, text: formValues.description },
+              { ...initCardItem, text: formValues.title },
+              {
+                ...initBgImageCardItem,
+                src: bgCategoryImages[formValues.category],
+              },
+            ],
           },
           userId: user.currentUser.id,
         });
@@ -160,16 +203,39 @@ export const EventForm = ({ isAddFlow, model }) => {
   };
 
   const onChangeMapMarker = useCallback(
-    (data) => {
+    async (data) => {
+      const location = await (
+        await fetch(
+          `https://geocode.maps.co/reverse?lat=${data.lat}&lon=${data.lng}&api_key=${process.env.REACT_APP_FREE_GEO_API_KEY}`
+        )
+      ).json();
+
       setCurrentPosition(data);
       formikRef.current?.setFieldValue(
         "location",
-        `${formikRef.current?.values.location.split(":")[0]}:${data.lat}:${
-          data.lng
-        }`
+        `${location["display_name"]}:${data.lat}:${data.lng}`
       );
     },
     [setCurrentPosition]
+  );
+
+  const onChangeLocation = useCallback(
+    (e, value) => {
+      const location = Results.find((loc) => loc.display_name === value);
+
+      const lat = location?.lat;
+      const lng = location?.lon;
+
+      if (lng && lat) {
+        setCurrentPosition({ lng, lat });
+      }
+      if (value && lat && lng) {
+        formikRef.current.setFieldValue("location", `${value}:${lat}:${lng}`);
+      } else {
+        formikRef.current.setFieldValue("location", ``);
+      }
+    },
+    [Results, setCurrentPosition]
   );
 
   const initFormValues = useMemo(() => {
@@ -194,6 +260,7 @@ export const EventForm = ({ isAddFlow, model }) => {
       validationSchema={validationSchema}
       enableReinitialize
       validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={async (values) => {
         if (isAddFlow) {
           const img = await onSaveCard();
@@ -218,7 +285,11 @@ export const EventForm = ({ isAddFlow, model }) => {
                   ref={exportRef}
                   title={props.values.title}
                   item={initCardItem}
+                  descTitle={props.values.description}
+                  descItem={initCardItem2}
+                  bgItem={initBgImageCardItem}
                   model={model}
+                  bgUrl={bgCategoryImages[props.values.category]}
                 />
               </Box>
 
@@ -290,6 +361,7 @@ export const EventForm = ({ isAddFlow, model }) => {
                     multiline
                     error={!!props.errors.description}
                     helperText={props.errors.description ?? ""}
+                    item={initCardItem2}
                   />
 
                   {/* location */}
@@ -306,30 +378,13 @@ export const EventForm = ({ isAddFlow, model }) => {
                         type="text"
                         label="location"
                         variant="outlined"
-                        value={field.value.split(":")[0]}
-                        onChange={(e, value) => {
-                          const location = Results.find(
-                            (loc) => loc.name === value
-                          );
-                          console.log("🚀 ~ location:", value);
-
-                          const lat = location?.geocodePoints[0].coordinates[0];
-                          const lng = location?.geocodePoints[0].coordinates[1];
-                          if (lng && lat) {
-                            setCurrentPosition({ lng, lat });
-                          }
-                          if (value && lat && lng) {
-                            props.setFieldValue(
-                              "location",
-                              `${value}:${lat}:${lng}`
-                            );
-                          } else {
-                            props.setFieldValue("location", ``);
-                          }
-                        }}
+                        value={getEventLocationTitle(field.value)}
+                        onChange={onChangeLocation}
                         error={!!props.errors.location}
                         helperText={props.errors.location ?? ""}
-                        options={Results?.map((option) => option.name) || []}
+                        options={
+                          Results?.map((option) => option.display_name) || []
+                        }
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -383,7 +438,11 @@ export const EventForm = ({ isAddFlow, model }) => {
                     direction={"row"}
                     spacing={2}
                   >
-                    <LoadingButton type="submit" variant="contained">
+                    <LoadingButton
+                      type="submit"
+                      variant="contained"
+                      loading={pendingAddEvent || pendingEditEvent}
+                    >
                       {isAddFlow ? "Add" : "Edit"}
                     </LoadingButton>
                   </Stack>

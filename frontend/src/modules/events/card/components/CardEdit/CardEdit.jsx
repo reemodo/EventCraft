@@ -251,6 +251,7 @@ export const CardEdit = () => {
         >
           <LoadingButton
             color="secondary"
+            loading={pendingUpdateEventCard}
             sx={{
               position: "absolute",
               top: 10,
@@ -279,7 +280,10 @@ export const CardEdit = () => {
                 {items?.map((item, idx) => (
                   <CardItem
                     key={item.uuid}
-                    item={{ ...item, zIndex: item.zIndex ? item.zIndex : idx }}
+                    item={{
+                      ...item,
+                      zIndex: item.zIndex !== undefined ? item.zIndex : idx,
+                    }}
                     card={card}
                     text={
                       selectedCardItemRef.current

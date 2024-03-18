@@ -1,20 +1,18 @@
 import React from "react";
 import { Box, Container, Toolbar } from "@mui/material";
-const path = '../../images/baseImg.jpg'
+
 const Layout = ({ children }) => {
   return (
     <>
       <Box
         component="main"
         sx={{
-        
           flexGrow: 1,
-       
-          
+          mt:9
         }}
       >
-        <Toolbar />
-        <Container maxWidth="lg" sx={{ mt: 4 }}>
+     
+        <Container maxWidth="lg" sx={{ mt:5, minWidth:' -webkit-fill-available' }}>
           {children}
         </Container>
       </Box>
