@@ -18,28 +18,32 @@ export const CardView = forwardRef(({ title, item, model }, ref) => {
         }
       ];
 
-  return (
-    <Box
-      sx={{
-        position: "relative",
-        width: "500px",
-        height: "300px",
-        backgroundColor: "white",
-        mt: 2,
-      }}
-      overflow={"hidden"}
-      ref={ref}
-    >
-      <Box sx={{ width: "100%", height: "100%" }}>
-        {list.map((item) => (
-          <CardListItem
-            item={{
-              ...item,
-            }}
-            key={item._id}
-          />
-        ))}
+    const listWithBgImag =
+      !model && bgUrl ? [...list, { ...bgItem, src: bgUrl }] : list;
+
+    return (
+      <Box
+        sx={{
+          position: "relative",
+          width: "500px",
+          height: "300px",
+          backgroundColor: "white",
+          mt: 2,
+        }}
+        overflow={"hidden"}
+        ref={ref}
+      >
+        <Box sx={{ width: "100%", height: "100%" }}>
+          {listWithBgImag.map((item, idx) => (
+            <CardListItem
+              item={{
+                ...item,
+              }}
+              key={item._id || idx}
+            />
+          ))}
+        </Box>
       </Box>
-    </Box>
-  );
-});
+    );
+  }
+);
