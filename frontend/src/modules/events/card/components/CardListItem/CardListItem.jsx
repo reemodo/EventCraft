@@ -29,6 +29,7 @@ export const CardListItem = ({ item }) => {
         position: item.position,
         top: item.top,
         left: item.left,
+        zIndex: item.zIndex,
       }}
     >
       <ListItem item={item} />
