@@ -1,20 +1,27 @@
 const jwt = require("jsonwebtoken");
 const secretKey = "my_secret_key";
-const filterAllEventsField = function (startDate, endDate, location, category) {
+const filterAllEventsField = function (filterParams) {
   const filter = {};
-  if (startDate) {
-    filter.startDate = startDate;
+  if (filterParams.startDate) {
+    filter.startDate = filterParams.startDate;
   }
-  if (endDate) {
-    filter.endDate = endDate;
+  if (filterParams.endDate) {
+    filter.endDate = filterParams.endDate;
   }
-  if (location) {
-    filter.location = location;
+  if (filterParams.location) {
+    const regexPattern = new RegExp(`^${filterParams.location}`, 'i');
+    filter.location = { $regex: regexPattern}
   }
-  if (category) {
-    filter.category = category;
+  if (filterParams.category) {
+    filter.category = filterParams.category;
   }
-
+  if (filterParams.description){
+    filter.description = filterParams.description
+  }
+  if(filterParams.title){
+    const regexPattern = new RegExp(`^${filterParams.title}`, 'i');
+    filter.title = { $regex: regexPattern}
+  }
   return filter;
 };
 

@@ -1,0 +1,46 @@
+
+.navbar {
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 3px solid  rgba(126, 126, 126, 0.354);
+  background-color: white;
+  padding-left: 50px;
+}
+
+.menuIconButton {
+  margin-right: 36px;
+}
+
+.logoTypography {
+  flex-grow: 1;
+}
+
+.aboutButton,
+.loginButton {
+  color:"#aac22b" !important;
+}
+
+.chevronIconButton {
+  margin-left: 8px;
+}
+
+.divider {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+
+.logoImage {
+  background-image: url('EVENT.gif');
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: transform 0.3s ease;
+  justify-content: left;
+  display: inline-flex;
+  width: 4vw;
+  height:  4vw;
+}
+
+.logoImage:hover {
+  transform: scale(1.1);
+}

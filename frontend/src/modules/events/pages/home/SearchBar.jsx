@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import FilterForm from './FilterForm';
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -43,18 +45,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
+      width: '30ch',
     },
   },
 }));
 
-export default function SearchBar(props) {
+
+export default function SearchBar({handelSearch, handleFilter, events}) {
+  const [searchTitle, setSearchTitle]= useState('');
+  
+  const handelSearchInput = (title) => {
+    setSearchTitle(title)
+    handelSearch(title)
+  }
+  
   return (
-    <Box sx={{ flexGrow: 10 , backgroundColor: '#d5eed6', paddingLeft: '150px'}}>
-          <Search sx={{maxWidth: '610px'}}>
+    <Box sx={{}}>
+          <Search sx={{maxWidth: '510px', display:'flex', marginLeft: '10%;' }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -62,8 +69,11 @@ export default function SearchBar(props) {
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
               width="30px"
-            />
+              onChange={(e) => handelSearchInput(e.target.value)}
+              />
           </Search>
+      
+    
     </Box>
   );
 }

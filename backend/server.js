@@ -3,9 +3,13 @@ const app = express();
 const api = require("./server/routes/events_API");
 const userAPI = require("./server/routes/users_API");
 const cardAPI = require("./server/routes/cards_API");
+const cloudAPI = require("./server/routes/cloud_API");
+
 const itemAPI = require("./server/routes/items_API");
+const externalAPI = require("./server/routes/external_API");
 
 const path = require("path");
+
 const dbManager = require("./server/events-DB-Server");
 const { port } = require("./constants");
 
@@ -24,7 +28,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/events", api);
 app.use("/user", userAPI);
 app.use("/cards", cardAPI);
+
+app.use("/cloud", cloudAPI);
+
 app.use("/items", itemAPI);
+app.use("/external", externalAPI);
 
 dbManager.connectToDB();
 

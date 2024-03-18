@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardActionArea,
@@ -8,36 +8,124 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { useTheme } from "@mui/material";
-import { rdxSitesActions } from "../../rdx/events.rdx";
-import { useDispatch } from "react-redux";
+
+import { ActionsList } from "./ActionsList";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useEventHelpers } from "../../hooks/useEventHelper";
+import { LoadingButton } from "@mui/lab";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import CustomSnackbar from "../../../shared/components/CustomSnackbar/CustomSnackbar";
+import QRCode from "qrcode.react";
 
-export const EventCard = ({ event, inHomePage, editModel }) => {
-  const theme = useTheme();
+export const EventCard = ({
+  event,
+  inHomePage,
+  handelSetEventLists,
+  userJoined,
+  onJoinEvent,
+  onCancelJoinEvent,
+}) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  const handelEventClick = (event) => {
-    if (inHomePage) {
-      dispatch(rdxSitesActions.setSelectedEvent(event));
-      navigate(`/eventPage`);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const {
+    joinEvent,
+    pendingJoinEvent,
+    cancelJoinedEvent,
+    pendingCancelJoinedEvent,
+  } = useEventHelpers();
+
+  const rdxUser = useSelector((state) => state.user);
+  const [Url, setUrl] = useState("");
+  const downloadQR = () => {
+    const canvas = document.getElementById("123456");
+    const pngUrl = canvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    let downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = "123456.png";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  };
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
+  const handelEventClick = (e) => {
+    navigate(`/eventPage/${event._id}`);
+  };
+
+  const onUserJoinEvent = async (e) => {
+    if (rdxUser.loggedIn) {
+      e.stopPropagation();
+      const eventJoined = await joinEvent(rdxUser.currentUser.id, event._id);
+
+      if (eventJoined?._id) {
+        onJoinEvent(event, rdxUser.currentUser.id);
+      }
     } else {
-      editModel();
+      setOpenSnackbar(true);
+    }
+  };
+
+  const handleWhatsAppShare = () => {
+    const imageUrl = event.cardID?.img;
+    const location = event.location.split(":")[0];
+    const text = event.title;
+    const currentDate = new Date().toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    console.log("Image URL:", imageUrl); // Log the image URL to verify correctness
+
+    const message = `
+
+      Location: ${location}
+              
+      Text: ${text}
+              
+      Date: ${currentDate}
+              
+      Event Poster: ${imageUrl}
+      `;
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
+  const onCancelUserJoinEvent = async (e) => {
+    e.stopPropagation();
+    const eventJoined = await cancelJoinedEvent(
+      rdxUser.currentUser.id,
+      event._id
+    );
+
+    if (eventJoined?._id) {
+      onCancelJoinEvent(event, rdxUser.currentUser.id);
     }
   };
 
   return (
     <>
-      <Card sx={{ width: 350 }} onClick={() => handelEventClick(event)}>
+      <Card sx={{ width: "18em;", height: "20em;" }}>
         <CardActionArea>
           <CardMedia
             component="img"
-            height="140"
-            image="https://img.freepik.com/free-vector/hand-drawn-wedding-invitation_23-2149091987.jpg?size=626&ext=jpg"
+            height="160"
+            sx={{ objectFit: "fill" }}
+            objectFit={"cover"}
+            image={event.cardID?.img}
             alt="green iguana"
+            onClick={handelEventClick}
           />
-          <CardContent>
+          <CardContent sx={{ height: "100px" }}>
             <Typography gutterBottom variant="h6" component="div">
               {event.title.charAt(0).toUpperCase() + event.title.substring(1)}
             </Typography>
@@ -45,7 +133,7 @@ export const EventCard = ({ event, inHomePage, editModel }) => {
               {event.description}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {event.location}
+              {event?.location?.split(":")[0]}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {event.date}
@@ -53,11 +141,64 @@ export const EventCard = ({ event, inHomePage, editModel }) => {
           </CardContent>
         </CardActionArea>
         <CardActions className="cardActions">
-          <Button disableSpacing size="small" color="secondary">
-            {inHomePage ? "join" : "delete"}
-          </Button>
+          {inHomePage && !userJoined && (
+            <LoadingButton
+              loading={pendingJoinEvent}
+              disableSpacing
+              size="small"
+              color="secondary"
+              onClick={onUserJoinEvent}
+            >
+              join
+            </LoadingButton>
+          )}
+          {rdxUser.loggedIn && (
+            <>
+              {inHomePage && userJoined && (
+                <LoadingButton
+                  loading={pendingCancelJoinedEvent}
+                  disableSpacing
+                  size="small"
+                  color="secondary"
+                  onClick={onCancelUserJoinEvent}
+                >
+                  cancel
+                </LoadingButton>
+              )}
+
+              {!inHomePage && (
+                <>
+                  <QRCode
+                    id="123456"
+                    value="http://localhost:3000/eventPage/_id"
+                    size={35}
+                    level={"H"}
+                    includeMargin={true}
+                    onClick={downloadQR}
+                  />
+                  <WhatsAppIcon
+                    color="secondary"
+                    onClick={handleWhatsAppShare}
+                  />
+                  <Button disableSpacing size="small" color="secondary">
+                    <ActionsList
+                      event={event}
+                      handelSetEventLists={handelSetEventLists}
+                    />
+                  </Button>
+                </>
+              )}
+            </>
+          )}
         </CardActions>
       </Card>
+      <CustomSnackbar
+        color="warning"
+        open={openSnackbar}
+        handleClose={handleCloseSnackbar}
+        message="Please log in to join the event."
+        severity="warning"
+      />
     </>
   );
 };
