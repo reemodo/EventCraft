@@ -250,6 +250,20 @@ class eventCollManager {
 
     return orderedEvents;
   }
+  static async filterMyEventsByTitle(id, title) {
+    const filteredFields = filterAllEventsField({
+      id,
+      title,
+    });
+    const events = await Event.find(filteredFields)
+      .sort({
+        startDate: 1,
+      })
+      .populate("cardID")
+      .populate("attendance", "name");
+
+    return events;
+  }
   static async findJoinedEvents(userId) {
     const joinedEvents = await Event.find({ attendance: userId });
     return joinedEvents;
