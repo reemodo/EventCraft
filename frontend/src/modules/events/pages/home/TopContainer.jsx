@@ -3,8 +3,6 @@ import ReactPlayer from "react-player";// Import your GIF file
 export function TopContainer({}) {
   return (
     <>
-
-  {/* Video player */}
   <div className="container component">    
   <div style={{ maxWidth:'100%',maxHeight:'100%',
     textAlign:'center',

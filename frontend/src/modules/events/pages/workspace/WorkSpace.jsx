@@ -103,7 +103,6 @@ export const WorkSpace = (props) => {
                 height: 'fit-content;'
               }}
               variant="contained"
-              className="addButton"
             >
               Add Event
             </Button>
@@ -131,7 +130,6 @@ export const WorkSpace = (props) => {
                 height: 'fit-content;'
               }}
               variant="contained"
-              className="addButton"
             >
               Add Event
             </Button>

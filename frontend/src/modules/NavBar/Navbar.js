@@ -106,7 +106,7 @@ const Navbar = () => {
 
         <AppBar position="absolute" open={open}>
           <Toolbar xs={{ display: "flex" }}>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ display: "flex", alignItems: "center" ,     width:'40%', justifyContent:'space-between'}}>
               {rdxEvents.isEditingEventCard && (
                 <IconButton
                   edge="start"
@@ -155,15 +155,21 @@ const Navbar = () => {
                   fontFamily= "Quintessential"
                   fontWeight={700}
                   fontSize={'calc(12px + 0.9vw)'}
+                  background= '#aac22b94;'
                 >
                   <Link
                     to="/workspace"
                     style={{
-                      color: "black",
-                      textDecoration: "none",
+                      color: "white",
+                  
                     }}
                   >
-                    workspace
+                   <Button
+                    xs={{
+                      color: '#aac22b;',
+                
+                    }}>
+                      Workspace </Button> 
                   </Link>
                 </Typography>
               )}

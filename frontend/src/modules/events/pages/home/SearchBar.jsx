@@ -10,11 +10,11 @@ import SearchIcon from "@mui/icons-material/Search";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: "transparent",
+  backgroundColor: "white",
   transition: "background-color 0.3s, box-shadow 0.5s",
   boxShadow: "8px 4px 8px rgba(0, 0, 0, 0.1),-4px -2px 10px rgba(0, 0, 0, 0.2)",
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.05),
+    backgroundColor:'rgb(255 255 255 / 82%);',
     boxShadow:
       "12px 12px 16px rgba(0, 0, 0, 0.2),-4px -2px 10px rgba(0, 0, 0, 0.2)",
   },
@@ -26,6 +26,7 @@ const Search = styled("div")(({ theme }) => ({
 }));
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   borderRadius: "50px",
+  color:'black',
   padding: theme.spacing(0, 2),
   height: "100%",
   position: "absolute",
