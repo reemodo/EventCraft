@@ -17,8 +17,9 @@ import CustomSnackbar from "../../../shared/components/CustomSnackbar/CustomSnac
 
 export const WorkSpace = (props) => {
   const navigate = useNavigate();
-  const [filteredEvents, setFilteredEvents] = useState({});
+  // const [filteredEvents, setFilteredEvents] = useState({});
   const [eventsList, setEventsList] = useState([]);
+  const [viewEventsList, setViewEventsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -32,6 +33,7 @@ export const WorkSpace = (props) => {
       try {
         const data = await fetchMyEvents();
         setEventsList(data);
+        setViewEventsList(data);
         setIsLoading(false);
       } catch (error) {
         setError(error);
@@ -48,8 +50,12 @@ export const WorkSpace = (props) => {
   };
 
   const handelSearch = (title) => {
-    const newFilter = { ...filteredEvents, title };
-    setFilteredEvents(newFilter);
+    // const newFilter = { ...filteredEvents, title };
+    // setFilteredEvents(newFilter);
+
+    setViewEventsList(
+      eventsList.filter((event) => event.title.includes(title))
+    );
   };
 
   const onOpenCreateModel = () => {
@@ -149,7 +155,7 @@ export const WorkSpace = (props) => {
         {!isLoading && (
           <Events
             inHomePage={false}
-            events={eventsList}
+            events={viewEventsList}
             handelSetEventLists={onDeleteEvent}
           />
         )}
