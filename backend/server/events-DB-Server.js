@@ -10,7 +10,8 @@ const cards = require("../cards.json");
 class DBManager {
   static connectToDB() {
     mongoose.connect(
-      process.env.MONGODB_URI || "mongodb://localhost/EventCraft-DB",
+      process.env.MONGODB_URI ||
+        "mongodb+srv://sujoodeldda:1234Sujood@cluster0.7zt0bzv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
       { useNewUrlParser: true }
     );
   }
