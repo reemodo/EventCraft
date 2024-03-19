@@ -56,7 +56,7 @@ function EventPage({ imageUrl, lat, lng }) {
 
   return (
     <Layout>
-      <Button onClick={() => navigate(-1)} variant="outlined"   startIcon={<ArrowBackIcon />}>
+      <Button onClick={() => navigate(-1)} variant="outlined" color="secondary"   startIcon={<ArrowBackIcon />}>
         Back
       </Button>
       <div className="event-page-container">
