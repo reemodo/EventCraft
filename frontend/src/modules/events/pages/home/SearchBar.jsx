@@ -20,35 +20,20 @@ const Search = styled('div')(({ theme }) => ({
     backgroundColor: alpha(theme.palette.common.white, 0.05),
     boxShadow: '12px 16px 16px rgba(0, 0, 0, 0.2)',
   },
-  
+  width: '700px', 
   margin: '0 auto', 
   borderRadius: '50px',
   display: 'flex',
   alignItems: 'center',
 }));
-const SearchIconWrapper = styled('div')(({ theme }) => ({	  borderRadius: '50px',
-  padding: theme.spacing(0, 2),	
-  height: '100%',	
-  position: 'absolute',	
-  pointerEvents: 'none',	
-  display: 'flex',	  display: 'flex',
-  alignItems: 'center',	  alignItems: 'center',
-  justifyContent: 'center',	
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  flex: 1,
+  padding: theme.spacing(1, 1, 1, 2),
+  marginLeft: theme.spacing(0), // Adjusting the left margin
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({	
-  color: '#111',
-  width: '100%',	
-  '& .MuiInputBase-input': {	
-    padding: theme.spacing(1, 1, 1, 0),	 
-    // vertical padding + font size from searchIcon	
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,	
-    transition: theme.transitions.create('width'),	
-    [theme.breakpoints.up('sm')]: {	
-      width: '30ch',	
-    },	
-  },	
-}));
 export default function SearchBar({ handelSearch, handleFilter, events }) {
   const [searchTitle, setSearchTitle] = useState('');
 
@@ -58,11 +43,8 @@ export default function SearchBar({ handelSearch, handleFilter, events }) {
   };
 
   return (
-    <Box sx={{ width: '70%;'}}>
+    <Box sx={{}}>
       <Search>
-      <SearchIconWrapper>	     
-              <SearchIcon />	        
-            </SearchIconWrapper>
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ 'aria-label': 'search' }}
