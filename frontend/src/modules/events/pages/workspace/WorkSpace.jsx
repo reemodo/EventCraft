@@ -64,35 +64,79 @@ export const WorkSpace = (props) => {
           fontWeight={900}
           component="h1"
           mb={3}
-          m={5}
+          m='9%'
           variant="h6"
           alignSelf={"center"}
         >
           Which event you will manage today
         </Typography>
-        <div className="iconContainer">
-          <SearchBar handelSearch={handelSearch} />
-          <Button
-            onClick={onOpenCreateModel}
-            sx={{
-              color: "secondary.contrastText",
-              backgroundColor: "secondary.main",
-              "--Grid-borderWidth": "1px",
-              borderRadius: "40px",
-              borderTop: "var(--Grid-borderWidth) solid",
-              borderLeft: "var(--Grid-borderWidth) solid",
-              borderRight: "var(--Grid-borderWidth) solid",
-              borderBottom: "var(--Grid-borderWidth) solid",
-              borderColor: "secondary.main",
-              minWidth: "fit-content",
-              minHeight: "fit-content",
-            }}
-            variant="contained"
-            className="addButton"
-          >
-            Add Event
-          </Button>
-        </div>
+        {eventsList.length === 0 ? <>
+          <Box sx={{
+            height: ' 50%;',
+            display: 'flex;',
+            flexDirection: 'row;',
+            justifyContent: 'space-evenly;',
+            margin: ' 5%;',
+            padding: '4%;',
+            alignContent: 'center'
+          }}>
+
+            <Typography sx={{ fontSize: " 2vw;", fontFamily: 'Quintessential;', height: '50vh;' }}>
+              Let's Begin: Create Your First Event Today
+            </Typography>
+            <Button
+              onClick={onOpenCreateModel}
+              sx={{
+                color: "secondary.contrastText",
+                backgroundColor: "secondary.main",
+                "--Grid-borderWidth": "1px",
+                borderRadius: "40px",
+                borderTop: "var(--Grid-borderWidth) solid",
+                borderLeft: "var(--Grid-borderWidth) solid",
+                borderRight: "var(--Grid-borderWidth) solid",
+                borderBottom: "var(--Grid-borderWidth) solid",
+                borderColor: "secondary.main",
+                minWidth: "fit-content",
+                minHeight: "fit-content",
+                fontSize: '1.2vw;',
+                fontFamily: 'Quintessential;',
+                height: 'fit-content;'
+              }}
+              variant="contained"
+              className="addButton"
+            >
+              Add Event
+            </Button>
+          </Box>
+        </>
+          :
+          <div className="iconContainer">
+            <SearchBar handelSearch={handelSearch} />
+            <Button
+              onClick={onOpenCreateModel}
+              sx={{
+                color: "secondary.contrastText",
+                backgroundColor: "secondary.main",
+                "--Grid-borderWidth": "1px",
+                borderRadius: "40px",
+                borderTop: "var(--Grid-borderWidth) solid",
+                borderLeft: "var(--Grid-borderWidth) solid",
+                borderRight: "var(--Grid-borderWidth) solid",
+                borderBottom: "var(--Grid-borderWidth) solid",
+                borderColor: "secondary.main",
+                minWidth: "fit-content",
+                minHeight: "fit-content",
+                fontSize: '1.7vw;',
+                fontFamily: 'Quintessential;',
+                height: 'fit-content;'
+              }}
+              variant="contained"
+              className="addButton"
+            >
+              Add Event
+            </Button>
+          </div>
+        }
         {!isLoading && (
           <Events
             inHomePage={false}
