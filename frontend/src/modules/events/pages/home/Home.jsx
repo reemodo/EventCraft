@@ -86,6 +86,7 @@ export function Home(props) {
     <>
       <Layout>
         <div className="joinContainer">
+<<<<<<< HEAD
         <div className="video-background">
       <video autoPlay loop muted className="video">
         <source src={require("./IconsSource/planning.mp4")} type="video/mp4" />
@@ -100,6 +101,13 @@ export function Home(props) {
               Discover Exciting Events
             </Typography>
             <Typography variant="h5" fontFamily="ui-monospace;" sx={{  fontSize: '2vw;', fontWeight:"900" ,mt: 2,}}>
+=======
+          <div className="joinHeader">
+            <Typography variant="h3" fontFamily="Quintessential">
+              Discover Exciting Events
+            </Typography>
+            <Typography variant="h5" fontFamily="Quintessential" sx={{ p:5 }}>
+>>>>>>> parent of 9545101 (add)
             Stay Up-to-Date with Nearby Events
               </Typography>
            
@@ -122,9 +130,6 @@ export function Home(props) {
 
             <FilterForm onFilter={handleFilter} eventsList={eventsList} />
           </Box>
-      </div>
-    </div>
-          
           <div className="homeContainer">
             {!isLoading && (
               <Events

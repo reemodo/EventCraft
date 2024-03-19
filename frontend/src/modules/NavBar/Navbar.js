@@ -106,7 +106,7 @@ const Navbar = () => {
 
         <AppBar position="absolute" open={open}>
           <Toolbar xs={{ display: "flex" }}>
-            <Box sx={{ display: "flex", alignItems: "center" ,     width:'40%', justifyContent:'space-between'}}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               {rdxEvents.isEditingEventCard && (
                 <IconButton
                   edge="start"
@@ -155,12 +155,23 @@ const Navbar = () => {
                   fontFamily= "Quintessential"
                   fontWeight={700}
                   fontSize={'calc(12px + 0.9vw)'}
-                  background= '#aac22b94;'
                 >
+<<<<<<< HEAD
                    <Link to="/workspace" className="button" data-text="Awesome">
       <span className="actual-text">&nbsp;workspace&nbsp;</span>
       <span aria-hidden="true" className="hover-text">&nbsp;workspace&nbsp;</span>
     </Link>
+=======
+                  <Link
+                    to="/workspace"
+                    style={{
+                      color: "black",
+                      textDecoration: "none",
+                    }}
+                  >
+                    workspace
+                  </Link>
+>>>>>>> parent of 9545101 (add)
                 </Typography>
               )}
             </Box>
