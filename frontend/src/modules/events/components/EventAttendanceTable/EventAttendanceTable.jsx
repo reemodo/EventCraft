@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const PER_PAGE = 50;
 
@@ -53,7 +54,15 @@ export const EventAttendanceTable = ({ attendees, loading }) => {
         headerName: "email",
         field: `email`,
         renderCell: ({ row: attendee }) => {
-          return attendee.email || "";
+          return (
+            <Box
+              as={"a"}
+              href={`mailto:${attendee.email}`}
+              sx={{ textDecoration: "none" }}
+            >
+              {attendee.email || "-"}{" "}
+            </Box>
+          );
         },
       },
 
@@ -64,7 +73,15 @@ export const EventAttendanceTable = ({ attendees, loading }) => {
         headerName: "phone number",
         field: `status`,
         renderCell: ({ row: attendee }) => {
-          return attendee.phone || "-";
+          return (
+            <Box
+              as={"a"}
+              href={`tel:${attendee.phoneNumber}`}
+              sx={{ textDecoration: "none" }}
+            >
+              {attendee.phoneNumber || "-"}
+            </Box>
+          );
         },
       },
     ],
