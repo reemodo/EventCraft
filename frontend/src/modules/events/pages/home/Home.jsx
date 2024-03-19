@@ -84,13 +84,16 @@ export function Home(props) {
 
   return (
     <>
-      <TopContainer events={eventsList} handelSearch={handelSearch} />
-      <Layout>
+      <Layout  >
         <div className="joinContainer">
           <div className="joinHeader">
             <Typography variant="h3" fontFamily="Quintessential">
-              Showing Events Near You 
+              Discover Exciting Events
             </Typography>
+            <Typography variant="h5" fontFamily="Quintessential" sx={{ p:5 }}>
+            Stay Up-to-Date with Nearby Events
+              </Typography>
+           
           </div>
           <Box
             className="searchContainer"
