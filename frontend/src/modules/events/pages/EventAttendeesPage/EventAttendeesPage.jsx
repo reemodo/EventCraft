@@ -42,8 +42,8 @@ export const EventAttendeesPage = () => {
       <Card>
         <Box
           sx={{
-            mb: 2,
-            mt: 2,
+            m: 2,
+            maxWidth: 500,
           }}
         >
           <SearchBar handelSearch={onSearch} />
