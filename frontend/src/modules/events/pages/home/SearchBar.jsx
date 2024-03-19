@@ -16,7 +16,7 @@ const Search = styled("div")(({ theme }) => ({
   "&:hover": {
     backgroundColor:'rgb(255 255 255 / 82%);',
     boxShadow:
-      "12px 12px 16px rgba(0, 0, 0, 0.2),-4px -2px 10px rgba(0, 0, 0, 0.2)",
+      "2px 10px 10px rgba(0, 0, 0, 0.2),-4px -2px 10px rgba(0, 0, 0, 0.2)",
   },
 
   margin: "0 auto",

@@ -84,7 +84,7 @@ export function Home(props) {
 
   return (
     <>
-      <Layout  >
+      <Layout>
         <div className="joinContainer">
         <div className="video-background">
       <video autoPlay loop muted className="video">
@@ -108,11 +108,11 @@ export function Home(props) {
           <Box
             className="searchContainer"
             sx={{
-              justifyContent: "space-around",
-              flexGrow: 10,
-              paddingLeft: "",
-              flexDirection: "row",
+              paddingLeft: "20px",
+              flexDirection: "column",
               display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <SearchBar
@@ -120,6 +120,7 @@ export function Home(props) {
               handleFilter={handleFilter}
               events={eventsList}
             />
+
             <FilterForm onFilter={handleFilter} eventsList={eventsList} />
           </Box>
       </div>

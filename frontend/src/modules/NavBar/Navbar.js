@@ -157,20 +157,10 @@ const Navbar = () => {
                   fontSize={'calc(12px + 0.9vw)'}
                   background= '#aac22b94;'
                 >
-                  <Link
-                    to="/workspace"
-                    style={{
-                      color: "white",
-                  
-                    }}
-                  >
-                   <Button
-                    xs={{
-                      color: '#aac22b;',
-                
-                    }}>
-                      Workspace </Button> 
-                  </Link>
+                   <Link to="/workspace" className="button" data-text="Awesome">
+      <span className="actual-text">&nbsp;workspace&nbsp;</span>
+      <span aria-hidden="true" className="hover-text">&nbsp;workspace&nbsp;</span>
+    </Link>
                 </Typography>
               )}
             </Box>

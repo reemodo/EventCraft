@@ -79,7 +79,15 @@ export const EventAttendanceTable = ({ attendees, loading }) => {
               href={`tel:${attendee.phoneNumber}`}
               sx={{ textDecoration: "none" }}
             >
-              {attendee.phoneNumber || "-"}
+              {(
+                <a
+                  aria-label="Chat on WhatsApp"
+                  class="sendWhatsapp"
+                  href={`https://wa.me/${attendee.phoneNumber}`}
+                >
+                  {attendee.phoneNumber}
+                </a>
+              ) || "-"}
             </Box>
           );
         },

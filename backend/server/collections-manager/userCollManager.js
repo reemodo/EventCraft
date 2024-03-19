@@ -17,17 +17,10 @@ class userCollManager {
     return user;
   }
   static async saveUser(user) {
-    // const lastUser = await userCollManager.findTheLastUser();
-    const newUser = new User({
-      ...user,
-    });
-    await newUser.save();
-    return newUser;
-  }
-  static async saveUser(user) {
     try {
       const newUser = new User({
         ...user,
+        phoneNumber: "972" + user.phoneNumber.slice(1),
       });
       await newUser.save();
       return newUser;

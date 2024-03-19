@@ -1,0 +1,91 @@
+.event-page-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns */
+  grid-template-rows: auto auto; /* Two rows for the left column */
+  gap: 20px; /* Gap between grid items */
+  box-shadow: #333;
+}
+
+.event-image {
+  grid-column: 1 / 2; /* Image spans the first column */
+  grid-row: 1 / 2; /* Image spans both rows in the left column */
+  margin-top: 50px;
+  max-height: 250px;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+}
+
+.map-container {
+  grid-column: 1 / 2; /* Map spans the first column */
+  grid-row: 2 / 2; /* Map spans both rows in the left column */
+  height: 300px;
+}
+
+.text-container {
+  grid-column: 2 / 2; /* Text spans the second column */
+  grid-row: 1 / 3; /* Text spans both rows */
+}
+
+@media (max-width: 768px) {
+  /* For smaller screens, stack the image and map on top of each other */
+  .event-page-container {
+    grid-template-columns: 1fr; /* One column for smaller screens */
+    grid-template-rows: auto auto auto; /* Three rows */
+  }
+
+  .map-container {
+    grid-column: auto; /* Map takes full width */
+    grid-row: auto; /* Map takes full height */
+    height: auto;
+  }
+  .map {
+    height: 300px;
+  }
+}
+
+
+  
+  .event-title {
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 90px;
+    font-weight: 700 !important;
+    color: #333;
+    text-shadow: 0px 10px 10px rgba(0, 0, 0, 0.75);
+  }
+  
+  .event-description {
+    margin-bottom: 20px;
+    font-size: 18px;
+    line-height: 1.5;
+    color: #555;
+  }
+  
+  .event-date {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .event-location {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  
+  
+  
+  .map {
+    height: 200px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  
+  

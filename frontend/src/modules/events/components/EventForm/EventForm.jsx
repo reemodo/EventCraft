@@ -1,38 +1,28 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
-
 import {
   Box,
   Card,
   CardContent,
   Divider,
   MenuItem,
+  Snackbar,
   Stack,
   TextField,
 } from "@mui/material";
-
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LoadingButton } from "@mui/lab";
 import { Formik, Form, Field } from "formik";
 import Autocomplete from "@mui/material/Autocomplete";
-
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
-
 import { Icon } from "leaflet";
-
-import {
-  useAddEventMutation,
-  useUpdateEventMutation,
-} from "../../api/events.api";
-
+import { useAddEventMutation, useUpdateEventMutation } from "../../api/events.api";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { CardView } from "../../card/components/CardView/CardView";
 import { exportAsCanvas } from "../../../shared/utils";
 import { ItemTypes } from "../../card/components/CardEdit/CardEdit";
-
 import { Map } from "../../../shared/components/Map/Map";
-
 import { useGeolocation } from "../../../shared/hooks/useGeolocation/useGeolocation";
 import {
   getEventLocationLat,
@@ -53,7 +43,7 @@ const validationSchema = Yup.object({
 const initCardItem = {
   type: ItemTypes.TEXT,
   left: 20,
-  top: 90 ,
+  top: 90,
   position: "absolute",
   text: "",
   fontSize: 40,
@@ -65,7 +55,7 @@ const initCardItem = {
 const initCardItem2 = {
   type: ItemTypes.TEXT,
   left: 20,
-  top: 190 ,
+  top: 190,
   position: "absolute",
   text: "",
   fontSize: 20,
@@ -151,7 +141,6 @@ export const EventForm = ({ isAddFlow, model }) => {
           .then((response) => response.json())
           .then((results) => {
             console.log(results);
-
             setResults(results);
           });
       }, 500);
@@ -182,7 +171,8 @@ export const EventForm = ({ isAddFlow, model }) => {
           userId: user.currentUser.id,
         });
         if (eventData.data[0] && eventData.data[0]._id) {
-          navigate("/workSpace");
+          
+          setSnackbarOpen(true); 
         }
       } else {
         const eventData = await updateEvent({
@@ -252,6 +242,8 @@ export const EventForm = ({ isAddFlow, model }) => {
       endDate,
     };
   }, [model]);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false); 
 
   return (
     <Formik
@@ -369,7 +361,7 @@ export const EventForm = ({ isAddFlow, model }) => {
                   <Field name="location">
                     {({
                       field, // { name, value, onChange, onBlur }
-                      form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                      form: { touched, errors }, 
                       meta,
                     }) => (
                       <Autocomplete
@@ -437,6 +429,7 @@ export const EventForm = ({ isAddFlow, model }) => {
                     justifyContent={"center"}
                     direction={"row"}
                     spacing={2}
+                    color={"#AAC22B"}
                   >
                     <LoadingButton
                       type="submit"
@@ -450,8 +443,17 @@ export const EventForm = ({ isAddFlow, model }) => {
               </CardContent>
             </Card>
           </Stack>
+          <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={6000}
+            onClose={() => {setSnackbarOpen(false)
+              navigate("/workSpace");
+            }}
+            message="Event added successfully!"
+          />
         </Form>
       )}
     </Formik>
   );
 };
+
