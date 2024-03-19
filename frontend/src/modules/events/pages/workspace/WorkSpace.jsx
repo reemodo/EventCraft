@@ -22,10 +22,8 @@ export const WorkSpace = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-
 
   const { fetchMyEvents } = useGetMyEvents();
 
