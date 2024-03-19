@@ -6,11 +6,14 @@ import { EventAttendanceTable } from "../../components/EventAttendanceTable/Even
 import Layout from "../../../landing/Layout";
 import { Box, Button, Card } from "@mui/material";
 import SearchBar from "../home/SearchBar";
+import { useNavigate } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 export const EventAttendeesPage = () => {
   const { id } = useParams();
   const { getEvent, pendingGetEvent } = useEventHelpers();
-
+  const navigate = useNavigate();
   const [event, setEvent] = useState();
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -40,6 +43,9 @@ export const EventAttendeesPage = () => {
   return (
     <Layout>
       <Card>
+        <div style={{display: 'flex', justifyContent:'center', alignItems:'center', height: '10vh'}}>
+          <h1 >Meet our event's diverse attendees</h1> 
+        </div>
         <Box
           sx={{
             m: 2,
@@ -58,7 +64,13 @@ export const EventAttendeesPage = () => {
           />
         )}
       </Card>
-      <Button>hello</Button>
+      <Button 
+      onClick={() => navigate(-1)} 
+      variant="outlined" 
+      color="secondary"   
+      startIcon={<ArrowBackIcon />}>
+        Back
+      </Button>
     </Layout>
   );
 };
