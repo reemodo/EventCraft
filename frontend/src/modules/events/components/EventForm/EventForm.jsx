@@ -429,6 +429,7 @@ export const EventForm = ({ isAddFlow, model }) => {
                     justifyContent={"center"}
                     direction={"row"}
                     spacing={2}
+                    color={"#AAC22B"}
                   >
                     <LoadingButton
                       type="submit"
