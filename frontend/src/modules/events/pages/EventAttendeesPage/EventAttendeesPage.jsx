@@ -40,7 +40,12 @@ export const EventAttendeesPage = () => {
   return (
     <Layout>
       <Card>
-        <Box sx={{ mb: 2, mt: 2 }}>
+        <Box
+          sx={{
+            mb: 2,
+            mt: 2,
+          }}
+        >
           <SearchBar handelSearch={onSearch} />
         </Box>
         {!!event?.attendance && (
