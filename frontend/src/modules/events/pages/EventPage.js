@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState  } from "react";
 import { CardContent, CardMedia, Typography } from "@mui/material";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { useParams } from "react-router-dom";
+import { useParams , useNavigate } from "react-router-dom";
 import { useEventHelpers } from "../hooks/useEventHelper";
 import { rdxEventsActions } from "../rdx/events.rdx";
 import { useDispatch } from "react-redux";
@@ -16,6 +16,8 @@ import {
   getEventLocationLng,
   getEventLocationTitle,
 } from "../event.utils";
+import Button from '@mui/material/Button';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function EventPage({ imageUrl, lat, lng }) {
   const { id } = useParams();
@@ -25,6 +27,7 @@ function EventPage({ imageUrl, lat, lng }) {
     iconSize: [38, 38],
   });
   const [event, setEvent] = useState();
+  const navigate = useNavigate();
 
   const position = [
     getEventLocationLat(event?.location) || lat,
@@ -50,8 +53,12 @@ function EventPage({ imageUrl, lat, lng }) {
     return <div>empty</div>;
   }
 
+
   return (
     <Layout>
+      <Button onClick={() => navigate(-1)} variant="outlined"   startIcon={<ArrowBackIcon />}>
+        Back
+      </Button>
       <div className="event-page-container">
       <CardMedia
         component="img"
