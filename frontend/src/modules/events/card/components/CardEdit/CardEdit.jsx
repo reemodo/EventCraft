@@ -56,7 +56,11 @@ export const CardEdit = () => {
             ...item,
             uuid: uuidv4(),
           }));
-          setCard(eventCard);
+          setCard({
+            ...eventCard,
+            backgroundColor: eventCard.backgroundColor || "",
+            cssStyle: eventCard.cssStyle || "",
+          });
 
           setItems(uiItems);
         }
@@ -170,7 +174,7 @@ export const CardEdit = () => {
     }
     if (!selectedCardItemRef.current) {
       // cardRef.current[inputName] = value;
-      setCard((prev) => ({ ...prev, [inputName]: value }));
+      setCard((prev) => ({ ...prev, [inputName]: value ?? "" }));
     } else {
       selectedCardItemRef.current[inputName] = value;
 

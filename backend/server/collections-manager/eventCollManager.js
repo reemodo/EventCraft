@@ -118,8 +118,7 @@ class eventCollManager {
                   in: {
                     _id: "$$user._id",
                     name: "$$user.name",
-
-                    phone: "$$user.phone",
+                    phoneNumber: "$$user.phoneNumber",
                     email: "$$user.email",
                   },
                 },
@@ -250,6 +249,20 @@ class eventCollManager {
     const orderedEvents = orderEventsByLocation(events, userPosition);
 
     return orderedEvents;
+  }
+  static async filterMyEventsByTitle(id, title) {
+    const filteredFields = filterAllEventsField({
+      id,
+      title,
+    });
+    const events = await Event.find(filteredFields)
+      .sort({
+        startDate: 1,
+      })
+      .populate("cardID")
+      .populate("attendance", "name");
+
+    return events;
   }
   static async findJoinedEvents(userId) {
     const joinedEvents = await Event.find({ attendance: userId });
