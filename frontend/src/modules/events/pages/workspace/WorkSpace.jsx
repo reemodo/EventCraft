@@ -21,7 +21,7 @@ export const WorkSpace = (props) => {
   const [eventsList, setEventsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [snackbarOpen, setSnackbarOpen] = useState(true);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("Event Added Succefully");
 
   const { fetchMyEvents } = useGetMyEvents();
