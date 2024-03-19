@@ -121,6 +121,7 @@ export const RegisterForm = ({ onClose, isModal, onRegister, loading }) => {
                 variant="contained"
                 loading={loading}
                 color="secondary"
+                
               >
                 Sign up
               </LoadingButton>
@@ -130,6 +131,7 @@ export const RegisterForm = ({ onClose, isModal, onRegister, loading }) => {
                   color="secondary"
                   variant="outlined"
                   onClick={onClose}
+                  
                 >
                   cancel
                 </LoadingButton>
