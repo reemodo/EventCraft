@@ -89,7 +89,7 @@ export function Home(props) {
         <div className="joinContainer">
           <div className="joinHeader">
             <Typography variant="h3" fontFamily="Quintessential">
-              Join Great Events
+              Showing Events Near You 
             </Typography>
           </div>
           <Box
