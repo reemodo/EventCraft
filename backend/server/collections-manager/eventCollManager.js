@@ -118,8 +118,7 @@ class eventCollManager {
                   in: {
                     _id: "$$user._id",
                     name: "$$user.name",
-
-                    phone: "$$user.phone",
+                    phoneNumber: "$$user.phoneNumber",
                     email: "$$user.email",
                   },
                 },

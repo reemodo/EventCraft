@@ -4,7 +4,8 @@ import { useEventHelpers } from "../../hooks/useEventHelper";
 import { useParams } from "react-router-dom";
 import { EventAttendanceTable } from "../../components/EventAttendanceTable/EventAttendanceTable";
 import Layout from "../../../landing/Layout";
-import { Button, Card } from "@mui/material";
+import { Box, Button, Card } from "@mui/material";
+import SearchBar from "../home/SearchBar";
 
 export const EventAttendeesPage = () => {
   const { id } = useParams();
@@ -12,8 +13,13 @@ export const EventAttendeesPage = () => {
 
   const [event, setEvent] = useState();
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   const dispatch = useDispatch();
 
+  const attendees = event?.attendance.filter((attendee) =>
+    attendee.name.includes(searchTerm)
+  );
 
   useEffect(() => {
     (async () => {
@@ -27,12 +33,24 @@ export const EventAttendeesPage = () => {
     })();
   }, [id, getEvent, dispatch]);
 
+  const onSearch = (term) => {
+    setSearchTerm(term);
+  };
+
   return (
     <Layout>
       <Card>
+        <Box
+          sx={{
+            mb: 2,
+            mt: 2,
+          }}
+        >
+          <SearchBar handelSearch={onSearch} />
+        </Box>
         {!!event?.attendance && (
           <EventAttendanceTable
-            attendees={event?.attendance.map((att) => ({
+            attendees={attendees.map((att) => ({
               ...att,
               id: att._id,
             }))}
