@@ -7,11 +7,11 @@
 }
 .categoryContainer{
     color:black;
-    box-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12);
+    box-shadow: 0px 0px 15px -2px rgba(0,0,0,0.2), 0px 1px 4px 0px rgba(0,0,0,0.14), 1px 0px 8px 0px rgba(0,0,0,0.12);
     border-radius: 30px;
     padding: 20px;
     margin-bottom: 20px;
-    background-color: #f0f0f0;
+    background-color: #f0f0f053;
     padding: 20px;
     margin: 20px;
 }
@@ -37,16 +37,15 @@
   }
   .container {
     position: relative;
-
     background-color: #ffffff;
     overflow: hidden;
     padding-bottom: 5%;
-    border-bottom-left-radius: 60%;
+    /* border-bottom-left-radius: 60%;
     border-bottom-right-radius: 60%;
     border-top-left-radius: 60%;
-    border-top-right-radius: 60%;
-    box-shadow: 0 4px 4px rgb(0 0 0 / 9%);
-    text-align:'center';
+    border-top-right-radius: 60%; */
+    /* box-shadow: 1px 0px 15px rgb(0 0 0 / 9%); */
+    text-align: 'center';
     font-size: '40px';
     display: flex;
     flex-direction: column;
@@ -60,14 +59,21 @@
     flex-direction: column;
     align-items: center;
     margin-top: 30px;
+    
   }
   .joinContainer{
-    background-color: white;
-    display: flex;
+    text-align: left;
+    padding: 2%;
     flex-direction: column;
     align-items: left;
     border-radius: 30px;
-    margin-top: 2%;
+    margin-top: 5%;
+    margin-bottom: 2%;
+    background-color: #fdfdfdb0;
+    display: flex;
+    transition: background-color 0.3s, box-shadow 0.5s;
+    box-shadow: inset 0px 0px 10px 4px rgba(0, 0, 0, 0.1);
+    margin: 3%;
   }
   @keyframes slideInFromRight {
     0% {
