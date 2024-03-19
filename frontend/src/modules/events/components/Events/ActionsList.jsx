@@ -7,6 +7,7 @@ import { useEventCardHelpers } from "../../card/hooks/useEventCardHelpers";
 import { useDeleteEventMutation } from "../../api/events.api";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import CustomSnackbar from "../../../shared/components/CustomSnackbar/CustomSnackbar";
 
 export function ActionsList({ event, handelSetEventLists }) {
   const options = ["View", "Attendees", "Edit Event", "Edit Card", "Delete"];
@@ -36,8 +37,7 @@ export function ActionsList({ event, handelSetEventLists }) {
     if (value === "Delete") {
       try {
         await deleteEvent({ id: event._id });
-        setSnackbarOpen(true);
-        setSnackbarMessage("Event deleted");
+
         handelSetEventLists(event._id);
         handleClose();
       } catch (error) {
@@ -81,19 +81,14 @@ export function ActionsList({ event, handelSetEventLists }) {
           </MenuItem>
         ))}
       </Menu>
-      <Snackbar
+
+      <CustomSnackbar
         open={snackbarOpen}
-        autoHideDuration={6000}
         onClose={() => setSnackbarOpen(false)}
-      >
-        <MuiAlert
-          onClose={() => setSnackbarOpen(false)}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          {snackbarMessage}
-        </MuiAlert>
-      </Snackbar>
+        severity="error"
+        color="error"
+        message={snackbarMessage}
+      />
     </>
   );
 }
