@@ -9,19 +9,21 @@ const filterAllEventsField = function (filterParams) {
     filter.endDate = filterParams.endDate;
   }
   if (filterParams.location) {
-    const regexPattern = new RegExp(`^${filterParams.location}`, 'i');
-    filter.location = { $regex: regexPattern}
+    const regexPattern = new RegExp(`^${filterParams.location}`, "i");
+    filter.location = { $regex: regexPattern };
   }
   if (filterParams.category) {
     filter.category = filterParams.category;
   }
-  if (filterParams.description){
-    filter.description = filterParams.description
+  if (filterParams.description) {
+    filter.description = filterParams.description;
   }
-  if(filterParams.title){
-    const regexPattern = new RegExp(`^${filterParams.title}`, 'i');
-    filter.title = { $regex: regexPattern}
+  if (filterParams.title) {
+    const regexPattern = new RegExp(`^${filterParams.title}`, "i");
+    filter.title = { $regex: regexPattern };
   }
+  if (filterParams.id) filter.userId = filterParams.id;
+
   return filter;
 };
 

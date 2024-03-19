@@ -45,12 +45,12 @@ function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <ThemeProvider theme={theme}>
-        <Stack direction={"row"}>
+        <Stack direction={"row"}  >
           <Router>
             <Box>
               <Navbar />
             </Box>
-            <Box sx={{ flex: 1, backgroundColor: "#8080801f" }}>
+            <Box sx={{ flex: 1, backgroundColor: "#aac22b26" ,width:'-webkit-fill-available'}}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<LoginPage />} />
