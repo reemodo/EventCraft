@@ -84,25 +84,24 @@ export function Home(props) {
 
   return (
     <>
-      <Layout  >
+      <Layout>
         <div className="joinContainer">
           <div className="joinHeader">
             <Typography variant="h3" fontFamily="Quintessential">
               Discover Exciting Events
             </Typography>
-            <Typography variant="h5" fontFamily="Quintessential" sx={{ p:5 }}>
-            Stay Up-to-Date with Nearby Events
-              </Typography>
-           
+            <Typography variant="h5" fontFamily="Quintessential" sx={{ p: 5 }}>
+              Stay Up-to-Date with Nearby Events
+            </Typography>
           </div>
           <Box
             className="searchContainer"
             sx={{
-              justifyContent: "space-around",
-              flexGrow: 10,
-              paddingLeft: "",
-              flexDirection: "row",
+              paddingLeft: "20px",
+              flexDirection: "column",
               display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <SearchBar
@@ -110,6 +109,7 @@ export function Home(props) {
               handleFilter={handleFilter}
               events={eventsList}
             />
+
             <FilterForm onFilter={handleFilter} eventsList={eventsList} />
           </Box>
           <div className="homeContainer">
