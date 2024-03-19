@@ -11,7 +11,7 @@ import * as Yup from "yup";
 const initFormValues = {
   email: "",
   name: "",
-  phone: "",
+  phoneNumber: "",
   password: "",
   confirmPassword: "",
 };
@@ -19,7 +19,7 @@ const initFormValues = {
 const validationSchema = Yup.object({
   email: Yup.string().email("email is invalid").required("email is required"),
   name: Yup.string().required("name is required"),
-  phone: Yup.string()
+  phoneNumber: Yup.string()
     .matches(
       /^0(5[^7]|[2-4]|[8-9]|7[0-9])[0-9]{7}$/,
       "phone number is not valid"
@@ -104,13 +104,13 @@ export const RegisterForm = ({ onClose, isModal, onRegister, loading }) => {
               container
             >
               <Field
-                name="phone"
+                name="phoneNumber"
                 type="text"
                 label="phone number"
                 as={TextField}
                 variant="outlined"
-                error={!!props.errors.phone}
-                helperText={props.errors.phone ?? ""}
+                error={!!props.errors.phoneNumber}
+                helperText={props.errors.phoneNumber ?? ""}
               />
             </Grid>
 

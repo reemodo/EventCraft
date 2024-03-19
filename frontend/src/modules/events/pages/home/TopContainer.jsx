@@ -6,7 +6,7 @@ export function TopContainer({}) {
 
   {/* Video player */}
   <div className="container component">    
-  <div style={{ maxWidth:'60%',maxHeight:'60%', paddingTop:' 20px',
+  <div style={{ maxWidth:'100%',maxHeight:'100%',
     textAlign:'center',
     fontSize: '3vw',          fontFamily: "Quintessential"}}>
  
@@ -19,7 +19,6 @@ export function TopContainer({}) {
     height="100%"
     style={{ position: "", top: 0, left: 0 }}
   />
- Crafting and managing memorable events with precision and creativity
   </div>
 
     </div>

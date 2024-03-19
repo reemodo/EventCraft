@@ -21,7 +21,7 @@ export function ActionsList({ event, handelSetEventLists }) {
   const { getEventCard } = useEventCardHelpers();
 
   const [deleteEvent] = useDeleteEventMutation();
-  const [snackbarOpen, setSnackbarOpen] = React.useState(true);
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
 
   const handleClick = (event) => {
