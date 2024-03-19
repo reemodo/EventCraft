@@ -8,15 +8,15 @@ import { useGetEvents } from "../../hooks/useGetEvents";
 import FilterForm from "./FilterForm";
 import SearchBar from "./SearchBar";
 import { OurServicesList } from "./OurServicesList";
-import { Typography, Box, CircularProgress } from "@mui/material";
+import { Typography, Box, CircularProgress, Button } from "@mui/material";
 import { useGeolocation } from "../../../shared/hooks/useGeolocation/useGeolocation";
-
+import { useNavigate } from "react-router-dom";
 export function Home(props) {
   const [eventsList, setEventsList] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState({});
 
   const { isLoading, error, fetchEvents } = useGetEvents();
-
+  const navigate = useNavigate();
   const { currentPosition } = useGeolocation({
     disable: false,
   });
@@ -96,11 +96,10 @@ export function Home(props) {
       <div className="joinHeader">
             <Typography variant="h3" fontFamily="Quintessential" sx={{letterSpacing:" 0em;",
     fontWeight: "600;",
-    fontSize: '6vw;',
-    fontFamily:" Quintessential;"}}>
+    fontSize: '4vw;',}}>
               Discover Exciting Events
             </Typography>
-            <Typography variant="h5" fontFamily="Quintessential" sx={{ p:5,  fontSize: '3vw;', fontWeight:"900" }}>
+            <Typography variant="h5" fontFamily="ui-monospace;" sx={{  fontSize: '2vw;', fontWeight:"900" ,mt: 2,}}>
             Stay Up-to-Date with Nearby Events
               </Typography>
            
@@ -143,6 +142,10 @@ export function Home(props) {
           </div>
         </div>
         <OurServicesList />
+        <Button onClick={()=>navigate('/register')} sx={{background: '#aac22b;', color: "white;",justifySelf: "center;", textAlign: "center;"
+    ,m:'5%',marginLeft: "45%;",'&:hover': {
+      backgroundColor: 'secondary.dark', // Change background color on hover
+    },}}>Join Us</Button>
       </Layout>
     </>
   );

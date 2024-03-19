@@ -60,7 +60,7 @@ export default function SearchBar({ handelSearch, handleFilter, events }) {
   };
 
   return (
-    <Box sx={{ width: "70%;" }}>
+    <Box sx={{ width: "70%;", marginBottom:"2%" }}>
       <Search>
         <SearchIconWrapper>
           <SearchIcon />

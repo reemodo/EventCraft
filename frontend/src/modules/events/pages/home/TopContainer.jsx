@@ -4,7 +4,7 @@ export function TopContainer({}) {
   return (
     <>
   <div className="container component">    
-  <div style={{ maxWidth:'100%',maxHeight:'100%',
+  <div style={{ maxWidth:'70%',maxHeight:'100%',
     textAlign:'center',
     fontSize: '3vw',          fontFamily: "Quintessential"}}>
  

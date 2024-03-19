@@ -6,11 +6,22 @@ import { useNavigate } from "react-router-dom";
 import { useEventCardHelpers } from "../../card/hooks/useEventCardHelpers";
 import { useDeleteEventMutation } from "../../api/events.api";
 import Snackbar from "@mui/material/Snackbar";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MuiAlert from "@mui/material/Alert";
+import IconButton from '@mui/material/IconButton';
 import CustomSnackbar from "../../../shared/components/CustomSnackbar/CustomSnackbar";
-
+import { styled } from '@mui/system';
+const VerticalButton = styled(Button)`
+  && {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #222;
+    font-size: x-large;
+  }
+`;
 export function ActionsList({ event, handelSetEventLists }) {
-  const options = ["View", "Attendees", "Edit Event", "Edit Card", "Delete"];
+  const options = [ "Attendees", "Edit Event", "Edit Card", "Delete"];
   const EventActions = {
     Attendees: "/event/attendees/" + event._id,
     EditEvent: "/editEvent/" + event._id,
@@ -37,9 +48,8 @@ export function ActionsList({ event, handelSetEventLists }) {
     if (value === "Delete") {
       try {
         await deleteEvent({ id: event._id });
-
-        handelSetEventLists(event._id);
         handleClose();
+        handelSetEventLists(event._id);
       } catch (error) {
         console.error("Error deleting event:", error);
         setSnackbarOpen(true);
@@ -52,16 +62,16 @@ export function ActionsList({ event, handelSetEventLists }) {
 
   return (
     <>
-      <Button
-        id="basic-button"
-        aria-controls={anchorEl ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={Boolean(anchorEl)}
-        onClick={handleClick}
-        sx={{ color: "#222", fontSize: "x-large" }}
+      
+        <IconButton
+         id="basic-button"
+         aria-controls={anchorEl ? "basic-menu" : undefined}
+         aria-haspopup="true"
+         aria-expanded={Boolean(anchorEl)}
+         onClick={handleClick}
       >
-        ...
-      </Button>
+        <MoreVertIcon />
+      </IconButton>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}

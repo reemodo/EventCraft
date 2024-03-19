@@ -71,7 +71,7 @@ export const WorkSpace = (props) => {
           fontWeight={900}
           component="h1"
           mb={3}
-          m="9%"
+          m="5%"
           variant="h6"
           alignSelf={"center"}
         >
@@ -144,6 +144,9 @@ export const WorkSpace = (props) => {
                 fontSize: "1.7vw;",
                 fontFamily: "Quintessential;",
                 height: "fit-content;",
+                '&:hover': {
+                  backgroundColor: 'secondary.dark', // Change background color on hover
+                },
               }}
               variant="contained"
             >
