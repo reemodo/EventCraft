@@ -2,24 +2,78 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import { useNavigate } from "react-router-dom";
 import { useEventCardHelpers } from "../../card/hooks/useEventCardHelpers";
 import { useDeleteEventMutation } from "../../api/events.api";
 import Snackbar from "@mui/material/Snackbar";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import EditIcon from "@mui/icons-material/Edit";
+import PersonIcon from "@mui/icons-material/Person";
+import DeleteIcon from "@mui/icons-material/Delete";
 import MuiAlert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import CustomSnackbar from "../../../shared/components/CustomSnackbar/CustomSnackbar";
 import { styled } from "@mui/system";
-const VerticalButton = styled(Button)`
+
+const StyledIconButton = styled(IconButton)`
   && {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #222;
-    font-size: x-large;
+    color: #616161;
+    transition: transform 0.3s ease;
+    &:hover {
+      transform: scale(1.2);
+    }
   }
 `;
+
+// Styled components for each MenuItem
+const StyledMenuItem = {
+  Attendees: styled(MenuItem)`
+    && {
+      color: blue;
+      transition: transform 0.3s ease;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  `,
+  EditEvent: styled(MenuItem)`
+    && {
+      color: green;
+      transition: transform 0.3s ease;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  `,
+  EditCard: styled(MenuItem)`
+    && {
+      color: orange;
+      transition: transform 0.3s ease;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  `,
+  Delete: styled(MenuItem)`
+    && {
+      color: red;
+      transition: transform 0.3s ease;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  `,
+};
+
+// Icons for each MenuItem
+const MenuItemIcons = {
+  Attendees: <PersonIcon />,
+  EditEvent: <EditIcon />,
+  EditCard: <EditIcon />, // Replace with an appropriate icon
+  Delete: <DeleteIcon />,
+};
+
 export function ActionsList({ event, handelSetEventLists }) {
   const options = ["Attendees", "Edit Event", "Edit Card", "Delete"];
   const EventActions = {
@@ -62,7 +116,7 @@ export function ActionsList({ event, handelSetEventLists }) {
 
   return (
     <>
-      <IconButton
+      <StyledIconButton
         id="basic-button"
         aria-controls={anchorEl ? "basic-menu" : undefined}
         aria-haspopup="true"
@@ -70,7 +124,7 @@ export function ActionsList({ event, handelSetEventLists }) {
         onClick={handleClick}
       >
         <MoreVertIcon />
-      </IconButton>
+      </StyledIconButton>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -80,15 +134,19 @@ export function ActionsList({ event, handelSetEventLists }) {
           "aria-labelledby": "basic-button",
         }}
       >
-        {options.map((option) => (
-          <MenuItem
-            key={option}
-            selected={option === selectedOption}
-            onClick={() => handelEventClick(option.replace(" ", ""))}
-          >
-            {option}
-          </MenuItem>
-        ))}
+        {options.map((option) => {
+          const StyledItem = StyledMenuItem[option.replace(" ", "")];
+          return (
+            <StyledItem
+              key={option}
+              selected={option === selectedOption}
+              onClick={() => handelEventClick(option.replace(" ", ""))}
+            >
+              <ListItemIcon>{MenuItemIcons[option.replace(" ", "")]}</ListItemIcon>
+              {option}
+            </StyledItem>
+          );
+        })}
       </Menu>
 
       <CustomSnackbar
