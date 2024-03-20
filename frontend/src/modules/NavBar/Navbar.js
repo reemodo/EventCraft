@@ -157,13 +157,10 @@ const Navbar = () => {
                   fontSize={'calc(12px + 0.9vw)'}
                 >
                   <Link
-                    to="/workspace"
-                    style={{
-                      color: "black",
-                      textDecoration: "none",
-                    }}
+                    to="/workspace" className="button-30"
+                  
                   >
-                    workspace
+                    workspace 📆
                   </Link>
                 </Typography>
               )}
@@ -176,11 +173,11 @@ const Navbar = () => {
                 position: "absolute",
               }}
             >
-              <IconButton color="inherit">
+              {/* <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <NotificationsIcon />
                 </Badge>
-              </IconButton>
+              </IconButton> */}
 
               {/* <Button
               color="inherit"

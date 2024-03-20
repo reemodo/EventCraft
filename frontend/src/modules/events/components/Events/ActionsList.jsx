@@ -6,10 +6,22 @@ import { useNavigate } from "react-router-dom";
 import { useEventCardHelpers } from "../../card/hooks/useEventCardHelpers";
 import { useDeleteEventMutation } from "../../api/events.api";
 import Snackbar from "@mui/material/Snackbar";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import MuiAlert from "@mui/material/Alert";
-
+import IconButton from "@mui/material/IconButton";
+import CustomSnackbar from "../../../shared/components/CustomSnackbar/CustomSnackbar";
+import { styled } from "@mui/system";
+const VerticalButton = styled(Button)`
+  && {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #222;
+    font-size: x-large;
+  }
+`;
 export function ActionsList({ event, handelSetEventLists }) {
-  const options = ["View", "Attendees", "Edit Event", "Edit Card", "Delete"];
+  const options = ["Attendees", "Edit Event", "Edit Card", "Delete"];
   const EventActions = {
     Attendees: "/event/attendees/" + event._id,
     EditEvent: "/editEvent/" + event._id,
@@ -21,7 +33,7 @@ export function ActionsList({ event, handelSetEventLists }) {
   const { getEventCard } = useEventCardHelpers();
 
   const [deleteEvent] = useDeleteEventMutation();
-  const [snackbarOpen, setSnackbarOpen] = React.useState(true);
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
 
   const handleClick = (event) => {
@@ -36,10 +48,8 @@ export function ActionsList({ event, handelSetEventLists }) {
     if (value === "Delete") {
       try {
         await deleteEvent({ id: event._id });
-        setSnackbarOpen(true);
-        setSnackbarMessage("Event deleted");
-        handelSetEventLists(event._id);
         handleClose();
+        handelSetEventLists(event._id);
       } catch (error) {
         console.error("Error deleting event:", error);
         setSnackbarOpen(true);
@@ -52,16 +62,15 @@ export function ActionsList({ event, handelSetEventLists }) {
 
   return (
     <>
-      <Button
+      <IconButton
         id="basic-button"
         aria-controls={anchorEl ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={Boolean(anchorEl)}
         onClick={handleClick}
-        sx={{ color: "#222", fontSize: "x-large" }}
       >
-        ...
-      </Button>
+        <MoreVertIcon />
+      </IconButton>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -81,19 +90,14 @@ export function ActionsList({ event, handelSetEventLists }) {
           </MenuItem>
         ))}
       </Menu>
-      <Snackbar
+
+      <CustomSnackbar
         open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarOpen(false)}
-      >
-        <MuiAlert
-          onClose={() => setSnackbarOpen(false)}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          {snackbarMessage}
-        </MuiAlert>
-      </Snackbar>
+        handleClose={() => setSnackbarOpen(false)}
+        severity="error"
+        color="error"
+        message={snackbarMessage}
+      />
     </>
   );
 }

@@ -19,6 +19,8 @@ import { rdxEventsActions } from "../../../rdx/events.rdx";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEventCardHelpers } from "../../hooks/useEventCardHelpers";
 import { useItemHelpers } from "../../hooks/useItemHelpers";
+import Button from '@mui/material/Button';
+
 
 export const ItemTypes = {
   BOX: "box",
@@ -239,6 +241,7 @@ export const CardEdit = () => {
 
   return (
     <Layout>
+            <Box m={5} mt={8}>
       <Stack width={"100%"} sx={{ flexDirection: { sm: "column", md: "row" } }}>
         <CardLeftSection
           selectedCardItem={selectedCardItemRef.current}
@@ -258,7 +261,7 @@ export const CardEdit = () => {
             loading={pendingUpdateEventCard}
             sx={{
               position: "absolute",
-              top: 10,
+              bottom: 10,
               left: 10,
               zIndex: 1000,
             }}
@@ -267,6 +270,7 @@ export const CardEdit = () => {
           >
             update card image
           </LoadingButton>
+          
           <Box sx={{ boxShadow: "rgba(17, 12, 46, 0.15) 0px 48px 100px 0px" }}>
             <Box ref={exportRef}>
               <Box
@@ -313,8 +317,22 @@ export const CardEdit = () => {
               </Box>
             </Box>
           </Box>
+          <Button 
+          onClick={() => navigate(-1)} 
+          variant="contained" 
+          color="secondary"
+          sx={{
+            position: "absolute",
+            bottom: 10,
+            right: -10,
+            zIndex: 1000,
+          }} 
+          >
+            Cancel
+          </Button>
         </Stack>
       </Stack>
+      </Box>
     </Layout>
   );
 };

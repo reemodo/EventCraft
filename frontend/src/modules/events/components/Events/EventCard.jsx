@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEventHelpers } from "../../hooks/useEventHelper";
 import { LoadingButton } from "@mui/lab";
-import QrCode2Icon from '@mui/icons-material/QrCode2';
+
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import CustomSnackbar from "../../../shared/components/CustomSnackbar/CustomSnackbar";
 import QRCode from "qrcode.react";
@@ -115,16 +115,29 @@ export const EventCard = ({
 
   return (
     <>
-      <Card sx={{ width: "18em;", height: "20em;" }}>
-        <CardActionArea>
+      <Card
+        sx={{
+          width: "18em;",
+          height: "20em;",
+          boxShadow:
+            "0px 0px 15px -2px rgba(0,0,0,0.2), 0px 1px 4px 0px rgba(0,0,0,0.14), 1px 0px 8px 0px rgba(0,0,0,0.12)",
+          overflow: "hidden",
+          width: "20em;",
+          height: "25em;",
+          display: "flex;",
+          gap: "48px;",
+          flexDirection: "column;",
+          borderRadius: "30px;",
+        }}
+      >
+        <CardActionArea padding="8px;" onClick={handelEventClick}>
           <CardMedia
             component="img"
-            height="160"
             sx={{ objectFit: "fill" }}
             objectFit={"cover"}
             image={event.cardID?.img}
             alt="green iguana"
-            onClick={handelEventClick}
+            height="67%;"
           />
           <CardContent sx={{ height: "100px" }}>
             <Typography gutterBottom variant="h6" component="div">
@@ -141,10 +154,18 @@ export const EventCard = ({
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions className="cardActions" sx={{alignItems: 'center;',
-    justifyContent: 'center;',
-    padding: '8px;',
-    gap: '30%;'}}>
+        <CardActions
+          className="cardActions"
+          sx={{
+            alignItems: "center;",
+            justifyContent: "space-around;",
+            padding: "8px;",
+            gap: "30%;",
+            p: 1,
+            boxShadow:
+              "inset 0px 0px 10px 1px rgb(0 0 0 / 7%), inset 0px 0px 20px 0px rgb(0 0 0 / 0%), inset 1px 0px 20px 12px rgb(0 0 0 / 3%);",
+          }}
+        >
           {inHomePage && !userJoined && (
             <LoadingButton
               loading={pendingJoinEvent}
@@ -152,6 +173,7 @@ export const EventCard = ({
               size="small"
               color="secondary"
               onClick={onUserJoinEvent}
+              sx={{ fontSize: "1.3rem" }}
             >
               join
             </LoadingButton>
@@ -163,7 +185,7 @@ export const EventCard = ({
                   loading={pendingCancelJoinedEvent}
                   disableSpacing
                   size="small"
-                  color="secondary"
+                  color="secondary.main"
                   onClick={onCancelUserJoinEvent}
                 >
                   cancel
@@ -172,22 +194,33 @@ export const EventCard = ({
 
               {!inHomePage && (
                 <>
-                <Box sx={{display: 'flex' , justifyContent:'left'}}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "left",
+                      gap: "30%;",
+                      marginLeft: "5%;",
+                      alignItems: "center;",
+                      fontSize: "45px;",
+                    }}
+                  >
+                    <WhatsAppIcon
+                      color="secondary"
+                      onClick={handleWhatsAppShare}
+                      fontSize="45px;"
+                      style={{ cursor: "pointer" }}
+                    />
 
-                  <QrCode2Icon
-                    id="123456"
-                    value={`http://localhost:3000/eventPage/${event._id}`}
-                    ml= '20px'
-                    mr= '20px'
-                    includeMargin={true}
-                    onClick={downloadQR}
-                    color='secondary'
-                  />
-                  <WhatsAppIcon
-                    color="secondary"
-                    onClick={handleWhatsAppShare}
-                  />
-                </Box>
+                    <QRCode
+                      id="123456"
+                      value={`http://localhost:3000/eventPage/${event._id}`}
+                      size={40} // Example size
+                      fgColor="#aac22b" //
+                      includeMargin={false}
+                      onClick={downloadQR}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </Box>
                   <Button disableSpacing size="small" color="secondary">
                     <ActionsList
                       event={event}
@@ -200,13 +233,17 @@ export const EventCard = ({
           )}
         </CardActions>
       </Card>
-      <CustomSnackbar
-        color="warning"
-        open={openSnackbar}
-        handleClose={handleCloseSnackbar}
-        message="Please log in to join the event."
-        severity="warning"
-      />
+
+      {openSnackbar && (
+        <CustomSnackbar
+          color="red"
+          open={openSnackbar}
+          handleClose={handleCloseSnackbar}
+          message="Please log in to join the event."
+          severity="warning"
+          onClick={() => navigate(`/login`)}
+        />
+      )}
     </>
   );
 };

@@ -26,7 +26,13 @@ const validationSchema = Yup.object({
     )
     .required("phone is required"),
   password: Yup.string().required("password is required"),
-  confirmPassword: Yup.string().required("confirmPassword is required"),
+  confirmPassword: Yup.string()
+    .when((value, schema) => {
+      return value && value.length > 0
+        ? schema.oneOf([Yup.ref("password")], "Passwords must match")
+        : schema;
+    })
+    .required("confirmPassword is required"),
 });
 
 export const RegisterForm = ({ onClose, isModal, onRegister, loading }) => {
@@ -39,7 +45,6 @@ export const RegisterForm = ({ onClose, isModal, onRegister, loading }) => {
         onRegister(values);
       }}
       validateOnChange={false}
-      validateOnBlur={false}
     >
       {(props) => (
         <Form>

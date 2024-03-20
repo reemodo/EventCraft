@@ -31,8 +31,9 @@
     object-fit: cover; /* Cover the entire container */
   }
   .searchContainer{
-    padding-top: 50px;
+    padding-top: 20px;
     padding-bottom: 50px;
+    width: 80vw;
 
   }
   .container {
@@ -51,6 +52,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 70%;
   }
   
   .joinHeader{
@@ -58,22 +60,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
+    margin-top: 80px;
     
   }
   .joinContainer{
     text-align: left;
-    padding: 2%;
     flex-direction: column;
     align-items: left;
     border-radius: 30px;
-    margin-top: 5%;
     margin-bottom: 2%;
     background-color: #fdfdfdb0;
     display: flex;
     transition: background-color 0.3s, box-shadow 0.5s;
-    box-shadow: inset 0px 0px 10px 4px rgba(0, 0, 0, 0.1);
-    margin: 3%;
+    /* box-shadow: inset 0px 0px 10px 4px rgba(0, 0, 0, 0.1); */
   }
   @keyframes slideInFromRight {
     0% {
@@ -97,3 +96,29 @@
   }
   
   /* Styles for the component */
+  .video-background {
+    position: relative;
+    width: 100%;
+    height: 50vh; /* Adjust height as needed */
+    overflow: hidden;
+  }
+  
+  .video-background video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the video covers the entire container */
+  }
+  
+  .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white; /* Adjust text color as needed */
+    text-align: center;
+    z-index: 1; /* Make sure content is on top of the video */
+  }
+  

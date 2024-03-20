@@ -26,7 +26,7 @@ import { EventAttendeesPage } from "./modules/events/pages/EventAttendeesPage/Ev
 import { LoginPage } from "./modules/auth/pages/LoginPage/LoginPage";
 import { RegisterPage } from "./modules/auth/pages/RegisterPage/RegisterPage";
 
-import Footer from './modules/footer/Footer';
+import Footer from "./modules/footer/Footer";
 
 function App() {
   const theme = createTheme({
@@ -45,14 +45,21 @@ function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <ThemeProvider theme={theme}>
-        <Stack direction={"row"}  >
+        <Stack direction={"row"}>
           <Router>
             <Box>
               <Navbar />
             </Box>
-            <Box sx={{ flex: 1, backgroundColor: "#aac22b26" ,width:'-webkit-fill-available'}}>
+            <Box
+              sx={{
+                flex: 1,
+                backgroundColor: "#aac22b26",
+                width: "-webkit-fill-available",
+              }}
+            >
               <Routes>
                 <Route path="/" element={<Home />} />
+              
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route
@@ -81,7 +88,7 @@ function App() {
                 <Route path="/addEvent" element={withAuth(EditEventPage)} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
-             <Footer /> {/* Render Footer component here */}
+              <Footer /> {/* Render Footer component here */}
             </Box>
           </Router>
         </Stack>
