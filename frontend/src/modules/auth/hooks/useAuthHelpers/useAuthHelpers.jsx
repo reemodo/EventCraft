@@ -46,6 +46,10 @@ export const useAuthHelpers = () => {
       setPendingRegister(true);
       try {
         const userData = await onRegister(data);
+        if (!userData.data?.id) {
+          return false;
+        }
+
         localStorageSvc.set(LOCAL_STORAGE_KEYS.USER, userData);
 
         dispatch(rdxUserActions.setCurrentUser(userData));
