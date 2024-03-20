@@ -11,7 +11,7 @@ export function TopContainer({}) {
     fontSize: '3vw',          fontFamily: "Quintessential"}}>
  
   <ReactPlayer
-    url={require("./IconsSource/basicVideo.mp4")}
+
     playing
     loop
     muted

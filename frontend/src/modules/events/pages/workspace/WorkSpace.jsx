@@ -89,11 +89,6 @@ export const WorkSpace = (props) => {
                 padding: "4%;",
                 alignContent: "center",
               }}
-<<<<<<< HEAD
-=======
-              variant="contained"
-              className="addButton"
->>>>>>> parent of 9545101 (add)
             >
               <Typography
                 sx={{

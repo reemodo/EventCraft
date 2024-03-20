@@ -156,22 +156,10 @@ const Navbar = () => {
                   fontWeight={700}
                   fontSize={'calc(12px + 0.9vw)'}
                 >
-<<<<<<< HEAD
                    <Link to="/workspace" className="button" data-text="Awesome">
       <span className="actual-text">&nbsp;workspace&nbsp;</span>
       <span aria-hidden="true" className="hover-text">&nbsp;workspace&nbsp;</span>
     </Link>
-=======
-                  <Link
-                    to="/workspace"
-                    style={{
-                      color: "black",
-                      textDecoration: "none",
-                    }}
-                  >
-                    workspace
-                  </Link>
->>>>>>> parent of 9545101 (add)
                 </Typography>
               )}
             </Box>
