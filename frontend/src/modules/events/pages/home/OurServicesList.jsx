@@ -3,6 +3,7 @@ import React from 'react'
 import { OurService } from './OurService'
 import { TopContainer } from './TopContainer'
 import { useNavigate } from 'react-router-dom'
+import { UseSelector } from 'react-redux'
 export function OurServicesList(props) {
     const list= [
         {title: "Manage Events", description: " Effortlessly create, manage, and customize your events your events anytime."},
@@ -10,6 +11,7 @@ export function OurServicesList(props) {
         {title: "Discover and Join Events", description: "Explore and join events hosted by others."},
     ]
 const navigate =useNavigate();
+const rdxUser = useSelector((state) => state.user);
     return (
         <>
         <Grid container spacing={2} justifyContent="center"
@@ -38,7 +40,7 @@ const navigate =useNavigate();
     backgroundColor: '#5c691b33', // Change background color on hover
   }
                     
-                    }}onClick={()=>navigate('/register')} >
+                    }}onClick={rdxUser.loggedIn?navigate('/workspace'):()=>navigate('/register')} >
                       
                         <OurService title={service.title} description={service.description} />
                         

@@ -249,7 +249,7 @@ export const EventForm = ({ isAddFlow, model }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   return (
-    <Formik
+    <Formik 
       innerRef={formikRef}
       initialValues={initFormValues}
       validationSchema={validationSchema}
@@ -266,11 +266,17 @@ export const EventForm = ({ isAddFlow, model }) => {
       }}
     >
       {(props) => (
-        <Form>
+        <Form> 
           <Stack
             direction={"row"}
             width={"100%"}
             justifyContent={"space-around"}
+            sx={{    display: "flex;",
+            flexDirection: "row;",
+            width: "100%;",
+            justifyContent:" center;",
+            flexWrap: "wrap;",
+            gap:" 2%;"}}
           >
             <Stack gap={5}>
               <Box
