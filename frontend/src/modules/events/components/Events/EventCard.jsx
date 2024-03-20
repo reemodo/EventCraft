@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEventHelpers } from "../../hooks/useEventHelper";
 import { LoadingButton } from "@mui/lab";
-import QrCode2Icon from "@mui/icons-material/QrCode2";
+
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import CustomSnackbar from "../../../shared/components/CustomSnackbar/CustomSnackbar";
 import QRCode from "qrcode.react";
