@@ -13,7 +13,26 @@ export const EventCategoryList = ({
 
   return (
     <>
-      <Typography variant="h4" gutterBottom color="" margin= "20px" mb="30px" textAlign='center'>
+      <Typography variant="h4"
+        gutterBottom
+        color=""
+        margin="20px"
+        mb="30px"
+        textAlign="center"
+        sx={{
+          fontSize: "30px", // Adjust font size as needed
+          fontWeight: 500, // Make slightly bold
+          color: "#333", // Adjust color for better contrast
+          lineHeight: "1.5", // Adjust line height
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis", // Enable truncation
+          backgroundColor: "rgba(255, 255, 255, 0.8)", // Subtle background
+          borderRadius: "4px", // Add slight border radius
+          padding: "5px 10px", // Add some padding
+          fontFamily: "'Open Sans', sans-serif",
+          color: "#8b8c8969;"
+        }}>
         {title.charAt(0).toUpperCase() + title.substring(1)}
       </Typography>
     <div className="categoryContainer">

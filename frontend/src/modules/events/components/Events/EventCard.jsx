@@ -72,6 +72,7 @@ export const EventCard = ({
         onJoinEvent(event, rdxUser.currentUser.id);
       }
     } else {
+     
       setOpenSnackbar(true);
     }
   };
@@ -134,7 +135,7 @@ export const EventCard = ({
             height = '67%;'
           />
           <CardContent sx={{ height: "100px" }}>
-            <Typography gutterBottom variant="h6" component="div">
+            <Typography gutterBottom variant="h6" component="div" >
               {event.title.charAt(0).toUpperCase() + event.title.substring(1)}
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -167,6 +168,7 @@ export const EventCard = ({
               size="small"
               color="secondary"
               onClick={onUserJoinEvent}
+              sx={{ fontSize: "1.3rem" }} 
             >
               join
             </LoadingButton>
@@ -226,11 +228,12 @@ export const EventCard = ({
 
       {openSnackbar && (
         <CustomSnackbar
-          color="warning"
+          color="red"
           open={openSnackbar}
           handleClose={handleCloseSnackbar}
           message="Please log in to join the event."
           severity="warning"
+          onClick={()=>navigate(`/login`)}
         />
       )}
     </>
