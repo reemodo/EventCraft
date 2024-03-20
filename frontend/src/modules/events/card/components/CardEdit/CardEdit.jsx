@@ -241,6 +241,7 @@ export const CardEdit = () => {
 
   return (
     <Layout>
+            <Box m={5} mt={8}>
       <Stack width={"100%"} sx={{ flexDirection: { sm: "column", md: "row" } }}>
         <CardLeftSection
           selectedCardItem={selectedCardItemRef.current}
@@ -331,6 +332,7 @@ export const CardEdit = () => {
           </Button>
         </Stack>
       </Stack>
+      </Box>
     </Layout>
   );
 };

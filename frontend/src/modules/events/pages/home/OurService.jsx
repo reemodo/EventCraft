@@ -7,12 +7,12 @@ import { ReactComponent as EditEventIcon  } from './IconsSource/editEvent.svg';
 import { ReactComponent as ManageEventIcon  } from './IconsSource/manageEvents.svg';
 export function OurService({ title, description }) {
     const handelIcon = () =>{
-        if(title === 'Mange you Event')
-        return <ManageEventIcon width='100px' fill='rgb(170 194 43)'/>
-        if(title === 'Design your Event Card')
-        return <EditEventIcon width='100px' fill='rgb(170 194 43)'/>
-        if(title === "Join Other People Events")
-        return<JoinEventIcon width='100px' fill='rgb(170 194 43)'/>
+        if(title === 'Manage Events')
+        return <ManageEventIcon width='90px' fill='rgb(170 194 43)'/>
+        if(title === 'Customize Event Materials')
+        return <EditEventIcon width='90px' fill='rgb(170 194 43)'/>
+        if(title === "Discover and Join Events")
+        return<JoinEventIcon width='90px' fill='rgb(170 194 43)'/>
     }
 
           
@@ -23,7 +23,15 @@ export function OurService({ title, description }) {
                     {handelIcon()}
                     </div>
                     <Typography variant="h6"> {title}</Typography>
-                    <Typography variant="body1" maxWidth='60%'>
+                    <Typography variant="body1" maxWidth='60%'  paddingTop= '3%;'
+    textAlign= 'left;'
+    margin= '0;'
+    fontFamily='"Roboto", "Helvetica", "Arial", sans-serif;'
+    fontweight= '400;'
+    font-size= '1.2vw'
+    line-height= '1.5;'
+    letter-spacing= '0.00938em;'
+    max-width= '60%;'>
                         {description}
                     </Typography>
      </>

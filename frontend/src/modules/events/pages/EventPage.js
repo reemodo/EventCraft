@@ -1,5 +1,5 @@
 import React, { useEffect, useState  } from "react";
-import { CardContent, CardMedia, Typography } from "@mui/material";
+import { CardContent, CardMedia, Typography, Box } from "@mui/material";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useParams , useNavigate } from "react-router-dom";
 import { useEventHelpers } from "../hooks/useEventHelper";
@@ -56,6 +56,7 @@ function EventPage({ imageUrl, lat, lng }) {
 
   return (
     <Layout>
+      <Box m={5} mt={10}>
       <Button onClick={() => navigate(-1)} variant="outlined" color="secondary"   startIcon={<ArrowBackIcon />}>
         Back
       </Button>
@@ -104,6 +105,7 @@ function EventPage({ imageUrl, lat, lng }) {
           </MapContainer>
         </div>
       </div>
+      </Box>
     </Layout>
   );
 }

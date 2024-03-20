@@ -115,7 +115,12 @@ export const EventCard = ({
 
   return (
     <>
-      <Card sx={{ width: "18em;", height: "20em;" }}>
+      <Card sx={{ width: "18em;", height: "20em;",     boxShadow:'0px 0px 15px -2px rgba(0,0,0,0.2), 0px 1px 4px 0px rgba(0,0,0,0.14), 1px 0px 8px 0px rgba(0,0,0,0.12)',
+    overflow: 'hidden',
+    width: '18em',
+    height: '20em',
+    
+    borderRadius: '30px;' }}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -145,7 +150,7 @@ export const EventCard = ({
           className="cardActions"
           sx={{
             alignItems: "center;",
-            justifyContent: "center;",
+            justifyContent: "space-around;",
             padding: "8px;",
             gap: "30%;",
           }}
@@ -177,19 +182,25 @@ export const EventCard = ({
 
               {!inHomePage && (
                 <>
-                  <Box sx={{ display: "flex", justifyContent: "left" }}>
+                  <Box sx={{ display: "flex", justifyContent: "left",   fontSize:"40px;",
+    gap: "30%;",
+    marginLeft: "5%;"}}>
+      <WhatsAppIcon
+        color="secondary"
+
+        onClick={handleWhatsAppShare}
+        fontSize= "40px;"
+      />
                     <QrCode2Icon
                       id="123456"
                       value={`http://localhost:3000/eventPage/${event._id}`}
                       ml="20px"
                       mr="20px"
+           
                       includeMargin={true}
                       onClick={downloadQR}
                       color="secondary"
-                    />
-                    <WhatsAppIcon
-                      color="secondary"
-                      onClick={handleWhatsAppShare}
+                      fontSize= "40px;"
                     />
                   </Box>
                   <Button disableSpacing size="small" color="secondary">

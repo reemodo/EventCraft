@@ -15,6 +15,7 @@ export const RegisterPage = () => {
   };
   return (
     <Layout>
+            <Box m={5} mt={10}>
       <Stack
         justifyContent={"center"}
         alignItems={"center"}
@@ -48,6 +49,7 @@ export const RegisterPage = () => {
           </CardContent>
         </Card>
       </Stack>
+      </Box>
     </Layout>
   );
 };

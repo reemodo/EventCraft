@@ -12,13 +12,10 @@ export function OurServicesList(props) {
     return (
         <>
         <Grid container spacing={2} justifyContent="center"
-          m='10px' marginBottom='100px' marginTop='100px' boxShadow={3}
-         borderRadius={10} p={5}
-         backgroundColor='white'  width= 'calc(97% + 0px)'
+          m='10px'  marginTop='100px' 
          >
-        <TopContainer />
       <Grid item xs={12}>
-        <Typography variant="h4" align="center" gutterBottom>
+        <Typography variant="h4" align="center" gutterBottom fontWeight='500;' fontFamily={'Auto'} fontSize={'3vw'} mb={4}>
         Our website offers a comprehensive platform 
         </Typography>
       </Grid>
@@ -26,7 +23,12 @@ export function OurServicesList(props) {
       <Grid container spacing={2} justifyContent="center">
  
         {list.map((service) => (
-                    <Grid item xs={12} sm={6} md={4} key={service.title}>
+                    <Grid item xs={12} sm={6} md={4} key={service.title} sx={{
+                      display: 'flex',
+                      flexDirection: 'column;',
+                      justifyContent: 'center;',
+                      alignItems: 'center;'
+                    }} >
                         <OurService title={service.title} description={service.description} />
                     </Grid>
                 ))}

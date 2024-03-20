@@ -84,7 +84,8 @@ router.get(
   async function (req, res) {
     try {
       const userId = req.params.userId;
-      const myEvent = await eventManager.myEvents(userId);
+      const title = req.query.title || null;
+      const myEvent = await eventManager.filterMyEventsByTitle(userId, title);
       res.send(myEvent);
     } catch (err) {
       console.error(err);

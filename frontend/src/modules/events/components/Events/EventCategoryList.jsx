@@ -13,10 +13,10 @@ export const EventCategoryList = ({
 
   return (
     <>
-    <div className="categoryContainer">
-      <Typography variant="h4" gutterBottom color="" margin= "20px" mb="30px">
+      <Typography variant="h4" gutterBottom color="" margin= "20px" mb="30px" textAlign='center'>
         {title.charAt(0).toUpperCase() + title.substring(1)}
       </Typography>
+    <div className="categoryContainer">
 
       <Stack
         direction={"row"}
@@ -25,6 +25,7 @@ export const EventCategoryList = ({
         container
         spacing={3} 
         mb={0}
+        p='15px;'
       >
         {events?.map((event) => {
           return (

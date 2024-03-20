@@ -13,6 +13,23 @@ import {
 import FilterIcon from "@mui/icons-material/FilterList";
 import useExtractLocations from "./hooks/useExtractLocations";
 import useExtractCategories from "./hooks/useExtractCategories";
+import { styled } from '@mui/system';
+
+const StyledTextField = styled(TextField)({
+  '& .MuiInputLabel-root': {
+    color: 'black', // Label color
+    
+  },
+  '& .MuiSelect-select.MuiSelect-select': {
+    color: 'black', // Select input color
+    backgroundColor:"#ffffffa1;"
+  },
+ '&& .MuiInputBase-input[type="date"]': {
+    color: 'black',
+    backgroundColor:"#ffffffa1;"
+  }
+});
+
 
 const FilterForm = ({ eventsList, onFilter }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,7 +75,7 @@ const FilterForm = ({ eventsList, onFilter }) => {
             <Box p={2}>
               <FormControl variant="standard" sx={{ width: 150 }}>
                 {/* <InputLabel id="demo-simple-select-label">Location</InputLabel> */}
-                <TextField
+                <StyledTextField
                   select
                   labelId="demo-simple-select-label"
                   value={location}
@@ -71,11 +88,11 @@ const FilterForm = ({ eventsList, onFilter }) => {
                       {location}
                     </MenuItem>
                   ))}
-                </TextField>
+                </StyledTextField>
               </FormControl>
               <FormControl variant="standard" sx={{ ml: 2, mr: 2, width: 150 }}>
                 {/* <InputLabel id="categoryLabel">Category</InputLabel> */}
-                <TextField
+                <StyledTextField
                   select
                   labelId="categoryLabel"
                   value={category}
@@ -88,9 +105,9 @@ const FilterForm = ({ eventsList, onFilter }) => {
                       {category}
                     </MenuItem>
                   ))}
-                </TextField>
+                </StyledTextField>
               </FormControl>
-              <TextField
+              <StyledTextField
                 id="date"
                 label="Date"
                 type="date"

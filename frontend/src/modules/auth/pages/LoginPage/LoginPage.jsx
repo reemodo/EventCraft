@@ -17,6 +17,7 @@ export const LoginPage = () => {
 
   return (
     <Layout>
+        <Box m={5} mt={10}>
       <Stack
         height={"calc(100vh - 150px)"}
         justifyContent={"center"}
@@ -49,6 +50,7 @@ export const LoginPage = () => {
           </CardContent>
         </Card>
       </Stack>
+      </Box>
     </Layout>
   );
 };
