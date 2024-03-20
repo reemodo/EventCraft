@@ -43,7 +43,11 @@ export const WorkSpace = (props) => {
   }, [fetchMyEvents]);
 
   const onDeleteEvent = function (eventId) {
+    const newViewEvents = viewEventsList.filter(
+      (event) => event._id !== eventId
+    );
     const newEvents = eventsList.filter((event) => event._id !== eventId);
+    setViewEventsList(newViewEvents);
     setEventsList(newEvents);
     setSnackbarMessage("Event deleted successfully.");
     setSnackbarOpen(true);
@@ -117,8 +121,8 @@ export const WorkSpace = (props) => {
                   fontSize: "1.2vw;",
                   fontFamily: "Quintessential;",
                   height: "fit-content;",
-                  '&:hover': {
-                    backgroundColor: 'secondary.dark', // Change background color on hover
+                  "&:hover": {
+                    backgroundColor: "secondary.dark", // Change background color on hover
                   },
                 }}
                 variant="contained"
@@ -148,8 +152,8 @@ export const WorkSpace = (props) => {
                 fontSize: "1.7vw;",
                 fontFamily: "Quintessential;",
                 height: "fit-content;",
-                '&:hover': {
-                  backgroundColor: 'secondary.dark', // Change background color on hover
+                "&:hover": {
+                  backgroundColor: "secondary.dark", // Change background color on hover
                 },
               }}
               variant="contained"
