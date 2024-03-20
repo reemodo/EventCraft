@@ -102,6 +102,7 @@ export const WorkSpace = (props) => {
               <Button
                 onClick={onOpenCreateModel}
                 sx={{
+                  height: " 50%;",
                   color: "secondary.contrastText",
                   backgroundColor: "secondary.main",
                   "--Grid-borderWidth": "1px",
@@ -116,6 +117,9 @@ export const WorkSpace = (props) => {
                   fontSize: "1.2vw;",
                   fontFamily: "Quintessential;",
                   height: "fit-content;",
+                  '&:hover': {
+                    backgroundColor: 'secondary.dark', // Change background color on hover
+                  },
                 }}
                 variant="contained"
                 className="addButton"

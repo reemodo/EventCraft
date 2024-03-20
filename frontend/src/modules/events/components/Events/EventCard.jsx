@@ -120,18 +120,18 @@ export const EventCard = ({
     width: "20em;",
     height: "25em;",
     display: "flex;",
-    gap: "70px;",
+    gap: "50px;",
     flexDirection: 'column;',
     borderRadius: '30px;' }}>
         <CardActionArea padding= "8px;"    onClick={handelEventClick}>
           <CardMedia
             component="img"
-            height="160"
+           
             sx={{ objectFit: "fill" }}
             objectFit={"cover"}
             image={event.cardID?.img}
             alt="green iguana"
-    
+            height = '67%;'
           />
           <CardContent sx={{ height: "100px" }}>
             <Typography gutterBottom variant="h6" component="div">
