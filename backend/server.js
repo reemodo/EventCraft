@@ -1,6 +1,5 @@
 const express = require("express");
 const path = require("path");
-const app = express();
 const api = require("./server/routes/events_API");
 const userAPI = require("./server/routes/users_API");
 const cardAPI = require("./server/routes/cards_API");
@@ -10,6 +9,9 @@ const externalAPI = require("./server/routes/external_API");
 const dbManager = require("./server/events-DB-Server");
 const { port } = require("./constants");
 
+const app = express();
+
+// Middleware to allow cross-origin requests (CORS)
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
@@ -20,13 +22,11 @@ app.use(function (req, res, next) {
   next();
 });
 
+// Body parser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Serve static files from the build directory
-app.use(express.static(path.join(__dirname, 'build')));
-
-// Define your API routes
+// Define API routes
 app.use("/events", api);
 app.use("/user", userAPI);
 app.use("/cards", cardAPI);
@@ -34,13 +34,23 @@ app.use("/cloud", cloudAPI);
 app.use("/items", itemAPI);
 app.use("/external", externalAPI);
 
+// Connect to the database
 dbManager.connectToDB();
 
-// Fallback route to serve index.html for all other routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// Fallback route for API requests
+app.get('/api/*', (req, res) => {
+  res.status(404).send('API route not found');
 });
 
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, 'frontend/build')));
+
+// Serve index.html for all other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+});
+
+// Start the server
 app.listen(process.env.PORT || port, function () {
-  console.log(`Running on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
