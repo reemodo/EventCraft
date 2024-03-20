@@ -156,7 +156,7 @@ export const EventCard = ({
             padding: "8px;",
             gap: "30%;",
             p:1,
-            boxShadow: 'inset 0px 2px 18px 0px rgb(0 0 0 / 7%), inset 0px 0px 20px 1px rgb(0 0 0 / 0%), inset 1px 0px 20px 12px rgb(0 0 0 / 3%);',
+            boxShadow: 'inset 0px 0px 10px 1px rgb(0 0 0 / 7%), inset 0px 0px 20px 0px rgb(0 0 0 / 0%), inset 1px 0px 20px 12px rgb(0 0 0 / 3%);',
 
           }}
         >
