@@ -8,6 +8,7 @@ const CustomSnackbar = ({
   handleClose,
   message,
   severity,
+  ...rest
 }) => {
   return (
     <Snackbar
@@ -15,6 +16,7 @@ const CustomSnackbar = ({
       autoHideDuration={2000}
       onClose={handleClose}
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      {...rest}
     >
       <MuiAlert
         color={color}

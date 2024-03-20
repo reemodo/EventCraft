@@ -6,11 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { useEventCardHelpers } from "../../card/hooks/useEventCardHelpers";
 import { useDeleteEventMutation } from "../../api/events.api";
 import Snackbar from "@mui/material/Snackbar";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import MuiAlert from "@mui/material/Alert";
-import IconButton from '@mui/material/IconButton';
+import IconButton from "@mui/material/IconButton";
 import CustomSnackbar from "../../../shared/components/CustomSnackbar/CustomSnackbar";
-import { styled } from '@mui/system';
+import { styled } from "@mui/system";
 const VerticalButton = styled(Button)`
   && {
     display: flex;
@@ -21,7 +21,7 @@ const VerticalButton = styled(Button)`
   }
 `;
 export function ActionsList({ event, handelSetEventLists }) {
-  const options = [ "Attendees", "Edit Event", "Edit Card", "Delete"];
+  const options = ["Attendees", "Edit Event", "Edit Card", "Delete"];
   const EventActions = {
     Attendees: "/event/attendees/" + event._id,
     EditEvent: "/editEvent/" + event._id,
@@ -62,13 +62,12 @@ export function ActionsList({ event, handelSetEventLists }) {
 
   return (
     <>
-      
-        <IconButton
-         id="basic-button"
-         aria-controls={anchorEl ? "basic-menu" : undefined}
-         aria-haspopup="true"
-         aria-expanded={Boolean(anchorEl)}
-         onClick={handleClick}
+      <IconButton
+        id="basic-button"
+        aria-controls={anchorEl ? "basic-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={Boolean(anchorEl)}
+        onClick={handleClick}
       >
         <MoreVertIcon />
       </IconButton>
@@ -94,7 +93,7 @@ export function ActionsList({ event, handelSetEventLists }) {
 
       <CustomSnackbar
         open={snackbarOpen}
-        onClose={() => setSnackbarOpen(false)}
+        handleClose={() => setSnackbarOpen(false)}
         severity="error"
         color="error"
         message={snackbarMessage}

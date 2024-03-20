@@ -16,7 +16,10 @@ import Autocomplete from "@mui/material/Autocomplete";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import { Icon } from "leaflet";
-import { useAddEventMutation, useUpdateEventMutation } from "../../api/events.api";
+import {
+  useAddEventMutation,
+  useUpdateEventMutation,
+} from "../../api/events.api";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { CardView } from "../../card/components/CardView/CardView";
@@ -29,6 +32,7 @@ import {
   getEventLocationLng,
   getEventLocationTitle,
 } from "../../event.utils";
+import CustomSnackbar from "../../../shared/components/CustomSnackbar/CustomSnackbar";
 
 const validationSchema = Yup.object({
   category: Yup.string().required("category is required"),
@@ -171,8 +175,7 @@ export const EventForm = ({ isAddFlow, model }) => {
           userId: user.currentUser.id,
         });
         if (eventData.data[0] && eventData.data[0]._id) {
-          
-          setSnackbarOpen(true); 
+          setSnackbarOpen(true);
         }
       } else {
         const eventData = await updateEvent({
@@ -243,7 +246,7 @@ export const EventForm = ({ isAddFlow, model }) => {
     };
   }, [model]);
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false); 
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   return (
     <Formik
@@ -361,7 +364,7 @@ export const EventForm = ({ isAddFlow, model }) => {
                   <Field name="location">
                     {({
                       field, // { name, value, onChange, onBlur }
-                      form: { touched, errors }, 
+                      form: { touched, errors },
                       meta,
                     }) => (
                       <Autocomplete
@@ -443,17 +446,18 @@ export const EventForm = ({ isAddFlow, model }) => {
               </CardContent>
             </Card>
           </Stack>
-          <Snackbar
+          <CustomSnackbar
             open={snackbarOpen}
-            autoHideDuration={6000}
-            onClose={() => {setSnackbarOpen(false)
+            handleClose={() => {
+              setSnackbarOpen(false);
               navigate("/workSpace");
             }}
             message="Event added successfully!"
+            security="success"
+            color="success"
           />
         </Form>
       )}
     </Formik>
   );
 };
-
