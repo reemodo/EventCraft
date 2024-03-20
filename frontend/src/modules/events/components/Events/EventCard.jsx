@@ -117,11 +117,13 @@ export const EventCard = ({
     <>
       <Card sx={{ width: "18em;", height: "20em;",     boxShadow:'0px 0px 15px -2px rgba(0,0,0,0.2), 0px 1px 4px 0px rgba(0,0,0,0.14), 1px 0px 8px 0px rgba(0,0,0,0.12)',
     overflow: 'hidden',
-    width: '18em',
-    height: '20em',
-    
+    width: "20em;",
+    height: "25em;",
+    display: "flex;",
+    gap: "70px;",
+    flexDirection: 'column;',
     borderRadius: '30px;' }}>
-        <CardActionArea>
+        <CardActionArea padding= "8px;"    onClick={handelEventClick}>
           <CardMedia
             component="img"
             height="160"
@@ -129,7 +131,7 @@ export const EventCard = ({
             objectFit={"cover"}
             image={event.cardID?.img}
             alt="green iguana"
-            onClick={handelEventClick}
+    
           />
           <CardContent sx={{ height: "100px" }}>
             <Typography gutterBottom variant="h6" component="div">

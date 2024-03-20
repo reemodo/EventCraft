@@ -19,14 +19,13 @@ const Layout = ({ children }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          mt: "10vh",
         }}
       >
         <StyledContainer
           paddingLeft="0px"
           pr="0px"
           maxWidth="lg"
-          sx={{ mt: "60px", minWidth: " -webkit-fill-available" }}
+          sx={{ mt: "66px", minWidth: " -webkit-fill-available" }}
         >
           {children}
         </StyledContainer>

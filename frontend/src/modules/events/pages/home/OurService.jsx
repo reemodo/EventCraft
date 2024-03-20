@@ -22,7 +22,7 @@ export function OurService({ title, description }) {
                     <div textAlign="center" width="400px">
                     {handelIcon()}
                     </div>
-                    <Typography variant="h6"> {title}</Typography>
+                    <Typography variant="h6"   textAlign= 'left; !important'> {title}</Typography>
                     <Typography variant="body1" maxWidth='60%'  paddingTop= '3%;'
     textAlign= 'left;'
     margin= '0;'
