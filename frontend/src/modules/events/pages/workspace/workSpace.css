@@ -22,3 +22,8 @@
 .addButton{
 background-color: '#92a91d' ! ;
 }
+.qrcode {
+    font-size: 40px;
+    fill:#aac22b;
+    padding: 3px;
+  }

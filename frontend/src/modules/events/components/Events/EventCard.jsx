@@ -120,7 +120,7 @@ export const EventCard = ({
     width: "20em;",
     height: "25em;",
     display: "flex;",
-    gap: "50px;",
+    gap: "48px;",
     flexDirection: 'column;',
     borderRadius: '30px;' }}>
         <CardActionArea padding= "8px;"    onClick={handelEventClick}>
@@ -155,6 +155,9 @@ export const EventCard = ({
             justifyContent: "space-around;",
             padding: "8px;",
             gap: "30%;",
+            p:1,
+            boxShadow: 'inset 0px 2px 18px 0px rgb(0 0 0 / 7%), inset 0px 0px 20px 1px rgb(0 0 0 / 0%), inset 1px 0px 20px 12px rgb(0 0 0 / 3%);',
+
           }}
         >
           {inHomePage && !userJoined && (
@@ -175,7 +178,7 @@ export const EventCard = ({
                   loading={pendingCancelJoinedEvent}
                   disableSpacing
                   size="small"
-                  color="secondary"
+                  color="secondary.main"
                   onClick={onCancelUserJoinEvent}
                 >
                   cancel
@@ -184,26 +187,29 @@ export const EventCard = ({
 
               {!inHomePage && (
                 <>
-                  <Box sx={{ display: "flex", justifyContent: "left",   fontSize:"40px;",
+                  <Box sx={{ display: "flex", justifyContent: "left",  
     gap: "30%;",
-    marginLeft: "5%;"}}>
+    marginLeft: "5%;",alignItems: "center;",  fontSize: "45px;"}}>
       <WhatsAppIcon
         color="secondary"
 
         onClick={handleWhatsAppShare}
-        fontSize= "40px;"
+        fontSize= "45px;"
+      
       />
-                    <QrCode2Icon
+
+                    <QRCode
                       id="123456"
                       value={`http://localhost:3000/eventPage/${event._id}`}
-                      ml="20px"
-                      mr="20px"
-           
-                      includeMargin={true}
+                      size={40} // Example size
+                    
+                      fgColor="#aac22b" //
+                      includeMargin={false}
                       onClick={downloadQR}
-                      color="secondary"
-                      fontSize= "40px;"
+                    
+              
                     />
+         
                   </Box>
                   <Button disableSpacing size="small" color="secondary">
                     <ActionsList
