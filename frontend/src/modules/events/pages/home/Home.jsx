@@ -142,10 +142,7 @@ export function Home(props) {
           </div>
         </div>
         <OurServicesList />
-        <Button onClick={()=>navigate('/register')} sx={{background: '#aac22b;', color: "white;",justifySelf: "center;", textAlign: "center;"
-    ,m:'5%',marginLeft: "45%;",'&:hover': {
-      backgroundColor: 'secondary.dark', // Change background color on hover
-    },}}>Join Us</Button>
+        
       </Layout>
     </>
   );

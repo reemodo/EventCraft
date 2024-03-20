@@ -1,4 +1,4 @@
-import { Typography, Grid } from '@mui/material'
+import { Typography, Box } from '@mui/material'
 import React from 'react'
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import {  ElectricBoltRounded } from '@mui/icons-material'; // Assuming you have your own icon components
@@ -19,11 +19,12 @@ export function OurService({ title, description }) {
        
     return (<>
 
-                    <div textAlign="center" width="400px">
+                    <Box sx={{display:" flex;",
+    alignSelf: "center;"}}>
                     {handelIcon()}
-                    </div>
+                    </Box>
                     <Typography variant="h6"   textAlign= 'left; !important'> {title}</Typography>
-                    <Typography variant="body1" maxWidth='60%'  paddingTop= '3%;'
+                    <Typography variant="body1"   paddingTop= '3%;'
     textAlign= 'left;'
     margin= '0;'
     fontFamily='"Roboto", "Helvetica", "Arial", sans-serif;'
@@ -31,7 +32,10 @@ export function OurService({ title, description }) {
     font-size= '1.2vw'
     line-height= '1.5;'
     letter-spacing= '0.00938em;'
-    max-width= '60%;'>
+    background='white'
+    padding=" 10px;"
+    paddingLeft=" 0px;"
+   >
                         {description}
                     </Typography>
      </>
