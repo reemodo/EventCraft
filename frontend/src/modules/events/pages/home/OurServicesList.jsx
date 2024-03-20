@@ -3,7 +3,7 @@ import React from 'react'
 import { OurService } from './OurService'
 import { TopContainer } from './TopContainer'
 import { useNavigate } from 'react-router-dom'
-import { UseSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 export function OurServicesList(props) {
     const list= [
         {title: "Manage Events", description: " Effortlessly create, manage, and customize your events your events anytime."},

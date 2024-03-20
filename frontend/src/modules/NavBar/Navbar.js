@@ -173,11 +173,11 @@ const Navbar = () => {
                 position: "absolute",
               }}
             >
-              <IconButton color="inherit">
+              {/* <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <NotificationsIcon />
                 </Badge>
-              </IconButton>
+              </IconButton> */}
 
               {/* <Button
               color="inherit"

@@ -70,14 +70,14 @@ export const WorkSpace = (props) => {
     <>
       <Stack m={5}>
         <Typography
-          fontSize={"3vw"}
+          fontSize={"4vw;"}
           fontFamily={"Lora"}
           fontWeight={900}
           component="h1"
           mb={3}
-          m="5%"
+          m="10%"
           variant="h6"
-          alignSelf={"center"}
+          alignSelf={"center"}    
         >
           Which event you will manage today
         </Typography>
