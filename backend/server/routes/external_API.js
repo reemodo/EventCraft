@@ -20,7 +20,7 @@ router.get("/api/photos", async (req, res) => {
   const query = req.query;
   try {
     const response = await unsplash.photos.list({
-      perPage: 10,
+      perPage: 100,
       orderBy: "latest",
       page: 1,
       search: query.search || "",

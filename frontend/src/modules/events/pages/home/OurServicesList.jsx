@@ -40,7 +40,7 @@ const rdxUser = useSelector((state) => state.user);
     backgroundColor: '#5c691b33', // Change background color on hover
   }
                     
-                    }}onClick={rdxUser.loggedIn?navigate('/workspace'):()=>navigate('/register')} >
+                    }}onClick={()=> rdxUser.loggedIn?navigate('/workspace'):navigate('/register')} >
                       
                         <OurService title={service.title} description={service.description} />
                         

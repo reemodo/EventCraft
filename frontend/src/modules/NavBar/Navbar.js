@@ -119,6 +119,17 @@ const Navbar = () => {
                 </IconButton>
               )}
 
+<Link
+  to="/"
+  style={{
+    color: "#AAC22B",
+    textDecoration: "none",
+    marginLeft: "1%",
+    
+    display: 'flex',
+   alignItems: 'center',
+   justifyContent:'center'
+  }} >
               <Typography
                 component="h1"
                 variant="h6"
@@ -128,23 +139,16 @@ const Navbar = () => {
                 fontFamily= "Quintessential"
                 fontWeight={900}
                 fontSize={'calc(12px + 1vw)'}
+                sx={{display: 'flex',
+                alignItems: 'center',
+                justifyContent:'center'}}
               >
-                <Link
-                  to="/"
-                  style={{
-                    color: "#AAC22B",
-                    textDecoration: "none",
-                    marginLeft: "1%",
-                    
-                    display: 'flex',
-                   alignItems: 'center'
-                  }}
                  
-                >
+                
                   <div  className="logoImage"></div>
                  <span>EVENT CRAFT</span> 
-                </Link>
               </Typography>
+                </Link>
               {rdxUser.loggedIn && (
                 <Typography
                   component="h1"
