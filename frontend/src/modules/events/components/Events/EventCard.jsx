@@ -157,8 +157,8 @@ export const EventCard = ({
         <CardActions
           className="cardActions"
           sx={{
-            alignItems: "center;",
-            justifyContent: "space-around;",
+            alignItems: "center",
+            justifyContent: "space-around",
             padding: "8px;",
             gap: "30%;",
             p: 1,
@@ -185,8 +185,9 @@ export const EventCard = ({
                   loading={pendingCancelJoinedEvent}
                   disableSpacing
                   size="small"
-                  color="secondary.main"
+                  color="secondary"
                   onClick={onCancelUserJoinEvent}
+                  sx={{ fontSize: "1.3rem" }}
                 >
                   cancel
                 </LoadingButton>

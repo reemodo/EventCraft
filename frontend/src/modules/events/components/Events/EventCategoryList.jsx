@@ -13,7 +13,8 @@ export const EventCategoryList = ({
 
   return (
     <>
-      <Typography variant="h4"
+      <Typography
+        variant="h4"
         gutterBottom
         color=""
         margin="20px"
@@ -31,39 +32,38 @@ export const EventCategoryList = ({
           borderRadius: "4px", // Add slight border radius
           padding: "5px 10px", // Add some padding
           fontFamily: "'Open Sans', sans-serif",
-          color: "#8b8c8969;"
-        }}>
+          color: "#8b8c8969",
+        }}
+      >
         {title.charAt(0).toUpperCase() + title.substring(1)}
       </Typography>
-    <div className="categoryContainer">
-
-      <Stack
-        direction={"row"}
-        sx={{ overflow: "scroll" }}
-       
-        container
-        spacing={3} 
-        mb={0}
-        p='15px;'
-      >
-        {events?.map((event) => {
-          return (
-            <Grid item key={event._id} xs={12} sm={6} md={5} spacing={3}  >
-              <EventCard
-                event={event}
-                inHomePage
-                userJoined={
-                  !!event.attendance?.find(
-                    (user) => user._id === rdxUser.currentUser.id
-                  )
-                }
-                onJoinEvent={onJoinEvent}
-                onCancelJoinEvent={onCancelJoinEvent}
-              />
-            </Grid>
-          );
-        })}
-      </Stack>
+      <div className="categoryContainer">
+        <Stack
+          direction={"row"}
+          sx={{ overflow: "scroll" }}
+          container
+          spacing={3}
+          mb={0}
+          p="15px;"
+        >
+          {events?.map((event) => {
+            return (
+              <Grid item key={event._id} xs={12} sm={6} md={5} spacing={3}>
+                <EventCard
+                  event={event}
+                  inHomePage
+                  userJoined={
+                    !!event.attendance?.find(
+                      (user) => user._id === rdxUser.currentUser.id
+                    )
+                  }
+                  onJoinEvent={onJoinEvent}
+                  onCancelJoinEvent={onCancelJoinEvent}
+                />
+              </Grid>
+            );
+          })}
+        </Stack>
       </div>
     </>
   );

@@ -119,36 +119,37 @@ const Navbar = () => {
                 </IconButton>
               )}
 
-<Link
-  to="/"
-  style={{
-    color: "#AAC22B",
-    textDecoration: "none",
-    marginLeft: "1%",
-    
-    display: 'flex',
-   alignItems: 'center',
-   justifyContent:'center'
-  }} >
-              <Typography
-                component="h1"
-                variant="h6"
-                color="inherit"
-                noWrap
-                className="logoTypography"
-                fontFamily= "Quintessential"
-                fontWeight={900}
-                fontSize={'calc(12px + 1vw)'}
-                sx={{display: 'flex',
-                alignItems: 'center',
-                justifyContent:'center'}}
+              <Link
+                to="/"
+                style={{
+                  color: "#AAC22B",
+                  textDecoration: "none",
+                  marginLeft: "1%",
+
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
               >
-                 
-                
-                  <div  className="logoImage"></div>
-                 <span>EVENT CRAFT</span> 
-              </Typography>
-                </Link>
+                <Typography
+                  component="h1"
+                  variant="h6"
+                  color="inherit"
+                  noWrap
+                  className="logoTypography"
+                  fontFamily="Quintessential"
+                  fontWeight={900}
+                  fontSize={"calc(12px + 1vw)"}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <div className="logoImage"></div>
+                  <span>EVENT CRAFT</span>
+                </Typography>
+              </Link>
               {rdxUser.loggedIn && (
                 <Typography
                   component="h1"
@@ -156,14 +157,11 @@ const Navbar = () => {
                   color="#AAC22B"
                   noWrap
                   className="logoTypography"
-                  fontFamily= "Quintessential"
+                  fontFamily="Quintessential"
                   fontWeight={700}
-                  fontSize={'calc(12px + 0.9vw)'}
+                  fontSize={"calc(12px + 0.9vw)"}
                 >
-                  <Link
-                    to="/workspace" className="button-30"
-                  
-                  >
+                  <Link to="/workspace" className="button-30">
                     workspace 📆
                   </Link>
                 </Typography>
@@ -173,7 +171,7 @@ const Navbar = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                right: '0.5%',
+                right: "0.5%",
                 position: "absolute",
               }}
             >
@@ -196,7 +194,7 @@ const Navbar = () => {
                   color="inherit"
                   className="loginButton"
                   onClick={onLogin}
-                  fontSize={'calc(12px + 1vw)'}
+                  fontSize={"calc(12px + 1vw)"}
                 >
                   Login
                 </Button>
@@ -207,7 +205,7 @@ const Navbar = () => {
                   color="inherit"
                   className="loginButton"
                   onClick={onLogout}
-                  fontSize={'calc(12px + 1vw)'}
+                  fontSize={"calc(12px + 1vw)"}
                 >
                   logout
                 </Button>

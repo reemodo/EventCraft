@@ -17,7 +17,7 @@ export function Events({
 }) {
   const rdxUser = useSelector((state) => state.user);
 
-  const groupedEvents = events.length
+  const groupedEvents = events?.length
     ? events?.reduce((event, obj) => {
         const { category, ...rest } = obj;
         if (
@@ -39,7 +39,7 @@ export function Events({
 
   return (
     <>
-      <div >
+      <div>
         {groupedEvents[JOINED_CATEGORY]?.length > 0 && (
           <EventCategoryList
             title={JOINED_CATEGORY}
@@ -50,7 +50,7 @@ export function Events({
         )}
 
         {inHomePage ? (
-          Object.entries(groupedEvents).map(([category, items]) =>
+          Object.entries(groupedEvents)?.map(([category, items]) =>
             category !== JOINED_CATEGORY ? (
               <div key={category}>
                 <EventCategoryList
@@ -64,13 +64,18 @@ export function Events({
             )
           )
         ) : (
-          <Grid  spacing={2} sx={{display:'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap;',
-          gap: '5em;',
-          justifyContent: 'center;',
-          flexBasis: 'fit-content' }}>
-            {events.map((event, index) => (
+          <Grid
+            spacing={2}
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap;",
+              gap: "5em;",
+              justifyContent: "center;",
+              flexBasis: "fit-content",
+            }}
+          >
+            {events?.map((event, index) => (
               <Grid item key={index} xs={12} sm={6} md={5}>
                 <EventCard
                   event={event}

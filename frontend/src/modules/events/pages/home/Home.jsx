@@ -3,20 +3,20 @@ import { Events } from "../../components/Events/Events";
 import "./home.css";
 import { useEffect } from "react";
 import Layout from "../../../landing/Layout";
-import { TopContainer } from "./TopContainer";
+
 import { useGetEvents } from "../../hooks/useGetEvents";
 import FilterForm from "./FilterForm";
 import SearchBar from "./SearchBar";
 import { OurServicesList } from "./OurServicesList";
-import { Typography, Box, CircularProgress, Button } from "@mui/material";
+import { Typography, Box, CircularProgress } from "@mui/material";
 import { useGeolocation } from "../../../shared/hooks/useGeolocation/useGeolocation";
-import { useNavigate } from "react-router-dom";
+
 export function Home(props) {
   const [eventsList, setEventsList] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState({});
 
   const { isLoading, error, fetchEvents } = useGetEvents();
-  const navigate = useNavigate();
+
   const { currentPosition } = useGeolocation({
     disable: false,
   });
@@ -86,44 +86,56 @@ export function Home(props) {
     <>
       <Layout>
         <div className="joinContainer">
-        <div className="video-background">
-      <video autoPlay loop muted className="video">
-        <source src={require("./IconsSource/planning.mp4")} type="video/mp4" />
-        {/* Add additional source elements for different video formats */}
-      </video>
-      {/* Add other content on top of the video if needed */}
-      <div className="content">
-      <div className="joinHeader">
-            <Typography variant="h3" fontFamily="Quintessential" sx={{letterSpacing:" 0em;",
-    fontWeight: "600;",
-    fontSize: '4vw;',}}>
-              Discover Exciting Events
-            </Typography>
-            <Typography variant="h5" fontFamily="ui-monospace;" sx={{  fontSize: '2vw;', fontWeight:"900" ,mt: 2,}}>
-            Stay Up-to-Date with Nearby Events
-              </Typography>
-           
-          </div>
+          <div className="video-background">
+            <video autoPlay loop muted className="video">
+              <source
+                src={require("./IconsSource/planning.mp4")}
+                type="video/mp4"
+              />
+              {/* Add additional source elements for different video formats */}
+            </video>
+            {/* Add other content on top of the video if needed */}
+            <div className="content">
+              <div className="joinHeader">
+                <Typography
+                  variant="h3"
+                  fontFamily="Quintessential"
+                  sx={{
+                    letterSpacing: " 0em;",
+                    fontWeight: "600;",
+                    fontSize: "4vw;",
+                  }}
+                >
+                  Discover Exciting Events
+                </Typography>
+                <Typography
+                  variant="h5"
+                  fontFamily="ui-monospace;"
+                  sx={{ fontSize: "2vw;", fontWeight: "900", mt: 2 }}
+                >
+                  Stay Up-to-Date with Nearby Events
+                </Typography>
+              </div>
 
-          <Box
-            className="searchContainer"
-            sx={{
-              paddingLeft: "20px",
-              flexDirection: "column",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <SearchBar
-              handelSearch={handelSearch}
-              handleFilter={handleFilter}
-              events={eventsList}
-            />
+              <Box
+                className="searchContainer"
+                sx={{
+                  paddingLeft: "20px",
+                  flexDirection: "column",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <SearchBar
+                  handelSearch={handelSearch}
+                  handleFilter={handleFilter}
+                  events={eventsList}
+                />
 
-            <FilterForm onFilter={handleFilter} eventsList={eventsList} />
-          </Box>
-          </div>
+                <FilterForm onFilter={handleFilter} eventsList={eventsList} />
+              </Box>
+            </div>
           </div>
           <div className="homeContainer">
             {!isLoading && (
@@ -142,7 +154,6 @@ export function Home(props) {
           </div>
         </div>
         <OurServicesList />
-        
       </Layout>
     </>
   );
