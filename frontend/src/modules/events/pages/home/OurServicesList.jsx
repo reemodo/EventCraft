@@ -64,7 +64,7 @@ export function OurServicesList(props) {
                 }}
                 onClick={() =>
                   rdxUser.loggedIn
-                    ? () => navigate("/workspace")
+                    ? navigate("/workspace")
                     : navigate("/register")
                 }
               >
