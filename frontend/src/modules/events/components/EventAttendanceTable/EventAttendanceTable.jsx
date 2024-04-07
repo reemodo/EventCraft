@@ -36,7 +36,7 @@ export const EventAttendanceTable = ({ attendees, loading }) => {
                     fontWeight: 500,
                     textDecoration: "none",
                     color: "text.secondary",
-                    "&:hover": { color: "primary.main" },
+                    "&:hover": { color: "primary" },
                   }}
                 >
                   {attendee.name}
